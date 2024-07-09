@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Алексей Панцерновский](https://up.htmlacademy.ru/react/16/user/1492921).
-* Наставник: `Неизвестно`.
+* Наставник: [Arthur Litovko] (https://htmlacademy.ru/profile/id6927).
 
 ---
 
