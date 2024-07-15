@@ -1,41 +1,18 @@
-export default function Cities(): JSX.Element {
+import {CITIES} from '../../data/cities';
+import City from './city';
+
+type CitiesProps = {
+  cityActive: string;
+}
+
+export default function Cities({cityActive}: CitiesProps): JSX.Element {
   return (
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="#">
-              <span>Paris</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="#">
-              <span>Cologne</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="#">
-              <span>Brussels</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item tabs__item--active">
-              <span>Amsterdam</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="#">
-              <span>Hamburg</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="#">
-              <span>Dusseldorf</span>
-            </a>
-          </li>
+          {CITIES.map((city) => (<City key={city} cityName={city} isActive={cityActive === city} />))}
         </ul>
       </section>
     </div>
   );
 }
-
