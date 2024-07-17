@@ -27,4 +27,10 @@ interface Place extends PlaceCard {
 
 type PlaceList = Array<Place>;
 
-export type {Location, City, PlaceCard, Place, PlaceList};
+interface PlaceCardOptions {
+  classPrefix: string;
+  imageWidth: number;
+  imageHeight: number;
+}
+
+export type {Location, City, PlaceCard, Place, PlaceList, PlaceCardOptions};

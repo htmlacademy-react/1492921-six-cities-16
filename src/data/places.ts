@@ -8,6 +8,8 @@ CITIES.forEach((city: string) => {
   places.set(city, offers.filter((item: Place) => city === item.city.name));
 });
 
-export {places};
+const favorites = offers.filter((item: Place) => item.isFavorite);
+
+export {places, favorites};
 
 
