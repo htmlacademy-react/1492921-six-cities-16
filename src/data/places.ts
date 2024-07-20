@@ -1,15 +1,8 @@
-import {Place, PlaceList} from '../types/types';
-import {CITIES} from '../data/cities';
-import {offers} from '../mock/mock-data';
+import {offers} from '../mock/mock-offers';
+import {PlacesCity} from '../types/types';
 
-const places = new Map<string, PlaceList>();
+const places: PlacesCity = Object.groupBy(offers, (offer) => offer.city.name);
 
-CITIES.forEach((city: string) => {
-  places.set(city, offers.filter((item: Place) => city === item.city.name));
-});
-
-const favorites = offers.filter((item: Place) => item.isFavorite);
+const favorites = offers.filter((offer) => offer.isFavorite);
 
 export {places, favorites};
-
-

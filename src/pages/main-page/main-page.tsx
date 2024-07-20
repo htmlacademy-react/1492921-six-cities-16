@@ -1,3 +1,4 @@
+import {Pages} from '../../const';
 import Header from '../../components/header/header';
 import Cities from '../../components/cities/cities';
 import PlacesTitle from '../../components/places/places-title';
@@ -5,17 +6,14 @@ import Sort from '../../components/sort/sort';
 import Places from '../../components/places/places';
 import Map from '../../components/map/map';
 import {PlaceList} from '../../types/types';
+import classNames from 'classnames';
+import {places, favorites} from '../../data/places';
 
 type MainProps = {
-  placesCity: PlaceList;
   cityName: string;
 }
 
-type NoPlacesProps = {
-  cityName: string;
-}
-
-function NoPlaces({cityName}: NoPlacesProps): JSX.Element {
+function NoPlaces({cityName}: MainProps): JSX.Element {
   return (
     <section className="cities__no-places">
       <div className="cities__status-wrapper tabs__content">
@@ -26,16 +24,18 @@ function NoPlaces({cityName}: NoPlacesProps): JSX.Element {
   );
 }
 
-export default function MainPage({placesCity, cityName}: MainProps): JSX.Element {
+export default function MainPage({cityName}: MainProps): JSX.Element {
+  const placesCity: PlaceList = places[cityName] ?? [];
+  const isEmpty: boolean = placesCity.length === 0;
   return (
-    <div className={`page page--gray page--main ${placesCity.length === 0 ? 'page__main--index-empty' : ''}`}>
-      <Header isLogon isMainPage isLoginPage={false} />
+    <div className={classNames('page', 'page--gray', 'page--main', {'page__main--index-empty': isEmpty})}>
+      <Header page={Pages.MAIN} favoritesCount={favorites.length} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <Cities cityActive={cityName} />
         <div className="cities">
-          <div className={`cities__places-container ${placesCity.length === 0 ? 'cities__places-container--empty' : ''} container`}>
-            {placesCity.length === 0 ?
+          <div className={classNames('cities__places-container', {'cities__places-container--empty': isEmpty}, 'container')}>
+            {isEmpty ?
               <NoPlaces cityName={cityName} />
               :
               <section className="cities__places places">
@@ -45,7 +45,7 @@ export default function MainPage({placesCity, cityName}: MainProps): JSX.Element
                 <Places placesCity={placesCity}/>
               </section>}
             <div className="cities__right-section">
-              {placesCity.length === 0 ? '' : <Map />}
+              {!isEmpty && <Map />}
             </div>
           </div>
         </div>

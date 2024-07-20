@@ -1,17 +1,16 @@
-import {PlaceList} from '../../types/types';
-import {PlaceCardType} from '../../const';
+import {PlaceCardType, LogoType, Pages} from '../../const';
 import Header from '../../components/header/header';
 import Place from '../../components/place/place';
+import {favorites} from '../../data/places';
+import classNames from 'classnames';
+import Logo from '../../components/logo/logo';
 
-type FavoritesProps = {
-  places: PlaceList;
-}
-
-export default function FavoritesPage({places}: FavoritesProps): JSX.Element {
+export default function FavoritesPage(): JSX.Element {
+  const isEmpty = favorites.length === 0;
   return (
-    <div className={`page ${places.length === 0 ? 'page--favorites-empty' : ''}`}>
-      <Header isLogon isMainPage={false} isLoginPage={false} />
-      {places.length === 0 ?
+    <div className={classNames('page', {'page--favorites-empty': isEmpty})}>
+      <Header page={Pages.FAVORITE} favoritesCount={favorites.length}/>
+      {isEmpty ?
         <main className="page__main page__main--favorites page__main--favorites-empty">
           <div className="page__favorites-container container">
             <section className="favorites favorites--empty">
@@ -29,7 +28,7 @@ export default function FavoritesPage({places}: FavoritesProps): JSX.Element {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {places.map((place) => (
+                {favorites.map((place) => (
                   <li key={place.id} className="favorites__locations-items">
                     <div className="favorites__locations locations locations--current">
                       <div className="locations__item">
@@ -45,9 +44,7 @@ export default function FavoritesPage({places}: FavoritesProps): JSX.Element {
           </div>
         </main>}
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"></img>
-        </a>
+        <Logo viewType={LogoType.FOOTER} page={Pages.FAVORITE} />
       </footer>
     </div>
   );
