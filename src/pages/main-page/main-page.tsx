@@ -1,21 +1,19 @@
+import {Pages, SORT_INIT} from '../../const';
+import {placesModel} from '../../data/places-model';
 import Header from '../../components/header/header';
 import Cities from '../../components/cities/cities';
 import PlacesTitle from '../../components/places/places-title';
 import Sort from '../../components/sort/sort';
-import Places from '../../components/places/places';
+import PlaceList from '../../components/places/place-list';
 import Map from '../../components/map/map';
-import {PlaceList} from '../../types/types';
+import classNames from 'classnames';
+import {CityName} from '../../types/types';
 
 type MainProps = {
-  placesCity: PlaceList;
-  cityName: string;
+  cityName: CityName;
 }
 
-type NoPlacesProps = {
-  cityName: string;
-}
-
-function NoPlaces({cityName}: NoPlacesProps): JSX.Element {
+function NoPlaces({cityName}: MainProps): JSX.Element {
   return (
     <section className="cities__no-places">
       <div className="cities__status-wrapper tabs__content">
@@ -26,26 +24,30 @@ function NoPlaces({cityName}: NoPlacesProps): JSX.Element {
   );
 }
 
-export default function MainPage({placesCity, cityName}: MainProps): JSX.Element {
+export default function MainPage({cityName}: MainProps): JSX.Element {
+  const placesCity = placesModel.placesCity[cityName] ?? [];
+  //const placesCity = places[cityName] ?? [];
+
+  const isEmpty: boolean = placesCity.length === 0;
   return (
-    <div className={`page page--gray page--main ${placesCity.length === 0 ? 'page__main--index-empty' : ''}`}>
-      <Header isLogon isMainPage isLoginPage={false} />
+    <div className={classNames('page', 'page--gray', 'page--main', {'page__main--index-empty': isEmpty})}>
+      <Header page={Pages.MAIN} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <Cities cityActive={cityName} />
         <div className="cities">
-          <div className={`cities__places-container ${placesCity.length === 0 ? 'cities__places-container--empty' : ''} container`}>
-            {placesCity.length === 0 ?
+          <div className={classNames('cities__places-container', {'cities__places-container--empty': isEmpty}, 'container')}>
+            {isEmpty ?
               <NoPlaces cityName={cityName} />
               :
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <PlacesTitle placeCount={placesCity.length} cityName={cityName} />
-                <Sort />
-                <Places placesCity={placesCity}/>
+                <Sort sortActive={SORT_INIT}/>
+                <PlaceList places={placesCity}/>
               </section>}
             <div className="cities__right-section">
-              {placesCity.length === 0 ? '' : <Map />}
+              {!isEmpty && <Map />}
             </div>
           </div>
         </div>

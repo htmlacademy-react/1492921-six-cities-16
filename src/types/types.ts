@@ -1,36 +1,70 @@
-interface Location {
+import {CITIES} from '../data/cities';
+import {SortItems} from '../const';
+
+type CityName = typeof CITIES[number];
+type SortId = keyof typeof SortItems;
+
+type Location = {
   latitude: number;
   longitude: number;
   zoom: number;
 }
 
-interface City {
-  name: string;
+type City = {
+  name: CityName;
   location: Location;
 }
 
-interface PlaceCard {
+type User = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+  email?: string;
+}
+
+type Place = {
   id: string;
   title: string;
   type: string;
   price: number;
+  city: City;
+  location: Location;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
   previewImage: string;
 }
 
-interface Place extends PlaceCard {
-  city: City;
-  location: Location;
+type PlaceCard = Omit <Place, 'city | location'>;
+
+type Offer = Omit <Place, 'previewImage'> & {
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: User;
+  images: string[];
+  maxAdults: number;
 }
 
-type PlaceList = Array<Place>;
+type Review = {
+  id: string;
+  date: string;
+  user: User;
+  comment: string;
+  rating: number;
+}
 
-interface PlaceCardOptions {
+type ComponentOptions = {
   classPrefix: string;
-  imageWidth: number;
-  imageHeight: number;
+  imageWidth?: number;
+  imageHeight?: number;
 }
 
-export type {Location, City, PlaceCard, Place, PlaceList, PlaceCardOptions};
+type PageOptions = {
+  name: string;
+}
+
+type PlacesCity = Partial<Record<CityName, Place[]>>;
+
+export type {SortId, CityName, Location, City, PlacesCity, PlaceCard, Place, Offer, Review};
+export type {ComponentOptions, PageOptions, User};
