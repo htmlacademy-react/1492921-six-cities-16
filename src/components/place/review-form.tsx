@@ -18,10 +18,13 @@ function RatingStar({value, title}: RatingStarProps): JSX.Element {
   );
 }
 
+/*
 type ReviewFormProps = {
   offerId: string;
 }
-export default function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
+*/
+
+export default function ReviewForm(/*{offerId}: ReviewFormProps*/): JSX.Element {
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>

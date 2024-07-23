@@ -53,7 +53,7 @@ export default function OfferCard({offer}: OfferProps): JSX.Element {
       </div>
       <section className="offer__reviews reviews">
         <Reviews offerId={offer.id} />
-        {(loginInfo.name !== '') && <ReviewForm offerId={offer.id} />}
+        {(loginInfo.name !== '') && <ReviewForm /*offerId={offer.id}*/ />}
       </section>
     </div>
   );
