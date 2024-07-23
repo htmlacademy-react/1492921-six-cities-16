@@ -11,7 +11,7 @@ export default function Price({value, viewType}: PriceProps): JSX.Element {
     <div className={`${viewType.classPrefix}__price`}>
       <b className={`${viewType.classPrefix}__price-value`}>&euro;{value}</b>
       <span className={`${viewType.classPrefix}__price-text`}>
-        {`${viewType === PriceType.Place ? '&#47;' : ''}`}&nbsp;night
+        {viewType === PriceType.Place ? <>&#47;&nbsp;night</> : <>&nbsp;night</>}
       </span>
     </div>
   );
