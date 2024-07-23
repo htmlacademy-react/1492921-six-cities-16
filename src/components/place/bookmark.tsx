@@ -8,7 +8,7 @@ type BookmarkProps = {
 
 export default function Bookmark({isFavorite, viewType}: BookmarkProps): JSX.Element {
   return (
-    <button className={classNames(`${viewType.classPrefix}__bookmark-button`, {[`${viewType.classPrefix}__bookmark-button--active}`]: isFavorite}, 'button')} type="button">
+    <button className={classNames(`${viewType.classPrefix}__bookmark-button`, {[`${viewType.classPrefix}__bookmark-button--active`]: isFavorite}, 'button')} type="button">
       <svg className={`${viewType.classPrefix}__bookmark-icon`} width={viewType.imageWidth} height={viewType.imageHeight}>
         <use xlinkHref="#icon-bookmark"></use>
       </svg>

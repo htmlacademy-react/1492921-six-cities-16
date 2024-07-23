@@ -14,4 +14,3 @@ export default function OfferGallery({images}: OfferGalleryProps): JSX.Element {
   );
 }
 
-

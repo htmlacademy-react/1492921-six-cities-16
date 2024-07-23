@@ -1,5 +1,28 @@
 const offers = [
   {
+    'id': '6f6becc6-b05b-4954-a165-6383747770b7',
+    'title': 'Nice, cozy, warm big bed apartment',
+    'type': 'house',
+    'price': 791,
+    'previewImage': 'https://16.design.htmlacademy.pro/static/hotel/8.jpg',
+    'city': {
+      'name': 'Paris',
+      'location': {
+        'latitude': 48.85661,
+        'longitude': 2.351499,
+        'zoom': 13
+      }
+    },
+    'location': {
+      'latitude': 48.868610000000004,
+      'longitude': 2.342499,
+      'zoom': 16
+    },
+    'isFavorite': false,
+    'isPremium': true,
+    'rating': 2.3
+  },
+  {
     'id': '38f33a49-572b-4199-8fac-b09c90206562',
     'title': 'Tile House',
     'type': 'house',

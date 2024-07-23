@@ -1,28 +1,33 @@
 import {CITIES} from '../data/cities';
-type Cities = keyof typeof CITIES;
-interface Location {
+import {SortItems} from '../const';
+
+type CityName = typeof CITIES[number];
+type SortId = keyof typeof SortItems;
+
+type Location = {
   latitude: number;
   longitude: number;
   zoom: number;
 }
-interface City {
-  name: Cities;
+
+type City = {
+  name: CityName;
   location: Location;
 }
-interface User {
+
+type User = {
   name: string;
   avatarUrl: string;
   isPro: boolean;
-  email: string;
+  email?: string;
 }
 
-type Host = Omit <User, 'email'>;
-interface Place {
+type Place = {
   id: string;
   title: string;
   type: string;
   price: number;
-  city: Cities;
+  city: City;
   location: Location;
   isFavorite: boolean;
   isPremium: boolean;
@@ -32,27 +37,34 @@ interface Place {
 
 type PlaceCard = Omit <Place, 'city | location'>;
 
-type PlaceList = Place[];
-
-interface PlacesCity {
-  city: Cities;
-  places: PlaceList;
-}
-interface Offer extends Omit <Place, 'previewImage'> {
+type Offer = Omit <Place, 'previewImage'> & {
   description: string;
   bedrooms: number;
   goods: string[];
-  host: Host;
+  host: User;
   images: string[];
   maxAdults: number;
 }
-interface ComponentOptions {
+
+type Review = {
+  id: string;
+  date: string;
+  user: User;
+  comment: string;
+  rating: number;
+}
+
+type ComponentOptions = {
   classPrefix: string;
   imageWidth?: number;
   imageHeight?: number;
 }
-interface PageOptions {
+
+type PageOptions = {
   name: string;
 }
 
-export type {Location, City, PlaceCard, Place, Offer, PlaceList, PlacesCity, ComponentOptions, PageOptions, User};
+type PlacesCity = Partial<Record<CityName, Place[]>>;
+
+export type {SortId, CityName, Location, City, PlacesCity, PlaceCard, Place, Offer, Review};
+export type {ComponentOptions, PageOptions, User};

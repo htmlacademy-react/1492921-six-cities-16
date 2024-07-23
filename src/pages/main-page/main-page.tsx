@@ -1,16 +1,16 @@
-import {Pages} from '../../const';
+import {Pages, SORT_INIT} from '../../const';
+import {placesModel} from '../../data/places-model';
 import Header from '../../components/header/header';
 import Cities from '../../components/cities/cities';
 import PlacesTitle from '../../components/places/places-title';
 import Sort from '../../components/sort/sort';
-import Places from '../../components/places/places';
+import PlaceList from '../../components/places/place-list';
 import Map from '../../components/map/map';
-import {PlaceList} from '../../types/types';
 import classNames from 'classnames';
-import {places, favorites} from '../../data/places';
+import {CityName} from '../../types/types';
 
 type MainProps = {
-  cityName: string;
+  cityName: CityName;
 }
 
 function NoPlaces({cityName}: MainProps): JSX.Element {
@@ -25,11 +25,13 @@ function NoPlaces({cityName}: MainProps): JSX.Element {
 }
 
 export default function MainPage({cityName}: MainProps): JSX.Element {
-  const placesCity: PlaceList = places[cityName] ?? [];
+  const placesCity = placesModel.placesCity[cityName] ?? [];
+  //const placesCity = places[cityName] ?? [];
+
   const isEmpty: boolean = placesCity.length === 0;
   return (
     <div className={classNames('page', 'page--gray', 'page--main', {'page__main--index-empty': isEmpty})}>
-      <Header page={Pages.MAIN} favoritesCount={favorites.length} />
+      <Header page={Pages.MAIN} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <Cities cityActive={cityName} />
@@ -41,8 +43,8 @@ export default function MainPage({cityName}: MainProps): JSX.Element {
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <PlacesTitle placeCount={placesCity.length} cityName={cityName} />
-                <Sort />
-                <Places placesCity={placesCity}/>
+                <Sort sortActive={SORT_INIT}/>
+                <PlaceList places={placesCity}/>
               </section>}
             <div className="cities__right-section">
               {!isEmpty && <Map />}

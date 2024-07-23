@@ -1,4 +1,4 @@
-const CITIES: string[] = [
+const CITIES = [
   'Paris',
   'Cologne',
   'Brussels',

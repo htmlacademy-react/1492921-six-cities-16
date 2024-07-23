@@ -2,20 +2,20 @@ import {LogoType, Pages} from '../../const';
 import Logo from '../logo/logo';
 import {PageOptions} from '../../types/types';
 import {loginInfo} from '../../data/user';
+import {placesModel} from '../../data/places-model';
 
 type HeaderProps = {
   page: PageOptions;
-  favoritesCount: number;
 }
 
-export default function Header({page, favoritesCount}: HeaderProps): JSX.Element {
+export default function Header({page}: HeaderProps): JSX.Element {
   const isLogged = loginInfo.name !== '';
   return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Logo viewType={LogoType.HEADER} page={page} />
+            <Logo viewType={LogoType.Header} page={page} />
           </div>
           {(page !== Pages.LOGIN) && (
             <nav className="header__nav">
@@ -26,7 +26,7 @@ export default function Header({page, favoritesCount}: HeaderProps): JSX.Element
                     {isLogged ?
                       <>
                         <span className="header__user-name user__name">{loginInfo.email}</span>
-                        <span className="header__favorite-count">{favoritesCount}</span>
+                        <span className="header__favorite-count">{placesModel.favoritesCount}</span>
                       </>
                       :
                       <span className="header__login">Sign in</span>}
