@@ -7,7 +7,6 @@ import {placesModel} from './places-model';
 
 const getOffer = (placeId: string): Offer => Object.assign(offerList.find((offer) => offer.id === placeId) as Offer, placesModel.getPlace(placeId));
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getOffersNearly = (placeId: string): Place[] => offersNearly.map((offer) => Object.assign(offer, placesModel.getPlace(offer.id)));
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
