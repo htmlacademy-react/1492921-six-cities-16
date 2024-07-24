@@ -26,7 +26,6 @@ function NoPlaces({cityName}: MainProps): JSX.Element {
 
 export default function MainPage({cityName}: MainProps): JSX.Element {
   const placesCity = placesModel.placesCity[cityName] ?? [];
-  //const placesCity = places[cityName] ?? [];
 
   const isEmpty: boolean = placesCity.length === 0;
   return (
