@@ -65,7 +65,8 @@ const Pages: Record<string, PageOptions> = {
   Main: {route: '/'},
   Favorites: {route: '/favorites'},
   Login: {route: '/login'},
-  Offer: {route: '/offer'}
+  Offer: {route: '/offer'},
+  Error: {route: '*'}
 };
 
 export {SortItems, SORT_INIT, CITY_INIT, RatingStars, RatingSetup, ReviewFormSetup, MAX_REVIEWS, Pages};

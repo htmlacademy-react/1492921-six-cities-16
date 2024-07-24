@@ -3,4 +3,8 @@ import {User} from '../types/types';
 
 const loginInfo: User = user;
 
-export {loginInfo};
+const userLogOut = (): void => {
+  loginInfo.name = '';
+};
+
+export {loginInfo, userLogOut};

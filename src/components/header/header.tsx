@@ -18,11 +18,11 @@ export default function Header({page}: HeaderProps): JSX.Element {
           <div className="header__left">
             <Logo viewType={LogoType.Header} page={page} />
           </div>
-          {(page !== Pages.Login) && (
+          {(page !== Pages.Login & page !== Pages.Error) && (
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={Pages.Login.route}>
+                  <Link className="header__nav-link header__nav-link--profile" to={Pages.Favorites.route}>
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     {isLogged ?
                       <>
@@ -35,9 +35,9 @@ export default function Header({page}: HeaderProps): JSX.Element {
                 </li>
                 {isLogged && (
                   <li className="header__nav-item">
-                    <a className="header__nav-link" href="#">
+                    <Link className="header__nav-link" to={Pages.Main.route}>
                       <span className="header__signout">Sign out</span>
-                    </a>
+                    </Link>
                   </li>
                 )}
               </ul>
