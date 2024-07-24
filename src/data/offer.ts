@@ -11,14 +11,12 @@ const getOffer = (placeId: string): Offer =>
     placesModel.getPlace(placeId)
   );
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getOffersNearly = (placeId: string): Place[] =>
+const getOffersNearly = (_placeId: string): Place[] =>
   offersNearly.map((offer) =>
     Object.assign(offer, placesModel.getPlace(offer.id))
   );
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getOfferReviews = (placeId: string): Review[] =>
+const getOfferReviews = (_placeId: string): Review[] =>
   reviews
     .sort((item1, item2) => {
       const date1 = new Date(item1.date);

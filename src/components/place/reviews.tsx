@@ -17,7 +17,7 @@ function ReviewItem({ item }: ReviewProps): JSX.Element {
             width="54"
             height="54"
             alt="Reviews avatar"
-          ></img>
+          />
         </div>
         <span className="reviews__user-name">{item.user.name}</span>
       </div>

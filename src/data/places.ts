@@ -1,8 +1,8 @@
-import { Place, PlaceList } from '../types/types';
+import { Place } from '../types/types';
 import { CITIES } from '../data/cities';
 import { offers } from '../mock/mock-data';
 
-const places = new Map<string, PlaceList>();
+const places = new Map<string, Place[]>();
 
 CITIES.forEach((city: string) => {
   places.set(

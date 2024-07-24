@@ -60,7 +60,7 @@ export default function OfferCard({ offer }: OfferProps): JSX.Element {
               width="74"
               height="74"
               alt="Host avatar"
-            ></img>
+            />
           </div>
           <span className="offer__user-name">{offer.host.name}</span>
           <span className="offer__user-status">
@@ -78,7 +78,7 @@ export default function OfferCard({ offer }: OfferProps): JSX.Element {
       </div>
       <section className="offer__reviews reviews">
         <Reviews offerId={offer.id} />
-        {loginInfo.name !== '' && <ReviewForm /*offerId={offer.id}*/ />}
+        {loginInfo.name !== '' && <ReviewForm offerId={offer.id} />}
       </section>
     </div>
   );

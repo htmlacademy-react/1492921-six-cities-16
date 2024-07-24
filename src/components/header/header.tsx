@@ -11,6 +11,7 @@ type HeaderProps = {
 
 export default function Header({ page }: HeaderProps): JSX.Element {
   const isLogged = loginInfo.name !== '';
+  const shouldShowMenu = page !== Pages.Login && page !== Pages.Error;
   return (
     <header className="header">
       <div className="container">
@@ -18,7 +19,7 @@ export default function Header({ page }: HeaderProps): JSX.Element {
           <div className="header__left">
             <Logo viewType={LogoType.Header} page={page} />
           </div>
-          {(page !== Pages.Login) & (page !== Pages.Error) && (
+          {shouldShowMenu && (
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
