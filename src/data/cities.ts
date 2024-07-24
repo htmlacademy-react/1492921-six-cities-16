@@ -1,10 +1,10 @@
-const CITIES: Array<string> = [
+const CITIES = [
   'Paris',
   'Cologne',
   'Brussels',
   'Amsterdam',
   'Hamburg',
-  'Dusseldorf'
-];
+  'Dusseldorf',
+] as const;
 
-export {CITIES};
+export { CITIES };
