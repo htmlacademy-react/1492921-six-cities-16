@@ -14,7 +14,8 @@ function RatingStar({ value, title }: RatingStarProps): JSX.Element {
         value={value}
         id={`${value}-stars`}
         type="radio"
-      ></input>
+      >
+      </input>
       <label
         htmlFor={`${value}-stars`}
         className="reviews__rating-label form__rating-label"
@@ -54,7 +55,8 @@ export default function ReviewForm({
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-      ></textarea>
+      >
+      </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set{' '}

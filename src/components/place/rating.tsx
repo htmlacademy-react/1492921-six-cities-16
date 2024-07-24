@@ -14,7 +14,8 @@ export default function Rating({ value, viewType }: RatingProps): JSX.Element {
           style={{
             width: `${Math.round((value * 100) / RatingSetup.MaxRating)}%`,
           }}
-        ></span>
+        >
+        </span>
         <span className="visually-hidden">Rating</span>
       </div>
       {viewType === RatingType.Offer && (
