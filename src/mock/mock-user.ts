@@ -1,7 +1,7 @@
 const user = {
   email: 'oliver.conner@gmail.com',
   token: 'b2xpdmVyLmNvbm5lckBnbWFpbC5jb20=',
-  name: '',
+  name: 'Oliver.conner',
   avatarUrl: 'https://16.design.htmlacademy.pro/static/avatar/5.jpg',
   isPro: false,
 };

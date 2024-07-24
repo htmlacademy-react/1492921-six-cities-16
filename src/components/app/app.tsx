@@ -5,6 +5,7 @@ import MainPage from '../../pages/main-page/main-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import ErrorPage from '../../pages/error-page/error-page';
+import PrivateRoute from '../private-route/private-route';
 
 export default function App(): JSX.Element {
   return (
@@ -14,7 +15,14 @@ export default function App(): JSX.Element {
           path={Pages.Main.route}
           element={<MainPage cityName={CITY_INIT} />}
         />
-        <Route path={Pages.Favorites.route} element={<FavoritesPage />} />
+        <Route
+          path={Pages.Favorites.route}
+          element={
+            <PrivateRoute>
+              <FavoritesPage />
+            </PrivateRoute>
+          }
+        />
         <Route path={Pages.Login.route} element={<LoginPage />} />
         <Route
           path={Pages.Offer.route}

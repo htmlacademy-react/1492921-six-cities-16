@@ -66,6 +66,7 @@ const Pages: Record<string, PageOptions> = {
   Favorites: { route: '/favorites' },
   Login: { route: '/login' },
   Offer: { route: '/offer' },
+  Error: { route: '*' },
 };
 
 export {
