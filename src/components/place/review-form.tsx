@@ -22,8 +22,7 @@ type ReviewFormProps = {
   offerId: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
+export default function ReviewForm({offerId: _unused}: ReviewFormProps): JSX.Element {
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
