@@ -9,9 +9,9 @@ import { CityName } from '../../types/types';
 export default function FavoritesPage(): JSX.Element {
   const isEmpty = placesModel.favoritesCount === 0;
   return (
-    <div className={classNames('page', { 'page--favorites-empty': isEmpty })}>
-      <Header page={Pages.FAVORITE} />
-      {isEmpty ? (
+    <div className={classNames('page', {'page--favorites-empty': isEmpty})}>
+      <Header page={Pages.Favorite} />
+      {isEmpty ?
         <main className="page__main page__main--favorites page__main--favorites-empty">
           <div className="page__favorites-container container">
             <section className="favorites favorites--empty">
@@ -60,7 +60,7 @@ export default function FavoritesPage(): JSX.Element {
         </main>
       )}
       <footer className="footer container">
-        <Logo viewType={LogoType.Footer} page={Pages.FAVORITE} />
+        <Logo viewType={LogoType.Footer} page={Pages.Favorite} />
       </footer>
     </div>
   );

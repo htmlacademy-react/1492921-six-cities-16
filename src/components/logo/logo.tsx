@@ -7,7 +7,7 @@ type LogoProps = {
 };
 
 export default function Logo({ viewType, page }: LogoProps): JSX.Element {
-  const isMainPage = page === Pages.MAIN;
+  const isMainPage = page === Pages.Main;
   return (
     <a
       {...{
@@ -21,8 +21,7 @@ export default function Logo({ viewType, page }: LogoProps): JSX.Element {
         alt="6 cities logo"
         width={viewType.imageWidth}
         height={viewType.imageHeight}
-      >
-      </img>
+      ></img>
     </a>
   );
 }
