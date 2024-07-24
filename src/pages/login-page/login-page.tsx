@@ -4,7 +4,7 @@ import Header from '../../components/header/header';
 export default function LoginPage(): JSX.Element {
   return (
     <div className="page page--gray page--login">
-      <Header page={Pages.LOGIN} />
+      <Header page={Pages.Login} />
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">
@@ -19,8 +19,7 @@ export default function LoginPage(): JSX.Element {
                   name="email"
                   placeholder="Email"
                   required
-                >
-                </input>
+                />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>

@@ -36,7 +36,7 @@ export default function MainPage({ cityName }: MainProps): JSX.Element {
         'page__main--index-empty': isEmpty,
       })}
     >
-      <Header page={Pages.MAIN} />
+      <Header page={Pages.Main} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <Cities cityActive={cityName} />

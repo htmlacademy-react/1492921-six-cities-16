@@ -14,8 +14,7 @@ function RatingStar({ value, title }: RatingStarProps): JSX.Element {
         value={value}
         id={`${value}-stars`}
         type="radio"
-      >
-      </input>
+      />
       <label
         htmlFor={`${value}-stars`}
         className="reviews__rating-label form__rating-label"
