@@ -13,7 +13,7 @@ export default function OfferPage({offerId}: OfferProps): JSX.Element {
   const offer = getOffer(offerId);
   return (
     <div className="page">
-      <Header page={Pages.OFFER} />
+      <Header page={Pages.Offer} />
       <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">

@@ -7,7 +7,7 @@ type LogoProps = {
 }
 
 export default function Logo({viewType, page}: LogoProps): JSX.Element {
-  const isMainPage = (page === Pages.MAIN);
+  const isMainPage = (page === Pages.Main);
   return (
     <a {...{
       className: `${viewType.classPrefix}__logo-link header__logo-link--active`,

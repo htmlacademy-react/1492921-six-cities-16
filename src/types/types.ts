@@ -61,7 +61,7 @@ type ComponentOptions = {
 }
 
 type PageOptions = {
-  name: string;
+  route: string;
 }
 
 type PlacesCity = Partial<Record<CityName, Place[]>>;

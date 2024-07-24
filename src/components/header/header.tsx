@@ -3,6 +3,7 @@ import Logo from '../logo/logo';
 import {PageOptions} from '../../types/types';
 import {loginInfo} from '../../data/user';
 import {placesModel} from '../../data/places-model';
+import {Link} from 'react-router-dom';
 
 type HeaderProps = {
   page: PageOptions;
@@ -17,11 +18,11 @@ export default function Header({page}: HeaderProps): JSX.Element {
           <div className="header__left">
             <Logo viewType={LogoType.Header} page={page} />
           </div>
-          {(page !== Pages.LOGIN) && (
+          {(page !== Pages.Login) && (
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <Link className="header__nav-link header__nav-link--profile" to={Pages.Login.route}>
                     <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                     {isLogged ?
                       <>
@@ -30,7 +31,7 @@ export default function Header({page}: HeaderProps): JSX.Element {
                       </>
                       :
                       <span className="header__login">Sign in</span>}
-                  </a>
+                  </Link>
                 </li>
                 {isLogged && (
                   <li className="header__nav-item">

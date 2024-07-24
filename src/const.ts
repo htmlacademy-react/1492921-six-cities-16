@@ -1,6 +1,6 @@
 import {SortId, CityName, ComponentOptions, PageOptions} from './types/types';
 
-const CITY_INIT: CityName = 'Paris';
+const CITY_INIT: CityName = 'Hamburg';
 const MAX_REVIEWS = 10;
 
 const RatingStars = [
@@ -62,10 +62,10 @@ const PriceType: Record<string, ComponentOptions> = {
 };
 
 const Pages: Record<string, PageOptions> = {
-  MAIN: {name: 'main'},
-  FAVORITE: {name: 'favorite'},
-  LOGIN: {name: 'login'},
-  OFFER: {name: 'offer'}
+  Main: {route: '/'},
+  Favorites: {route: '/favorites'},
+  Login: {route: '/login'},
+  Offer: {route: '/offer'}
 };
 
 export {SortItems, SORT_INIT, CITY_INIT, RatingStars, RatingSetup, ReviewFormSetup, MAX_REVIEWS, Pages};
