@@ -1,6 +1,6 @@
-import {Pages} from '../../const';
+import { Pages } from '../../const';
 import Header from '../../components/header/header';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function ErrorPage() {
   return (
@@ -12,7 +12,9 @@ export default function ErrorPage() {
             <section className="cities__no-places">
               <div className="cities__status-wrapper tabs__content">
                 <b className="cities__status">Error 404. Page not found</b>
-                <p className="cities__status-description">The wrong address may have been entered</p>
+                <p className="cities__status-description">
+                  The wrong address may have been entered
+                </p>
                 <br></br>
                 <h2>
                   <Link to={Pages.Main.route}>Open main page</Link>

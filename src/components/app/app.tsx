@@ -1,5 +1,5 @@
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {CITY_INIT, Pages} from '../../const';
+import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { CITY_INIT, Pages } from '../../const';
 import LoginPage from '../../pages/login-page/login-page';
 import MainPage from '../../pages/main-page/main-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
@@ -17,22 +17,21 @@ export default function App(): JSX.Element {
         />
         <Route
           path={Pages.Favorites.route}
-          element={<PrivateRoute><FavoritesPage /></PrivateRoute>}
+          element={
+            <PrivateRoute>
+              <FavoritesPage />
+            </PrivateRoute>
+          }
         />
-        <Route
-          path={Pages.Login.route}
-          element={<LoginPage />}
-        />
+        <Route path={Pages.Login.route} element={<LoginPage />} />
         <Route
           path={Pages.Offer.route}
-          element={<OfferPage offerId={'38f33a49-572b-4199-8fac-b09c90206562'}/>}
+          element={
+            <OfferPage offerId={'38f33a49-572b-4199-8fac-b09c90206562'} />
+          }
         />
-        <Route
-          path="*"
-          element={<ErrorPage />}
-        />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );
 }
-

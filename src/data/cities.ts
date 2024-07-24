@@ -4,7 +4,7 @@ const CITIES = [
   'Brussels',
   'Amsterdam',
   'Hamburg',
-  'Dusseldorf'
+  'Dusseldorf',
 ] as const;
 
-export {CITIES};
+export { CITIES };
