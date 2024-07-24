@@ -1,26 +1,26 @@
-import {CITIES} from '../data/cities';
-import {SortItems} from '../const';
+import { CITIES } from '../data/cities';
+import { SortItems } from '../const';
 
-type CityName = typeof CITIES[number];
+type CityName = (typeof CITIES)[number];
 type SortId = keyof typeof SortItems;
 
 type Location = {
   latitude: number;
   longitude: number;
   zoom: number;
-}
+};
 
 type City = {
   name: CityName;
   location: Location;
-}
+};
 
 type User = {
   name: string;
   avatarUrl: string;
   isPro: boolean;
   email?: string;
-}
+};
 
 type Place = {
   id: string;
@@ -33,18 +33,18 @@ type Place = {
   isPremium: boolean;
   rating: number;
   previewImage: string;
-}
+};
 
-type PlaceCard = Omit <Place, 'city | location'>;
+type PlaceCard = Omit<Place, 'city | location'>;
 
-type Offer = Omit <Place, 'previewImage'> & {
+type Offer = Omit<Place, 'previewImage'> & {
   description: string;
   bedrooms: number;
   goods: string[];
   host: User;
   images: string[];
   maxAdults: number;
-}
+};
 
 type Review = {
   id: string;
@@ -52,19 +52,29 @@ type Review = {
   user: User;
   comment: string;
   rating: number;
-}
+};
 
 type ComponentOptions = {
   classPrefix: string;
   imageWidth?: number;
   imageHeight?: number;
-}
+};
 
 type PageOptions = {
-  name: string;
-}
+  route: string;
+};
 
 type PlacesCity = Partial<Record<CityName, Place[]>>;
 
-export type {SortId, CityName, Location, City, PlacesCity, PlaceCard, Place, Offer, Review};
-export type {ComponentOptions, PageOptions, User};
+export type {
+  SortId,
+  CityName,
+  Location,
+  City,
+  PlacesCity,
+  PlaceCard,
+  Place,
+  Offer,
+  Review,
+};
+export type { ComponentOptions, PageOptions, User };

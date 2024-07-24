@@ -1,4 +1,4 @@
-import {offers} from '../mock/mock-offers';
+import { offers } from '../mock/mock-offers';
 import { Place, PlacesCity } from '../types/types';
 
 class PlacesModel {
@@ -7,9 +7,12 @@ class PlacesModel {
   #favoritesCount: number;
 
   constructor() {
-    this.#places = offers as Place[];
+    this.#places = offers;
     this.#placesCity = Object.groupBy(this.#places, (offer) => offer.city.name);
-    this.#favoritesCount = this.#places.reduce((count, place) => count + (place.isFavorite ? 1 : 0), 0);
+    this.#favoritesCount = this.#places.reduce(
+      (count, place) => count + (place.isFavorite ? 1 : 0),
+      0
+    );
   }
 
   get placesCity() {
@@ -17,14 +20,17 @@ class PlacesModel {
   }
 
   get favorites(): PlacesCity {
-    return Object.groupBy(this.#places.filter((item) => item.isFavorite), (offer) => offer.city.name);
+    return Object.groupBy(
+      this.#places.filter((item) => item.isFavorite),
+      (offer) => offer.city.name
+    );
   }
 
   get favoritesCount() {
     return this.#favoritesCount;
   }
 
-  getPlace (placeId: string): (Place | undefined) {
+  getPlace(placeId: string): Place | undefined {
     return this.#places.find((item) => item.id === placeId);
   }
 
@@ -43,4 +49,4 @@ class PlacesModel {
 
 const placesModel = new PlacesModel();
 
-export {placesModel};
+export { placesModel };

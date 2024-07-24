@@ -1,5 +1,5 @@
-import {PlaceCardType, LogoType, Pages} from '../../const';
-import {placesModel} from '../../data/places-model';
+import { PlaceCardType, LogoType, Pages } from '../../const';
+import { placesModel } from '../../data/places-model';
 import Header from '../../components/header/header';
 import Place from '../../components/place/place-card';
 import classNames from 'classnames';
@@ -9,21 +9,24 @@ import { CityName } from '../../types/types';
 export default function FavoritesPage(): JSX.Element {
   const isEmpty = placesModel.favoritesCount === 0;
   return (
-    <div className={classNames('page', {'page--favorites-empty': isEmpty})}>
-      <Header page={Pages.FAVORITE} />
-      {isEmpty ?
+    <div className={classNames('page', { 'page--favorites-empty': isEmpty })}>
+      <Header page={Pages.Favorite} />
+      {isEmpty ? (
         <main className="page__main page__main--favorites page__main--favorites-empty">
           <div className="page__favorites-container container">
             <section className="favorites favorites--empty">
               <h1 className="visually-hidden">Favorites (empty)</h1>
               <div className="favorites__status-wrapper">
                 <b className="favorites__status">Nothing yet saved.</b>
-                <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
+                <p className="favorites__status-description">
+                  Save properties to narrow down search or plan your future
+                  trips.
+                </p>
               </div>
             </section>
           </div>
         </main>
-        :
+      ) : (
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
             <section className="favorites">
@@ -39,19 +42,26 @@ export default function FavoritesPage(): JSX.Element {
                       </div>
                     </div>
                     <div className="favorites__places">
-                      {(placesModel.favorites[(city as CityName)] ?? []).map((place) =>
-                        <Place key={place.id} place={place} viewType={PlaceCardType.Favorite} />
+                      {(placesModel.favorites[city as CityName] ?? []).map(
+                        (place) => (
+                          <Place
+                            key={place.id}
+                            place={place}
+                            viewType={PlaceCardType.Favorite}
+                          />
+                        )
                       )}
                     </div>
-                  </li>))}
+                  </li>
+                ))}
               </ul>
             </section>
           </div>
-        </main>}
+        </main>
+      )}
       <footer className="footer container">
-        <Logo viewType={LogoType.Footer} page={Pages.FAVORITE} />
+        <Logo viewType={LogoType.Footer} page={Pages.Favorite} />
       </footer>
     </div>
   );
 }
-
