@@ -17,7 +17,7 @@ export default function Logo({ viewType, page }: LogoProps): JSX.Element {
       alt="6 cities logo"
       width={viewType.imageWidth}
       height={viewType.imageHeight}
-    ></img>
+    />
   );
   return (
     <Link

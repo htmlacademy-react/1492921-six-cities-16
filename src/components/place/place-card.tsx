@@ -28,8 +28,7 @@ export default function PlaceCard({
             width={viewType.imageWidth}
             height={viewType.imageHeight}
             alt="Place image"
-          >
-          </img>
+          />
         </a>
       </div>
       <div className="place-card__info">
