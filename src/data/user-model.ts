@@ -71,7 +71,11 @@ export default class UserModel {
   }
 
   login({ email, password }: Login): LoginInfo {
-    if (email === user.email && /^[\d\w]+$/.test(password)) {
+    if (
+      email === user.email &&
+      /\d/g.exec(password) &&
+      /[a-zA-Z]/g.exec(password)
+    ) {
       this.#errorLogin = {} as ErrorResponse;
       this.#loginInfo = Object.assign(user, {
         status: AuthorizationStatus.Auth,
@@ -93,5 +97,7 @@ export default class UserModel {
 }
 
 const userModel = new UserModel();
+
+userModel.login({ email: user.email, password: '3s45' });
 
 export { userModel };
