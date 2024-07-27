@@ -1,5 +1,11 @@
 import { Offer } from '../../types/types';
-import { BookmarkType, PremiumType, RatingType, PriceType } from '../../const';
+import {
+  AuthorizationStatus,
+  BookmarkType,
+  PremiumType,
+  RatingType,
+  PriceType,
+} from '../../const';
 import { numberItemsText, capitalLetterText } from '../../utils';
 import Premium from './premium';
 import Bookmark from './bookmark';
@@ -7,7 +13,7 @@ import Rating from './rating';
 import Price from './price';
 import Reviews from './reviews';
 import ReviewForm from './review-form';
-import { loginInfo } from '../../data/user';
+import { userModel } from '../../data/user-model';
 import classNames from 'classnames';
 
 type OfferProps = {
@@ -78,7 +84,9 @@ export default function OfferCard({ offer }: OfferProps): JSX.Element {
       </div>
       <section className="offer__reviews reviews">
         <Reviews offerId={offer.id} />
-        {loginInfo.name !== '' && <ReviewForm offerId={offer.id} />}
+        {userModel.status === AuthorizationStatus.Auth && (
+          <ReviewForm offerId={offer.id} />
+        )}
       </section>
     </div>
   );

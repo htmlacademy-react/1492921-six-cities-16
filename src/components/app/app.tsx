@@ -1,5 +1,6 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { CITY_INIT, Pages } from '../../const';
+import { userModel } from '../../data/user-model';
 import LoginPage from '../../pages/login-page/login-page';
 import MainPage from '../../pages/main-page/main-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
@@ -18,7 +19,7 @@ export default function App(): JSX.Element {
         <Route
           path={Pages.Favorites.route}
           element={
-            <PrivateRoute>
+            <PrivateRoute authorizationStatus={userModel.status}>
               <FavoritesPage />
             </PrivateRoute>
           }

@@ -1,7 +1,12 @@
 import { Pages } from '../../const';
+import { CityName } from '../../types/types';
+import { CITIES } from '../../data/cities';
 import Header from '../../components/header/header';
+import { getRandomArrayElement } from '../../utils';
+import { Link } from 'react-router-dom';
 
 export default function LoginPage(): JSX.Element {
+  const randomCity: CityName = getRandomArrayElement(CITIES);
   return (
     <div className="page page--gray page--login">
       <Header page={Pages.Login} />
@@ -29,8 +34,7 @@ export default function LoginPage(): JSX.Element {
                   name="password"
                   placeholder="Password"
                   required
-                >
-                </input>
+                />
               </div>
               <button
                 className="login__submit form__submit button"
@@ -42,9 +46,9 @@ export default function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link className="locations__item-link" to={Pages.Main.route}>
+                <span>{randomCity}</span>
+              </Link>
             </div>
           </section>
         </div>

@@ -1,7 +1,7 @@
-import { LogoType, Pages } from '../../const';
+import { LogoType, Pages, AuthorizationStatus } from '../../const';
 import Logo from '../logo/logo';
 import { PageOptions } from '../../types/types';
-import { loginInfo } from '../../data/user';
+import { userModel } from '../../data/user-model';
 import { placesModel } from '../../data/places-model';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ type HeaderProps = {
 };
 
 export default function Header({ page }: HeaderProps): JSX.Element {
-  const isLogged = loginInfo.name !== '';
+  const isLogged = userModel.status === AuthorizationStatus.Auth;
   const shouldShowMenu = page !== Pages.Login && page !== Pages.Error;
   return (
     <header className="header">
@@ -31,7 +31,7 @@ export default function Header({ page }: HeaderProps): JSX.Element {
                     {isLogged ? (
                       <>
                         <span className="header__user-name user__name">
-                          {loginInfo.email}
+                          {userModel.loginInfo.email}
                         </span>
                         <span className="header__favorite-count">
                           {placesModel.favoritesCount}

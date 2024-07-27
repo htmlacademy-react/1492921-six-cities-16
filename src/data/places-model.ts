@@ -1,13 +1,12 @@
 import { offers } from '../mock/mock-offers';
 import { Place, PlacesCity } from '../types/types';
-
 class PlacesModel {
   #places: Place[];
   #placesCity: PlacesCity;
   #favoritesCount: number;
 
   constructor() {
-    this.#places = offers;
+    this.#places = offers as Place[];
     this.#placesCity = Object.groupBy(this.#places, (offer) => offer.city.name);
     this.#favoritesCount = this.#places.reduce(
       (count, place) => count + (place.isFavorite ? 1 : 0),
