@@ -1,10 +1,14 @@
 import { Pages } from '../../const';
 import Header from '../../components/header/header';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 export default function ErrorPage() {
   return (
     <div className="page page--gray page--main page__main--index-empty">
+      <Helmet>
+        <title>6 городов. Ошибка.</title>
+      </Helmet>
       <Header page={Pages.Main} />
       <main className="page__main page__main--index">
         <div className="cities">

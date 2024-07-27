@@ -4,6 +4,7 @@ import OfferGallery from '../../components/place/offer-gallery';
 import OfferCard from '../../components/place/offer-card';
 import PlaceCard from '../../components/place/place-card';
 import { getOffer, getOffersNearly } from '../../data/offer';
+import { Helmet } from 'react-helmet-async';
 
 type OfferProps = {
   offerId: string;
@@ -13,6 +14,9 @@ export default function OfferPage({ offerId }: OfferProps): JSX.Element {
   const offer = getOffer(offerId);
   return (
     <div className="page">
+      <Helmet>
+        <title>6 городов. Описание предложения.?</title>
+      </Helmet>
       <Header page={Pages.Offer} />
       <main className="page__main page__main--offer">
         <section className="offer">

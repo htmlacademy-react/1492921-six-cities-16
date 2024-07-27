@@ -20,6 +20,7 @@ type User = {
   avatarUrl: string;
   isPro: boolean;
   email?: string;
+  token?: string;
 };
 
 type Place = {

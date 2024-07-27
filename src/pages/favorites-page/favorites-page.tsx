@@ -5,11 +5,15 @@ import Place from '../../components/place/place-card';
 import classNames from 'classnames';
 import Logo from '../../components/logo/logo';
 import { CityName } from '../../types/types';
+import { Helmet } from 'react-helmet-async';
 
 export default function FavoritesPage(): JSX.Element {
   const isEmpty = placesModel.favoritesCount === 0;
   return (
     <div className={classNames('page', { 'page--favorites-empty': isEmpty })}>
+      <Helmet>
+        <title>6 городов. Избранное.</title>
+      </Helmet>
       <Header page={Pages.Favorite} />
       {isEmpty ? (
         <main className="page__main page__main--favorites page__main--favorites-empty">

@@ -6,4 +6,21 @@ const user = {
   isPro: false,
 };
 
-export { user };
+const validationError = {
+  errorType: 'VALIDATION_ERROR',
+  message: 'Validation error: /six-cities/login',
+  details: [
+    {
+      property: 'password',
+      value: 'p',
+      messages: ['password must contain at least one letter and one digit'],
+    },
+  ],
+};
+
+const authorizationError = {
+  errorType: 'COMMON_ERROR',
+  message: 'Access deny.',
+};
+
+export { user, validationError, authorizationError };
