@@ -98,6 +98,6 @@ export default class UserModel {
 
 const userModel = new UserModel();
 
-userModel.login({ email: user.email, password: '3s45' });
+userModel.login({ email: user.email, password: '34s5' });
 
 export { userModel };

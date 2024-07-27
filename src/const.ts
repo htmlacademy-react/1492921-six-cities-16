@@ -1,6 +1,6 @@
 import { SortId, CityName, ComponentOptions, PageOptions } from './types/types';
 
-const CITY_INIT: CityName = 'Hamburg';
+const CITY_INIT: CityName = 'Paris';
 const MAX_REVIEWS = 10;
 
 const RatingStars = [
