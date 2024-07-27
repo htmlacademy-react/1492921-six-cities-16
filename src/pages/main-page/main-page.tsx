@@ -8,6 +8,7 @@ import PlaceList from '../../components/places/place-list';
 import Map from '../../components/map/map';
 import classNames from 'classnames';
 import { CityName } from '../../types/types';
+import { Helmet } from 'react-helmet-async';
 
 type MainProps = {
   cityName: CityName;
@@ -36,6 +37,9 @@ export default function MainPage({ cityName }: MainProps): JSX.Element {
         'page__main--index-empty': isEmpty,
       })}
     >
+      <Helmet>
+        <title>6 городов. Главная страница.?</title>
+      </Helmet>
       <Header page={Pages.Main} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>

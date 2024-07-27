@@ -4,13 +4,16 @@ import { CITIES } from '../../data/cities';
 import Header from '../../components/header/header';
 import { getRandomArrayElement } from '../../utils';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 export default function LoginPage(): JSX.Element {
   const randomCity: CityName = getRandomArrayElement(CITIES);
   return (
     <div className="page page--gray page--login">
+      <Helmet>
+        <title>6 городов. Аутентификация пользователя.?</title>
+      </Helmet>
       <Header page={Pages.Login} />
-
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
