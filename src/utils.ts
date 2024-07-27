@@ -3,4 +3,7 @@ const numberItemsText = (count: number, text: string): string =>
 const capitalLetterText = (text: string): string =>
   text[0].toUpperCase() + text.slice(1);
 
-export { numberItemsText, capitalLetterText };
+const getRandomArrayElement = <T>(arr: T[] | readonly T[]): T =>
+  arr[Math.floor(Math.random() * arr.length)];
+
+export { numberItemsText, capitalLetterText, getRandomArrayElement };

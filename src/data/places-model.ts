@@ -1,6 +1,5 @@
 import { offers } from '../mock/mock-offers';
 import { Place, PlacesCity } from '../types/types';
-
 class PlacesModel {
   #places: Place[];
   #placesCity: PlacesCity;

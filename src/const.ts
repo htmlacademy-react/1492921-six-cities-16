@@ -1,6 +1,6 @@
 import { SortId, CityName, ComponentOptions, PageOptions } from './types/types';
 
-const CITY_INIT: CityName = 'Hamburg';
+const CITY_INIT: CityName = 'Paris';
 const MAX_REVIEWS = 10;
 
 const RatingStars = [
@@ -68,6 +68,12 @@ const Pages: Record<string, PageOptions> = {
   Offer: { route: '/offer' },
   Error: { route: '*' },
 };
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
 
 export {
   SortItems,
