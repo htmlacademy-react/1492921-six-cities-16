@@ -5,13 +5,18 @@ import OfferCard from '../../components/place/offer-card';
 import PlaceCard from '../../components/place/place-card';
 import { getOffer, getOffersNearly } from '../../data/offer';
 import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router-dom';
+import ErrorPage from '../../pages/error-page/error-page';
 
-type OfferProps = {
-  offerId: string;
-};
-
-export default function OfferPage({ offerId }: OfferProps): JSX.Element {
+export default function OfferPage(): JSX.Element {
+  const { offerId } = useParams();
+  if (!offerId) {
+    return <ErrorPage />;
+  }
   const offer = getOffer(offerId);
+  if (!offer.description) {
+    return <ErrorPage text={offer.title} description="Offers not found" />;
+  }
   return (
     <div className="page">
       <Helmet>

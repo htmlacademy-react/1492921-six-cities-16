@@ -1,16 +1,15 @@
 import { Navigate } from 'react-router-dom';
 import { AuthorizationStatus, Pages } from '../../const';
+import { userModel } from '../../data/user-model';
 
 type PrivateRouteProps = {
-  authorizationStatus: AuthorizationStatus;
   children: JSX.Element;
 };
 
 export default function PrivateRoute({
-  authorizationStatus,
   children,
 }: PrivateRouteProps): JSX.Element {
-  return authorizationStatus === AuthorizationStatus.Auth ? (
+  return userModel.status === AuthorizationStatus.Auth ? (
     children
   ) : (
     <Navigate to={Pages.Login.route} />
