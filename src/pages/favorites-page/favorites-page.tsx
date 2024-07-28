@@ -64,7 +64,7 @@ export default function FavoritesPage(): JSX.Element {
         </main>
       )}
       <footer className="footer container">
-        <Logo viewType={LogoType.Footer} page={Pages.Favorite} />
+        <Logo viewType={LogoType.Footer} />
       </footer>
     </div>
   );
