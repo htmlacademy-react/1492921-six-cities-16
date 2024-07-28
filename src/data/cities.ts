@@ -1,3 +1,6 @@
+import { CityName } from '../types/types';
+import { CITY_INIT } from '../const';
+
 const CITIES = [
   'Paris',
   'Cologne',
@@ -7,4 +10,12 @@ const CITIES = [
   'Dusseldorf',
 ] as const;
 
-export { CITIES };
+let currentCity: CityName = CITY_INIT;
+
+const setCurrentCity = (city: CityName) => {
+  currentCity = city;
+};
+
+const getCurrentCity = () => currentCity;
+
+export { CITIES, setCurrentCity, getCurrentCity };

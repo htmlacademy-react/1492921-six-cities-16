@@ -22,6 +22,10 @@ type User = {
   email?: string;
   token?: string;
 };
+type Login = {
+  email: string;
+  password: string;
+};
 
 type Place = {
   id: string;
@@ -67,6 +71,9 @@ type PageOptions = {
 
 type PlacesCity = Partial<Record<CityName, Place[]>>;
 
+type CallbackFunction = () => void;
+type ChangeCityFunction = (currentCity: CityName) => void;
+
 export type {
   SortId,
   CityName,
@@ -78,4 +85,11 @@ export type {
   Offer,
   Review,
 };
-export type { ComponentOptions, PageOptions, User };
+export type {
+  User,
+  Login,
+  ComponentOptions,
+  PageOptions,
+  CallbackFunction,
+  ChangeCityFunction,
+};
