@@ -14,7 +14,7 @@ export default function Header({ page }: HeaderProps): JSX.Element {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Logo viewType={LogoType.Header} page={page} />
+            <Logo viewType={LogoType.Header} />
           </div>
           {shouldShowMenu && <SignUser />}
         </div>

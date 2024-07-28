@@ -6,7 +6,7 @@ class PlacesModel {
   #favoritesCount: number;
 
   constructor() {
-    this.#places = offers;
+    this.#places = offers as Place[];
     this.#placesCity = Object.groupBy(this.#places, (offer) => offer.city.name);
     this.#favoritesCount = this.#places.reduce(
       (count, place) => count + (place.isFavorite ? 1 : 0),
