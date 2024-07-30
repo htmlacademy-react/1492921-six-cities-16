@@ -1,6 +1,4 @@
-import { Place } from '../types/types';
-
-const offers: Place[] = [
+const offers = [
   {
     id: '6f6becc6-b05b-4954-a165-6383747770b7',
     title: 'Nice, cozy, warm big bed apartment',

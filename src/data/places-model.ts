@@ -6,7 +6,7 @@ class PlacesModel {
   #favoritesCount: number;
 
   constructor() {
-    this.#places = offers;
+    this.#places = offers as Place[];
     this.#placesCity = Object.groupBy(this.#places, (offer) => offer.city.name);
     this.#favoritesCount = this.#places.reduce(
       (count, place) => count + (place.isFavorite ? 1 : 0),
@@ -33,15 +33,15 @@ class PlacesModel {
     return this.#places.find((item) => item.id === placeId);
   }
 
-  setFavorite(id: string) {
+  setFavorite(id: string, isFavorite: boolean) {
     const place = this.getPlace(id);
     if (place) {
-      if (place.isFavorite) {
+      if (place.isFavorite && !isFavorite) {
         this.#favoritesCount -= 1;
-      } else {
+      } else if (!place.isFavorite && isFavorite) {
         this.#favoritesCount += 1;
       }
-      place.isFavorite = !place.isFavorite;
+      place.isFavorite = isFavorite;
     }
   }
 }

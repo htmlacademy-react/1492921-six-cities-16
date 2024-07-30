@@ -1,15 +1,12 @@
-import { PageOptions, ComponentOptions } from '../../types/types';
+import { ComponentOptions } from '../../types/types';
 import { Pages } from '../../const';
 import { Link } from 'react-router-dom';
 
 type LogoProps = {
   viewType: ComponentOptions;
-  page: PageOptions;
 };
 
-export default function Logo({ viewType, page }: LogoProps): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const isMainPage = page === Pages.Main;
+export default function Logo({ viewType }: LogoProps): JSX.Element {
   const imgElement = (
     <img
       className={`${viewType.classPrefix}__logo`}
