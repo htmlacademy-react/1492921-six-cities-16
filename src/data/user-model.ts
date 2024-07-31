@@ -1,5 +1,5 @@
 import { user, validationError, authorizationError } from '../mock/mock-user';
-import { User } from '../types/types';
+import { User, Login } from '../types/types';
 import { AuthorizationStatus } from '../const';
 
 type ErrorUserLogin = {
@@ -19,10 +19,6 @@ type ErrorResponse = {
   details: ErrorUserLogin[];
 };
 
-type Login = {
-  email: string;
-  password: string;
-};
 type LoginInfo = User & { status: AuthorizationStatus };
 
 export default class UserModel {
@@ -62,6 +58,10 @@ export default class UserModel {
     return this.#loginInfo.status;
   }
 
+  get isLogged() {
+    return this.status === AuthorizationStatus.Auth;
+  }
+
   _checkStatus(token: string): { user?: User; error?: ErrorGetUser } {
     if (token === user.token) {
       return { user: user };
@@ -70,12 +70,11 @@ export default class UserModel {
     }
   }
 
+  checkPassword = (password: string) =>
+    /\d/g.test(password) && /[a-zA-Zа-яА-Я]/g.test(password);
+
   login({ email, password }: Login): LoginInfo {
-    if (
-      email === user.email &&
-      /\d/g.exec(password) &&
-      /[a-zA-Z]/g.exec(password)
-    ) {
+    if (email === user.email && this.checkPassword(password)) {
       this.#errorLogin = {} as ErrorResponse;
       this.#loginInfo = Object.assign(user, {
         status: AuthorizationStatus.Auth,
@@ -91,7 +90,10 @@ export default class UserModel {
 
   logOut(token: string): void {
     if (token) {
-      this.constructor();
+      this.#loginInfo = {} as LoginInfo;
+      this.#loginInfo.status = AuthorizationStatus.Unknown;
+      this.#errorLogin = {} as ErrorResponse;
+      this.#errorGetUser = {} as ErrorGetUser;
     }
   }
 }

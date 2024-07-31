@@ -3,7 +3,7 @@ import { placesModel } from '../../data/places-model';
 import Header from '../../components/header/header';
 import Place from '../../components/place/place-card';
 import classNames from 'classnames';
-import Logo from '../../components/logo/logo';
+import Logo from '../../components/header/logo';
 import { CityName } from '../../types/types';
 import { Helmet } from 'react-helmet-async';
 
@@ -64,7 +64,7 @@ export default function FavoritesPage(): JSX.Element {
         </main>
       )}
       <footer className="footer container">
-        <Logo viewType={LogoType.Footer} page={Pages.Favorite} />
+        <Logo viewType={LogoType.Footer} />
       </footer>
     </div>
   );

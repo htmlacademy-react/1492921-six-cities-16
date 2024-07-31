@@ -1,11 +1,5 @@
 import { Offer } from '../../types/types';
-import {
-  AuthorizationStatus,
-  BookmarkType,
-  PremiumType,
-  RatingType,
-  PriceType,
-} from '../../const';
+import { BookmarkType, PremiumType, RatingType, PriceType } from '../../const';
 import { numberItemsText, capitalLetterText } from '../../utils';
 import Premium from './premium';
 import Bookmark from './bookmark';
@@ -25,7 +19,11 @@ export default function OfferCard({ offer }: OfferProps): JSX.Element {
       {offer.isPremium && <Premium viewType={PremiumType.Offer} />}
       <div className="offer__name-wrapper">
         <h1 className="offer__name">{offer.title}</h1>
-        <Bookmark isFavorite={offer.isFavorite} viewType={BookmarkType.Offer} />
+        <Bookmark
+          idPlace={offer.id}
+          isFavorite={offer.isFavorite}
+          viewType={BookmarkType.Offer}
+        />
       </div>
       <Rating value={offer.rating} viewType={RatingType.Offer} />
       <ul className="offer__features">
@@ -84,9 +82,7 @@ export default function OfferCard({ offer }: OfferProps): JSX.Element {
       </div>
       <section className="offer__reviews reviews">
         <Reviews offerId={offer.id} />
-        {userModel.status === AuthorizationStatus.Auth && (
-          <ReviewForm offerId={offer.id} />
-        )}
+        {userModel.isLogged && <ReviewForm offerId={offer.id} />}
       </section>
     </div>
   );

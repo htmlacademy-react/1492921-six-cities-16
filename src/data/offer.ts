@@ -7,7 +7,7 @@ import { placesModel } from './places-model';
 
 const getOffer = (placeId: string): Offer =>
   Object.assign(
-    offerList.find((offer) => offer.id === placeId) as Offer,
+    offerList.find((item) => item.id === placeId) ?? ({} as Offer),
     placesModel.getPlace(placeId)
   );
 
