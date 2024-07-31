@@ -1,4 +1,4 @@
-import { Pages, SORT_INIT } from '../../const';
+import { Pages, SORT_INIT, MapType } from '../../const';
 import { placesModel } from '../../data/places-model';
 import Header from '../../components/header/header';
 import Cities from '../../components/cities/cities';
@@ -19,7 +19,7 @@ function NoPlaces(): JSX.Element {
         <b className="cities__status">No places to stay available</b>
         <p className="cities__status-description">
           We could not find any property available at the moment in{' '}
-          {getCurrentCity()}
+          {getCurrentCity().name}
         </p>
       </div>
     </section>
@@ -27,7 +27,7 @@ function NoPlaces(): JSX.Element {
 }
 
 export default function MainPage(): JSX.Element {
-  const [city, setCity] = useState(getCurrentCity);
+  const [city, setCity] = useState(getCurrentCity().name);
   const placesCity = placesModel.placesCity[city] ?? [];
   const [activePlace, setActivePlace] = useState<Place | undefined>(
     placesCity[0]
@@ -75,7 +75,14 @@ export default function MainPage(): JSX.Element {
               </section>
             )}
             <div className="cities__right-section">
-              {!isEmpty && <Map activePlace={activePlace} />}
+              {!isEmpty && (
+                <Map
+                  city={getCurrentCity()}
+                  places={placesCity}
+                  activePlaceId={activePlace?.id}
+                  viewType={MapType.City}
+                />
+              )}
             </div>
           </div>
         </div>

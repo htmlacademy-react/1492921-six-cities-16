@@ -1,4 +1,4 @@
-import { Pages, PlaceCardType } from '../../const';
+import { Pages, PlaceCardType, MapType } from '../../const';
 import Header from '../../components/header/header';
 import OfferGallery from '../../components/place/offer-gallery';
 import OfferCard from '../../components/place/offer-card';
@@ -7,6 +7,9 @@ import { getOffer, getOffersNearly } from '../../data/offer';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import ErrorPage from '../../pages/error-page/error-page';
+import Map from '../../components/map/map';
+import { placesModel } from '../../data/places-model';
+import { Place } from '../../types/types';
 
 export default function OfferPage(): JSX.Element {
   const { offerId } = useParams();
@@ -31,7 +34,15 @@ export default function OfferPage(): JSX.Element {
           <div className="offer__container container">
             <OfferCard offer={offer} />
           </div>
-          <section className="offer__map map"></section>
+          <Map
+            city={offer.city}
+            places={[placesModel.getPlace(offer.id) ?? ({} as Place)].concat(
+              getOffersNearly(offerId).slice(0, 3)
+            )}
+            activePlaceId={offer.id}
+            viewType={MapType.Offer}
+          />
+          Get
         </section>
         <div className="container">
           <section className="near-places places">

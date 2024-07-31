@@ -57,7 +57,12 @@ const RatingType: Record<string, ComponentOptions> = {
 };
 
 const PriceType: Record<string, ComponentOptions> = {
-  Place: { classPrefix: 'place-card' },
+  Place: { classPrefix: 'cities' },
+  Offer: { classPrefix: 'offer' },
+};
+
+const MapType: Record<string, ComponentOptions> = {
+  City: { classPrefix: 'place-card' },
   Offer: { classPrefix: 'offer' },
 };
 
@@ -74,6 +79,9 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export const URL_MARKER_DEFAULT = '/img/pin.svg';
+export const URL_MARKER_CURRENT = '/img/pin-active.svg';
 
 export {
   SortItems,
@@ -92,4 +100,5 @@ export {
   PremiumType,
   RatingType,
   PriceType,
+  MapType,
 };
