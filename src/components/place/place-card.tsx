@@ -1,4 +1,4 @@
-import { Place, ActivePlace, ComponentOptions } from '../../types/types';
+import { Place, ComponentOptions } from '../../types/types';
 import {
   PremiumType,
   BookmarkType,
