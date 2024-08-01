@@ -21,16 +21,19 @@ type ErrorResponse = {
 
 type LoginInfo = User & { status: AuthorizationStatus };
 
+const USER_INIT = {
+  loginInfo: {} as LoginInfo,
+  errorLogin: {} as ErrorResponse,
+  errorGetUser: {} as ErrorGetUser,
+};
+
 export default class UserModel {
-  #loginInfo: LoginInfo;
-  #errorLogin: ErrorResponse;
-  #errorGetUser: ErrorGetUser;
+  #loginInfo = USER_INIT.loginInfo;
+  #errorLogin = USER_INIT.errorLogin;
+  #errorGetUser = USER_INIT.errorGetUser;
 
   constructor() {
-    this.#loginInfo = {} as LoginInfo;
-    this.#loginInfo.status = AuthorizationStatus.Unknown;
-    this.#errorLogin = {} as ErrorResponse;
-    this.#errorGetUser = {} as ErrorGetUser;
+    this.#init();
   }
 
   get loginInfo() {
@@ -46,7 +49,7 @@ export default class UserModel {
   }
 
   get status() {
-    const checkInfo = this._checkStatus(this.#loginInfo.token ?? '');
+    const checkInfo = this.#checkStatus(this.#loginInfo.token ?? '');
     this.#errorGetUser = checkInfo.error ?? ({} as ErrorGetUser);
     if (this.#errorGetUser.message) {
       this.#loginInfo.status = AuthorizationStatus.NoAuth;
@@ -62,7 +65,14 @@ export default class UserModel {
     return this.status === AuthorizationStatus.Auth;
   }
 
-  _checkStatus(token: string): { user?: User; error?: ErrorGetUser } {
+  #init(): void {
+    this.#loginInfo = USER_INIT.loginInfo;
+    this.#errorLogin = USER_INIT.errorLogin;
+    this.#errorGetUser = USER_INIT.errorGetUser;
+    this.#loginInfo.status = AuthorizationStatus.Unknown;
+  }
+
+  #checkStatus(token: string): { user?: User; error?: ErrorGetUser } {
     if (token === user.token) {
       return { user: user };
     } else {
@@ -90,10 +100,7 @@ export default class UserModel {
 
   logOut(token: string): void {
     if (token) {
-      this.#loginInfo = {} as LoginInfo;
-      this.#loginInfo.status = AuthorizationStatus.Unknown;
-      this.#errorLogin = {} as ErrorResponse;
-      this.#errorGetUser = {} as ErrorGetUser;
+      this.#init();
     }
   }
 }

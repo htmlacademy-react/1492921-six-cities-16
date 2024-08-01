@@ -4,7 +4,7 @@ import PlaceCard from '../place/place-card';
 
 type PlaceListProps = {
   places: Place[];
-  onActivePlaceChange: (place: Place | undefined) => void;
+  onActivePlaceChange: (placeId: string) => void;
 };
 
 export default function PlaceList({

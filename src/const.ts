@@ -2,6 +2,7 @@ import { SortId, CityName, ComponentOptions, PageOptions } from './types/types';
 
 const CITY_INIT: CityName = 'Paris';
 const MAX_REVIEWS = 10;
+const MAX_PLACES_NEIGHBOURHOOD_ON_MAP = 3;
 
 const RatingStars = [
   'perfect',
@@ -61,6 +62,11 @@ const PriceType: Record<string, ComponentOptions> = {
   Offer: { classPrefix: 'offer' },
 };
 
+const MapType: Record<string, ComponentOptions> = {
+  City: { classPrefix: 'cities' },
+  Offer: { classPrefix: 'offer' },
+};
+
 const Pages: Record<string, PageOptions> = {
   Main: { route: '/' },
   Favorites: { route: '/favorites' },
@@ -75,14 +81,30 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+const ICON_SIZE: [number, number] = [27, 39];
+const ICON_ANCHOR: [number, number] = [13, 39];
+
+const MapMarkerDefault = {
+  iconUrl: '/img/pin.svg',
+  iconSize: ICON_SIZE,
+  iconAnchor: ICON_ANCHOR,
+};
+
+const MapMarkerCurrent = {
+  iconUrl: '/img/pin-active.svg',
+  iconSize: ICON_SIZE,
+  iconAnchor: ICON_ANCHOR,
+};
+
 export {
+  MAX_REVIEWS,
+  MAX_PLACES_NEIGHBOURHOOD_ON_MAP,
+  CITY_INIT,
   SortItems,
   SORT_INIT,
-  CITY_INIT,
   RatingStars,
   RatingSetup,
   ReviewFormSetup,
-  MAX_REVIEWS,
   Pages,
 };
 export {
@@ -92,4 +114,7 @@ export {
   PremiumType,
   RatingType,
   PriceType,
+  MapType,
+  MapMarkerDefault,
+  MapMarkerCurrent,
 };

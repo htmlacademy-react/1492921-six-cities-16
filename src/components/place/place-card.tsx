@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 type PlaceProps = {
   place: Place;
   viewType: ComponentOptions;
-  onActivePlaceChange?: (place: Place | undefined) => void;
+  onActivePlaceChange?: (placeId: string) => void;
 };
 
 export default function PlaceCard({
@@ -27,8 +27,8 @@ export default function PlaceCard({
   return (
     <article
       className={`${viewType.classPrefix}__card place-card`}
-      onMouseEnter={() => onActivePlaceChange && onActivePlaceChange(place)}
-      onMouseLeave={() => onActivePlaceChange && onActivePlaceChange(undefined)}
+      onMouseEnter={() => onActivePlaceChange?.(place.id)}
+      onMouseLeave={() => onActivePlaceChange?.('')}
     >
       {place.isPremium && <Premium viewType={PremiumType.Place} />}
       <div

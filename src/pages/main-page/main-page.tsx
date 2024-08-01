@@ -1,4 +1,4 @@
-import { Pages, SORT_INIT } from '../../const';
+import { Pages, SORT_INIT, MapType } from '../../const';
 import { placesModel } from '../../data/places-model';
 import Header from '../../components/header/header';
 import Cities from '../../components/cities/cities';
@@ -7,7 +7,7 @@ import Sort from '../../components/sort/sort';
 import PlaceList from '../../components/places/place-list';
 import Map from '../../components/map/map';
 import classNames from 'classnames';
-import { CityName, Place } from '../../types/types';
+import { CityName } from '../../types/types';
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
 import { getCurrentCity, setCurrentCity } from '../../data/cities';
@@ -19,7 +19,7 @@ function NoPlaces(): JSX.Element {
         <b className="cities__status">No places to stay available</b>
         <p className="cities__status-description">
           We could not find any property available at the moment in{' '}
-          {getCurrentCity()}
+          {getCurrentCity().name}
         </p>
       </div>
     </section>
@@ -27,11 +27,9 @@ function NoPlaces(): JSX.Element {
 }
 
 export default function MainPage(): JSX.Element {
-  const [city, setCity] = useState(getCurrentCity);
-  const placesCity = placesModel.placesCity[city] ?? [];
-  const [activePlace, setActivePlace] = useState<Place | undefined>(
-    placesCity[0]
-  );
+  const [cityName, setCity] = useState(getCurrentCity().name);
+  const placesCity = placesModel.placesCity[cityName] ?? [];
+  const [activePlaceId, setActivePlace] = useState('');
 
   const isEmpty: boolean = placesCity.length === 0;
 
@@ -52,7 +50,7 @@ export default function MainPage(): JSX.Element {
       <Header page={Pages.Main} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <Cities cityActive={city} onChangeCity={changeCityHandler} />
+        <Cities cityActive={cityName} onChangeCity={changeCityHandler} />
         <div className="cities">
           <div
             className={classNames(
@@ -66,7 +64,10 @@ export default function MainPage(): JSX.Element {
             ) : (
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <PlacesTitle placeCount={placesCity.length} cityName={city} />
+                <PlacesTitle
+                  placeCount={placesCity.length}
+                  cityName={cityName}
+                />
                 <Sort sortActive={SORT_INIT} />
                 <PlaceList
                   places={placesCity}
@@ -75,7 +76,14 @@ export default function MainPage(): JSX.Element {
               </section>
             )}
             <div className="cities__right-section">
-              {!isEmpty && <Map activePlace={activePlace} />}
+              {!isEmpty && (
+                <Map
+                  cityName={cityName}
+                  places={placesCity}
+                  activePlaceId={activePlaceId}
+                  viewType={MapType.City}
+                />
+              )}
             </div>
           </div>
         </div>
