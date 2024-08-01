@@ -13,18 +13,20 @@ const CITIES = [
 
 let currentCity: CityName = CITY_INIT;
 
-const setCurrentCity = (city: CityName) => {
-  currentCity = city;
-};
-
-const getCurrentCity = (): City => {
-  const places = placesModel.placesCity[currentCity];
+const getCity = (cityName: CityName): City => {
+  const places = placesModel.placesCity[cityName];
   if (places) {
     return places[0].city;
   }
   const emptyCity = {} as City;
-  emptyCity.name = currentCity;
+  emptyCity.name = cityName;
   return emptyCity;
 };
 
-export { CITIES, setCurrentCity, getCurrentCity };
+const setCurrentCity = (city: CityName) => {
+  currentCity = city;
+};
+
+const getCurrentCity = () => getCity(currentCity);
+
+export { CITIES, setCurrentCity, getCurrentCity, getCity };

@@ -39,8 +39,9 @@ type Place = {
   rating: number;
   previewImage: string;
 };
+type ActivePlace = Place | null;
 
-type PlaceCard = Omit<Place, 'city | location'>;
+//type PlaceCard = Omit<Place, 'city | location'>;
 
 type Offer = Omit<Place, 'previewImage'> & {
   description: string;
@@ -80,8 +81,9 @@ export type {
   Location,
   City,
   PlacesCity,
-  PlaceCard,
+  //PlaceCard,
   Place,
+  ActivePlace,
   Offer,
   Review,
 };

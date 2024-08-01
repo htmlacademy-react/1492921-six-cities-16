@@ -1,4 +1,9 @@
-import { Pages, PlaceCardType, MapType } from '../../const';
+import {
+  Pages,
+  PlaceCardType,
+  MapType,
+  MAX_PLACES_NEIGHBOURHOOD_ON_MAP,
+} from '../../const';
 import Header from '../../components/header/header';
 import OfferGallery from '../../components/place/offer-gallery';
 import OfferCard from '../../components/place/offer-card';
@@ -20,6 +25,7 @@ export default function OfferPage(): JSX.Element {
   if (!offer.description) {
     return <ErrorPage text={offer.title} description="Offers not found" />;
   }
+  const placesNearly = getOffersNearly(offerId);
   return (
     <div className="page">
       <Helmet>
@@ -35,9 +41,9 @@ export default function OfferPage(): JSX.Element {
             <OfferCard offer={offer} />
           </div>
           <Map
-            city={offer.city}
+            cityName={offer.city.name}
             places={[placesModel.getPlace(offer.id) ?? ({} as Place)].concat(
-              getOffersNearly(offerId).slice(0, 3)
+              placesNearly.slice(0, MAX_PLACES_NEIGHBOURHOOD_ON_MAP)
             )}
             activePlaceId={offer.id}
             viewType={MapType.Offer}
@@ -50,7 +56,7 @@ export default function OfferPage(): JSX.Element {
               Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-              {getOffersNearly(offerId).map((place) => (
+              {placesNearly.map((place) => (
                 <PlaceCard
                   key={place.id}
                   place={place}

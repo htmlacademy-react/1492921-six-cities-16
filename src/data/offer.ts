@@ -1,9 +1,9 @@
 import { MAX_REVIEWS } from '../const';
 import { Offer, Place, Review } from '../types/types';
 import { offerList } from '../mock/mock-offer';
-import { offersNearly } from '../mock/mock-nearly';
 import { reviews } from '../mock/mock-reviews';
 import { placesModel } from './places-model';
+import { getRandomArrayElements } from '../utils';
 
 const getOffer = (placeId: string): Offer =>
   Object.assign(
@@ -11,10 +11,18 @@ const getOffer = (placeId: string): Offer =>
     placesModel.getPlace(placeId)
   );
 
-const getOffersNearly = (_placeId: string): Place[] =>
-  offersNearly.map((offer) =>
-    Object.assign(offer, placesModel.getPlace(offer.id))
-  );
+const getOffersNearly = (placeId: string): Place[] => {
+  const place = placesModel.getPlace(placeId);
+  if (!place) {
+    return [];
+  }
+  const cityName = place.city.name;
+  const places = placesModel.placesCity[cityName];
+  if (!places) {
+    return [];
+  }
+  return getRandomArrayElements(places);
+};
 
 const getOfferReviews = (_placeId: string): Review[] =>
   reviews

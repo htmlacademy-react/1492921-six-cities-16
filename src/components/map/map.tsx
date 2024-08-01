@@ -1,50 +1,48 @@
-import { City, Place, ComponentOptions } from '../../types/types';
-import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
+import { CityName, Place, ComponentOptions } from '../../types/types';
+import { MapMarkerCurrent, MapMarkerDefault } from '../../const';
+import { getCity } from '../../data/cities';
 import { useRef, useEffect } from 'react';
 import useMap from '../../hooks/use-map';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
-  city: City;
-  places: Place[] | undefined;
-  activePlaceId: string | undefined;
+  cityName: CityName;
+  places: Place[];
+  activePlaceId: string;
   viewType: ComponentOptions;
 };
 
-const defaultCustomIcon = new Icon({
-  iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
-
-const currentCustomIcon = new Icon({
-  iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
+const defaultCustomIcon = new Icon(MapMarkerDefault);
+const currentCustomIcon = new Icon(MapMarkerCurrent);
 
 export default function Map({
-  city,
+  cityName,
   places,
   activePlaceId,
   viewType,
 }: MapProps): JSX.Element {
+  const city = getCity(cityName);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
   useEffect(() => {
     if (map && places) {
+      map.flyTo(
+        [city.location.latitude, city.location.longitude],
+        city.location.zoom
+      );
+
       const markerLayer = layerGroup().addTo(map);
-      places.forEach((point) => {
+      places.forEach((place) => {
         const marker = new Marker({
-          lat: point.location.latitude,
-          lng: point.location.longitude,
+          lat: place.location.latitude,
+          lng: place.location.longitude,
         });
 
         marker
           .setIcon(
-            point.id === activePlaceId ? currentCustomIcon : defaultCustomIcon
+            place.id === activePlaceId ? currentCustomIcon : defaultCustomIcon
           )
           .addTo(markerLayer);
       });
@@ -55,6 +53,6 @@ export default function Map({
   }, [map, city, places, activePlaceId]);
 
   return (
-    <section className={`${viewType.classPrefix}__map map ref={mapRef}>`} />
+    <section className={`${viewType.classPrefix}__map map`} ref={mapRef} />
   );
 }
