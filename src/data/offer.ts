@@ -12,12 +12,13 @@ const getOffer = (placeId: string): Offer =>
   );
 
 const getOffersNearly = (placeId: string): Place[] => {
-  const place = placesModel.getPlace(placeId);
-  if (!place) {
+  const cityName = placesModel.getPlace(placeId)?.city.name;
+  if (!cityName) {
     return [];
   }
-  const cityName = place.city.name;
-  const places = placesModel.placesCity[cityName];
+  const places = placesModel.placesCity[cityName]?.filter(
+    (place) => place.id !== placeId
+  );
   if (!places) {
     return [];
   }
