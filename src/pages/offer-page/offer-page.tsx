@@ -1,13 +1,7 @@
-import {
-  Pages,
-  PlaceCardType,
-  MapType,
-  MAX_PLACES_NEIGHBOURHOOD_ON_MAP,
-} from '../../const';
+import { Pages, MapType, MAX_NEAR_PLACES_ON_MAP } from '../../const';
 import Header from '../../components/header/header';
 import OfferGallery from '../../components/place/offer-gallery';
 import OfferCard from '../../components/place/offer-card';
-import PlaceCard from '../../components/place/place-card';
 import { getOffer, getOffersNearly } from '../../data/offer';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
@@ -15,6 +9,7 @@ import ErrorPage from '../../pages/error-page/error-page';
 import Map from '../../components/map/map';
 import { placesModel } from '../../data/places-model';
 import { Place } from '../../types/types';
+import NearPlaces from '../../components/place/near-places';
 
 export default function OfferPage(): JSX.Element {
   const { offerId } = useParams();
@@ -43,28 +38,14 @@ export default function OfferPage(): JSX.Element {
           <Map
             cityName={offer.city.name}
             places={[placesModel.getPlace(offer.id) ?? ({} as Place)].concat(
-              placesNearly.slice(0, MAX_PLACES_NEIGHBOURHOOD_ON_MAP)
+              placesNearly.slice(0, MAX_NEAR_PLACES_ON_MAP)
             )}
             activePlaceId={offer.id}
             viewType={MapType.Offer}
           />
-          Get
         </section>
         <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">
-              Other places in the neighbourhood
-            </h2>
-            <div className="near-places__list places__list">
-              {placesNearly.map((place) => (
-                <PlaceCard
-                  key={place.id}
-                  place={place}
-                  viewType={PlaceCardType.City}
-                />
-              ))}
-            </div>
-          </section>
+          <NearPlaces places={placesNearly} />
         </div>
       </main>
     </div>

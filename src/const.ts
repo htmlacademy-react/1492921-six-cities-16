@@ -2,7 +2,7 @@ import { SortId, CityName, ComponentOptions, PageOptions } from './types/types';
 
 const CITY_INIT: CityName = 'Paris';
 const MAX_REVIEWS = 10;
-const MAX_PLACES_NEIGHBOURHOOD_ON_MAP = 3;
+const MAX_NEAR_PLACES_ON_MAP = 3;
 
 const RatingStars = [
   'perfect',
@@ -98,7 +98,7 @@ const MapMarkerCurrent = {
 
 export {
   MAX_REVIEWS,
-  MAX_PLACES_NEIGHBOURHOOD_ON_MAP,
+  MAX_NEAR_PLACES_ON_MAP,
   CITY_INIT,
   SortItems,
   SORT_INIT,
