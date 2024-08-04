@@ -8,14 +8,29 @@ import ErrorPage from '../../pages/error-page/error-page';
 import PrivateRoute from '../route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import LoginRoute from '../route/login-route';
+import MainRoute from '../route/main-route';
 
 export default function App(): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route path={Pages.Main.route} element={<MainPage />} />
-          <Route path={Pages.City.route} element={<MainPage />} />
+          <Route
+            path={Pages.Main.route}
+            element={
+              <MainRoute>
+                <MainPage />
+              </MainRoute>
+            }
+          />
+          <Route
+            path={Pages.City.route}
+            element={
+              <MainRoute>
+                <MainPage />
+              </MainRoute>
+            }
+          />
           <Route
             path={Pages.Favorites.route}
             element={

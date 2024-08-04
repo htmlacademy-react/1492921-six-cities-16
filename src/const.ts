@@ -1,4 +1,4 @@
-import { SortId, ComponentOptions, PageOptions } from './types/types';
+import { SortOptions, ComponentOptions, PageOptions } from './types/types';
 
 const MAX_REVIEWS = 10;
 const MAX_NEAR_PLACES_ON_MAP = 3;
@@ -21,14 +21,24 @@ const ReviewFormSetup = {
   MaxChars: 300,
 };
 
-const SortItems = {
-  Popular: 'Popular',
-  PriceLowToHigh: 'Price: low to high',
-  PriceHighToLow: 'Price: high to low',
-  Rating: 'Top rated first',
+const SortItems: Record<string, SortOptions> = {
+  Popular: {
+    text: 'Popular',
+    sort: () => 0,
+  },
+  PriceLowToHigh: {
+    text: 'Price: low to high',
+    sort: (a, b) => a.price - b.price,
+  },
+  PriceHighToLow: {
+    text: 'Price: high to low',
+    sort: (a, b) => b.price - a.price,
+  },
+  Rating: {
+    text: 'Top rated first',
+    sort: (a, b) => b.rating - a.rating,
+  },
 } as const;
-
-const SORT_INIT: SortId = 'Popular';
 
 const PlaceCardType: Record<string, ComponentOptions> = {
   City: { classPrefix: 'cities', imageWidth: 260, imageHeight: 200 },
