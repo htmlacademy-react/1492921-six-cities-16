@@ -40,7 +40,6 @@ export default function OfferPage(): JSX.Element {
             places={[placesModel.getPlace(offer.id) ?? ({} as Place)].concat(
               placesNearly.slice(0, MAX_NEAR_PLACES_ON_MAP)
             )}
-            activePlaceId={offer.id}
             viewType={MapType.Offer}
           />
         </section>
