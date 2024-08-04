@@ -1,4 +1,4 @@
-import { Pages, MapType, MAX_NEAR_PLACES_ON_MAP } from '../../const';
+import { MapType, MAX_NEAR_PLACES_ON_MAP } from '../../const';
 import Header from '../../components/header/header';
 import OfferGallery from '../../components/place/offer-gallery';
 import OfferCard from '../../components/place/offer-card';
@@ -26,7 +26,7 @@ export default function OfferPage(): JSX.Element {
       <Helmet>
         <title>6 городов. Описание предложения.?</title>
       </Helmet>
-      <Header page={Pages.Offer} />
+      <Header />
       <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">

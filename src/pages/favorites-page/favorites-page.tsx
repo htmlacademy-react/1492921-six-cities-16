@@ -1,4 +1,4 @@
-import { PlaceCardType, LogoType, Pages } from '../../const';
+import { PlaceCardType, LogoType } from '../../const';
 import { placesModel } from '../../data/places-model';
 import Header from '../../components/header/header';
 import Place from '../../components/place/place-card';
@@ -14,7 +14,7 @@ export default function FavoritesPage(): JSX.Element {
       <Helmet>
         <title>6 городов. Избранное.</title>
       </Helmet>
-      <Header page={Pages.Favorite} />
+      <Header />
       {isEmpty ? (
         <main className="page__main page__main--favorites page__main--favorites-empty">
           <div className="page__favorites-container container">

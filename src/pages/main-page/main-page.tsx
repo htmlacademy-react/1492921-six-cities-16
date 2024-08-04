@@ -1,4 +1,4 @@
-import { Pages, SORT_INIT, MapType } from '../../const';
+import { SORT_INIT, MapType } from '../../const';
 import { placesModel } from '../../data/places-model';
 import Header from '../../components/header/header';
 import Cities from '../../components/cities/cities';
@@ -56,7 +56,7 @@ export default function MainPage(): JSX.Element {
       <Helmet>
         <title>6 городов. Главная страница.?</title>
       </Helmet>
-      <Header page={Pages.Main} />
+      <Header />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <Cities cityActive={cityName} />
