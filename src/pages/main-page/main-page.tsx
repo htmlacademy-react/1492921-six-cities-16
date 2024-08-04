@@ -9,7 +9,6 @@ import Map from '../../components/map/map';
 import classNames from 'classnames';
 import { CityName } from '../../types/types';
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { CITIES, getCurrentCity, setCurrentCity } from '../../data/cities';
 import ErrorPage from '../error-page/error-page';
@@ -29,7 +28,6 @@ function NoPlaces(): JSX.Element {
 }
 
 export default function MainPage(): JSX.Element {
-  const [activePlaceId, setActivePlace] = useState('');
   const param = useParams();
   let cityName: CityName;
   if (!param.cityName) {
@@ -79,10 +77,7 @@ export default function MainPage(): JSX.Element {
                   cityName={cityName}
                 />
                 <Sort sortActive={SORT_INIT} />
-                <PlaceList
-                  places={placesCity}
-                  onActivePlaceChange={setActivePlace}
-                />
+                <PlaceList places={placesCity} />
               </section>
             )}
             <div className="cities__right-section">
@@ -90,7 +85,6 @@ export default function MainPage(): JSX.Element {
                 <Map
                   cityName={cityName}
                   places={placesCity}
-                  activePlaceId={activePlaceId}
                   viewType={MapType.City}
                 />
               )}
