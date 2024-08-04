@@ -13,7 +13,6 @@ import Rating from './rating';
 import Price from './price';
 import { Link } from 'react-router-dom';
 import { setActivePlace } from '../../store/places-slice';
-import store from '../../store/store';
 import { useAppDispatch } from '../../hooks/store';
 
 type PlaceProps = {
