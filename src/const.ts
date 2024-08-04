@@ -1,6 +1,5 @@
-import { SortId, CityName, ComponentOptions, PageOptions } from './types/types';
+import { SortId, ComponentOptions, PageOptions } from './types/types';
 
-const CITY_INIT: CityName = 'Paris';
 const MAX_REVIEWS = 10;
 const MAX_NEAR_PLACES_ON_MAP = 3;
 
@@ -69,6 +68,7 @@ const MapType: Record<string, ComponentOptions> = {
 
 const Pages: Record<string, PageOptions> = {
   Main: { route: '/' },
+  City: { route: '/city/:cityName' },
   Favorites: { route: '/favorites' },
   Login: { route: '/login' },
   Offer: { route: '/offer/:offerId' },
@@ -99,7 +99,6 @@ const MapMarkerCurrent = {
 export {
   MAX_REVIEWS,
   MAX_NEAR_PLACES_ON_MAP,
-  CITY_INIT,
   SortItems,
   SORT_INIT,
   RatingStars,

@@ -10,7 +10,9 @@ import classNames from 'classnames';
 import { CityName } from '../../types/types';
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
-import { getCurrentCity, setCurrentCity } from '../../data/cities';
+import { useParams } from 'react-router-dom';
+import { CITIES, getCurrentCity, setCurrentCity } from '../../data/cities';
+import ErrorPage from '../error-page/error-page';
 
 function NoPlaces(): JSX.Element {
   return (
@@ -27,16 +29,23 @@ function NoPlaces(): JSX.Element {
 }
 
 export default function MainPage(): JSX.Element {
-  const [cityName, setCity] = useState(getCurrentCity().name);
-  const placesCity = placesModel.placesCity[cityName] ?? [];
   const [activePlaceId, setActivePlace] = useState('');
-
+  const param = useParams();
+  let cityName: CityName;
+  if (!param.cityName) {
+    cityName = getCurrentCity().name;
+  } else if ((CITIES as readonly string[]).includes(param.cityName)) {
+    cityName = param.cityName as CityName;
+    setCurrentCity(cityName);
+  } else {
+    return (
+      <ErrorPage
+        description={`The city with the name ${param.cityName} was not found`}
+      />
+    );
+  }
+  const placesCity = placesModel.placesCity[cityName] ?? [];
   const isEmpty: boolean = placesCity.length === 0;
-
-  const changeCityHandler = (currentCity: CityName) => {
-    setCurrentCity(currentCity);
-    setCity(currentCity);
-  };
 
   return (
     <div
@@ -50,7 +59,8 @@ export default function MainPage(): JSX.Element {
       <Header page={Pages.Main} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <Cities cityActive={cityName} onChangeCity={changeCityHandler} />
+        <Cities cityActive={cityName} />
+        {/*onChangeCity={changeCityHandler} /> */}
         <div className="cities">
           <div
             className={classNames(

@@ -30,9 +30,9 @@ export default function Map({
     if (map && places) {
       map.flyTo(
         [city.location.latitude, city.location.longitude],
-        city.location.zoom
+        city.location.zoom,
+        { animate: true, duration: 1.2 }
       );
-
       const markerLayer = layerGroup().addTo(map);
       places.forEach((place) => {
         const marker = new Marker({

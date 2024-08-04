@@ -1,22 +1,22 @@
 import { Pages } from '../../const';
 import { CityName, Login } from '../../types/types';
-import { CITIES, setCurrentCity } from '../../data/cities';
+import { CITIES } from '../../data/cities';
 import Header from '../../components/header/header';
 import { getRandomArrayElement } from '../../utils';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { FormEvent, ChangeEvent } from 'react';
 import { userModel } from '../../data/user-model';
 
 export default function LoginPage(): JSX.Element {
+  const navigate = useNavigate();
+  // Открываем форму логина только если рользователь не авторизован
+  if (userModel.isLogged) {
+    return <Navigate to={Pages.Login.route} />;
+  }
   const randomCity: CityName = getRandomArrayElement(CITIES);
   //const [login, setLogin] = useState({} as Login);
   let login: Login;
-  const navigate = useNavigate();
-
-  const cityClickHandler = () => {
-    setCurrentCity(randomCity);
-  };
 
   const fieldChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => {
     //setLogin({ ...login, [evt.target.name]: evt.target.value });
@@ -28,7 +28,6 @@ export default function LoginPage(): JSX.Element {
     if (userModel.checkPassword(login.password)) {
       userModel.login(login);
       if (userModel.isLogged) {
-        setCurrentCity(randomCity);
         navigate(Pages.Main.route);
       }
     } else {
@@ -86,8 +85,11 @@ export default function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={Pages.Main.route}>
-                <span onClick={cityClickHandler}>{randomCity}</span>
+              <Link
+                className="locations__item-link"
+                to={Pages.City.route.replace(':cityName', randomCity)}
+              >
+                <span>{randomCity}</span>
               </Link>
             </div>
           </section>
