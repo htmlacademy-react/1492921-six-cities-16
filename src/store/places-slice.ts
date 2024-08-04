@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CityName, PlacesCity, SortId } from '../types/types';
+import { /*CityName,*/ PlacesCity, SortId } from '../types/types';
 import { placesModel } from '../data/places-model';
-import { CITIES, getCurrentCity } from '../data/cities';
+import { /*CITIES,*/ getCurrentCity } from '../data/cities';
 import { SortItems } from '../const';
 
 type PlacesState = {

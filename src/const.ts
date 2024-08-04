@@ -110,7 +110,6 @@ export {
   MAX_REVIEWS,
   MAX_NEAR_PLACES_ON_MAP,
   SortItems,
-  SORT_INIT,
   RatingStars,
   RatingSetup,
   ReviewFormSetup,
