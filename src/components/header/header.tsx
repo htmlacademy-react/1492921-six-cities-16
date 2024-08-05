@@ -1,13 +1,14 @@
 import { LogoType, Pages } from '../../const';
 import Logo from './logo';
-import { PageOptions } from '../../types/types';
 import SignUser from './sign-user';
+import { useLocation } from 'react-router-dom';
 
-type HeaderProps = {
-  page: PageOptions;
-};
-
-export default function Header({ page }: HeaderProps): JSX.Element {
+export default function Header(): JSX.Element {
+  const path = useLocation().pathname;
+  const page =
+    Object.values(Pages).find(
+      (item) => item.route.split('/')[1] === path.split('/')[1]
+    ) || Pages.Error;
   const shouldShowMenu = page !== Pages.Login && page !== Pages.Error;
   return (
     <header className="header">

@@ -22,7 +22,7 @@ export default function ErrorPage({
       <Helmet>
         <title>6 городов. Ошибка.</title>
       </Helmet>
-      <Header page={Pages.Main} />
+      <Header />
       <main className="page__main page__main--index">
         <div className="cities">
           <div className="cities__places-container cities__places-container--empty container">

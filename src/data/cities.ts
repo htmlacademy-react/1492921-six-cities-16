@@ -1,5 +1,4 @@
 import { CityName, City } from '../types/types';
-import { CITY_INIT } from '../const';
 import { placesModel } from './places-model';
 
 const CITIES = [
@@ -11,7 +10,7 @@ const CITIES = [
   'Dusseldorf',
 ] as const;
 
-let currentCity: CityName = CITY_INIT;
+let currentCity: CityName = CITIES[0];
 
 const getCity = (cityName: CityName): City => {
   const places = placesModel.placesCity[cityName];

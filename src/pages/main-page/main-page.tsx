@@ -1,5 +1,4 @@
-import { Pages, SORT_INIT, MapType } from '../../const';
-import { placesModel } from '../../data/places-model';
+import { MapType } from '../../const';
 import Header from '../../components/header/header';
 import Cities from '../../components/cities/cities';
 import PlacesTitle from '../../components/places/places-title';
@@ -9,8 +8,11 @@ import Map from '../../components/map/map';
 import classNames from 'classnames';
 import { CityName } from '../../types/types';
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { getCurrentCity, setCurrentCity } from '../../data/cities';
+//import store from '../../store/store';
+import { placesSelectors /*, setCurrentCity*/ } from '../../store/places-slice';
+import { useAppSelector } from '../../hooks/store';
 
 function NoPlaces(): JSX.Element {
   return (
@@ -27,16 +29,11 @@ function NoPlaces(): JSX.Element {
 }
 
 export default function MainPage(): JSX.Element {
-  const [cityName, setCity] = useState(getCurrentCity().name);
-  const placesCity = placesModel.placesCity[cityName] ?? [];
-  const [activePlaceId, setActivePlace] = useState('');
-
+  const cityName = useParams().cityName as CityName;
+  setCurrentCity(cityName);
+  // store.dispatch(setCurrentCity(cityName));
+  const placesCity = useAppSelector(placesSelectors.placesCity);
   const isEmpty: boolean = placesCity.length === 0;
-
-  const changeCityHandler = (currentCity: CityName) => {
-    setCurrentCity(currentCity);
-    setCity(currentCity);
-  };
 
   return (
     <div
@@ -47,10 +44,11 @@ export default function MainPage(): JSX.Element {
       <Helmet>
         <title>6 городов. Главная страница.?</title>
       </Helmet>
-      <Header page={Pages.Main} />
+      <Header />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <Cities cityActive={cityName} onChangeCity={changeCityHandler} />
+        <Cities cityActive={cityName} />
+        {/*onChangeCity={changeCityHandler} /> */}
         <div className="cities">
           <div
             className={classNames(
@@ -68,11 +66,8 @@ export default function MainPage(): JSX.Element {
                   placeCount={placesCity.length}
                   cityName={cityName}
                 />
-                <Sort sortActive={SORT_INIT} />
-                <PlaceList
-                  places={placesCity}
-                  onActivePlaceChange={setActivePlace}
-                />
+                <Sort />
+                <PlaceList places={placesCity} />
               </section>
             )}
             <div className="cities__right-section">
@@ -80,7 +75,6 @@ export default function MainPage(): JSX.Element {
                 <Map
                   cityName={cityName}
                   places={placesCity}
-                  activePlaceId={activePlaceId}
                   viewType={MapType.City}
                 />
               )}

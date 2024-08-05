@@ -2,7 +2,6 @@ import { CITIES } from '../data/cities';
 import { SortItems } from '../const';
 
 type CityName = (typeof CITIES)[number];
-type SortId = keyof typeof SortItems;
 
 type Location = {
   latitude: number;
@@ -41,7 +40,12 @@ type Place = {
 };
 type ActivePlace = Place | null;
 
-//type PlaceCard = Omit<Place, 'city | location'>;
+type PlaceSortFunction = (a: Place, b: Place) => number;
+type SortOptions = {
+  text: string;
+  sort: PlaceSortFunction;
+};
+type SortId = keyof typeof SortItems;
 
 type Offer = Omit<Place, 'previewImage'> & {
   description: string;
@@ -75,15 +79,20 @@ type PlacesCity = Partial<Record<CityName, Place[]>>;
 type CallbackFunction = () => void;
 type ChangeCityFunction = (currentCity: CityName) => void;
 
+type RouteProps = {
+  children: JSX.Element;
+};
+
 export type {
   SortId,
   CityName,
   Location,
   City,
   PlacesCity,
-  //PlaceCard,
   Place,
   ActivePlace,
+  PlaceSortFunction,
+  SortOptions,
   Offer,
   Review,
 };
@@ -94,4 +103,5 @@ export type {
   PageOptions,
   CallbackFunction,
   ChangeCityFunction,
+  RouteProps,
 };

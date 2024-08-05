@@ -5,11 +5,12 @@ import { useRef, useEffect } from 'react';
 import useMap from '../../hooks/use-map';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { useAppSelector } from '../../hooks/store';
+import { placesSelectors } from '../../store/places-slice';
 
 type MapProps = {
   cityName: CityName;
   places: Place[];
-  activePlaceId: string;
   viewType: ComponentOptions;
 };
 
@@ -19,20 +20,20 @@ const currentCustomIcon = new Icon(MapMarkerCurrent);
 export default function Map({
   cityName,
   places,
-  activePlaceId,
   viewType,
 }: MapProps): JSX.Element {
   const city = getCity(cityName);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+  const activePlaceId = useAppSelector(placesSelectors.activePlaceId);
 
   useEffect(() => {
     if (map && places) {
       map.flyTo(
         [city.location.latitude, city.location.longitude],
-        city.location.zoom
+        city.location.zoom,
+        { animate: true, duration: 1.2 }
       );
-
       const markerLayer = layerGroup().addTo(map);
       places.forEach((place) => {
         const marker = new Marker({
