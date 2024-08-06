@@ -1,21 +1,18 @@
 import { Navigate } from 'react-router-dom';
-import { RouteProps } from '../../types/types';
+import { CityName, RouteProps } from '../../types/types';
 import { useParams } from 'react-router-dom';
-import { CITIES, getCurrentCity } from '../../data/cities';
+import { isValidCity } from '../../data/cities';
 import { Pages } from '../../const';
 import ErrorPage from '../../pages/error-page/error-page';
-//import { useAppSelector } from '../../hooks/store';
-//import { placesSelectors } from '../../store/places-slice';
+import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { placesSelectors, setCurrentCity } from '../../store/places-slice';
 
 export default function MainRoute({ children }: RouteProps): JSX.Element {
-  //const cityName = useAppSelector(placesSelectors.cityName);
-  //const cityName = CITIES[0];
-  const cityName = getCurrentCity().name;
+  const dispatch = useAppDispatch();
+  const cityName = useAppSelector(placesSelectors.cityName);
   const param = useParams();
-  if (
-    param.cityName &&
-    (CITIES as readonly string[]).includes(param.cityName)
-  ) {
+  if (param.cityName && isValidCity(param.cityName)) {
+    dispatch(setCurrentCity(param.cityName as CityName));
     return children;
   }
   if (param.cityName) {

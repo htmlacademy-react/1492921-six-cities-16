@@ -9,9 +9,7 @@ import classNames from 'classnames';
 import { CityName } from '../../types/types';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { getCurrentCity, setCurrentCity } from '../../data/cities';
-//import store from '../../store/store';
-import { placesSelectors /*, setCurrentCity*/ } from '../../store/places-slice';
+import { placesSelectors } from '../../store/places-slice';
 import { useAppSelector } from '../../hooks/store';
 
 function NoPlaces(): JSX.Element {
@@ -21,7 +19,7 @@ function NoPlaces(): JSX.Element {
         <b className="cities__status">No places to stay available</b>
         <p className="cities__status-description">
           We could not find any property available at the moment in{' '}
-          {getCurrentCity().name}
+          {useAppSelector(placesSelectors.cityName)}
         </p>
       </div>
     </section>
@@ -30,8 +28,6 @@ function NoPlaces(): JSX.Element {
 
 export default function MainPage(): JSX.Element {
   const cityName = useParams().cityName as CityName;
-  setCurrentCity(cityName);
-  // store.dispatch(setCurrentCity(cityName));
   const placesCity = useAppSelector(placesSelectors.placesCity);
   const isEmpty: boolean = placesCity.length === 0;
 

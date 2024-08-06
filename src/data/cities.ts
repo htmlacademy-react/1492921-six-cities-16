@@ -10,7 +10,8 @@ const CITIES = [
   'Dusseldorf',
 ] as const;
 
-let currentCity: CityName = CITIES[0];
+const isValidCity = (cityName: string) =>
+  (CITIES as readonly string[]).includes(cityName);
 
 const getCity = (cityName: CityName): City => {
   const places = placesModel.placesCity[cityName];
@@ -22,10 +23,4 @@ const getCity = (cityName: CityName): City => {
   return emptyCity;
 };
 
-const setCurrentCity = (city: CityName) => {
-  currentCity = city;
-};
-
-const getCurrentCity = () => getCity(currentCity);
-
-export { CITIES, setCurrentCity, getCurrentCity, getCity };
+export { CITIES, isValidCity, getCity /*setCurrentCity, getCurrentCity,*/ };
