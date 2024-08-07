@@ -30,11 +30,7 @@ function NoPlaces(): JSX.Element {
 function LoadingFrame(): JSX.Element {
   return (
     <section className="cities__no-places">
-      <div className="cities__status-wrapper tabs__content">
-        <b>
-          <Loading />
-        </b>
-      </div>
+      <Loading />
     </section>
   );
 }

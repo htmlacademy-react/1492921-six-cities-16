@@ -3,11 +3,9 @@ import './loading.css';
 
 export default function Loading(): JSX.Element {
   return (
-    <div>
-      <div className="loading">
-        Loading...
-        <FadeLoader />
-      </div>
+    <div className="loading">
+      Loading ...
+      <FadeLoader />
     </div>
   );
 }

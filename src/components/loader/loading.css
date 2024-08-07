@@ -1,9 +1,10 @@
-.loader {
-  margin: 0;
-  margin-top: 280px;
-  font-weight: 500;
-  font-size: 44px;
-  line-height: 60px;
-  text-align: center;
+.loading {
+  height: 100%;
+  font-size: 1.8em;
+  font-weight: bold;
   opacity: 0.89;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column ;
 }
