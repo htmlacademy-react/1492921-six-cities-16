@@ -28,12 +28,17 @@ export default function Map({
   const activePlaceId = useAppSelector(placesSelectors.activePlaceId);
 
   useEffect(() => {
-    if (map && places) {
+    if (map) {
       map.flyTo(
         [city.location.latitude, city.location.longitude],
         city.location.zoom,
         { animate: true, duration: 1.2 }
       );
+    }
+  }, [map, city]);
+
+  useEffect(() => {
+    if (map && places) {
       const markerLayer = layerGroup().addTo(map);
       places.forEach((place) => {
         const marker = new Marker({

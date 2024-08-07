@@ -83,6 +83,15 @@ export default class UserModel {
   checkPassword = (password: string) =>
     /\d/g.test(password) && /[a-zA-Zа-яА-Я]/g.test(password);
 
+  /*
+  pattern = '[a-z0-9._%+-]+@[a-z0-9-.]+.[a-z]{2,}$';
+
+  title = 'example: Oliver.conner@gmail.com';
+
+  pattern = '^(?=.*[a-zA-Z])(?=.*d).*$';
+
+  title = 'Password must contain at least one letter and one number';
+*/
   login({ email, password }: Login): LoginInfo {
     if (email === user.email && this.checkPassword(password)) {
       this.#errorLogin = {} as ErrorResponse;
