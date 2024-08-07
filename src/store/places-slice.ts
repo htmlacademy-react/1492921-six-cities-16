@@ -60,16 +60,15 @@ export const placesSlice = createSlice({
       });
   },
   selectors: {
+    places: (state) => state.places,
     cityName: (state) => state.cityName,
-    placesCity: (state) =>
-      state.places[state.cityName]
-        ?.slice()
-        .sort(SortItems[state.sortType].sort) ?? [],
     isLoading: (state) => state.isLoading,
     activePlace: (state) => state.activePlace,
     sortType: (state) => state.sortType,
   },
 });
+
+const FALLBACK_ARRAY = [] as Place[];
 
 // Селектор для получение данных о городе по его названию
 const selectorCity = createSelector(
@@ -88,6 +87,16 @@ const selectCity = (cityName: CityName) => (state: RootState) =>
 const { setCurrentCity, setActivePlace, setSorting } = placesSlice.actions;
 
 export { setCurrentCity, setActivePlace, setSorting };
-export const placesSelectors = { ...placesSlice.selectors, city: selectCity };
+export const placesSelectors = {
+  ...placesSlice.selectors,
+  city: selectCity,
+  placesCity: createSelector(
+    placesSlice.selectors.places,
+    placesSlice.selectors.cityName,
+    placesSlice.selectors.sortType,
+    (places, cityName, sortType) =>
+      places[cityName]?.toSorted(SortItems[sortType].sort) ?? FALLBACK_ARRAY
+  ),
+};
 
 export default placesSlice.reducer;
