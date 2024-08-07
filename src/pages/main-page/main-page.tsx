@@ -11,12 +11,13 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { placesSelectors } from '../../store/places-slice';
 import { useAppSelector } from '../../hooks/store';
+import Loading from '../../components/loader/loading';
 
 function NoPlaces(): JSX.Element {
   return (
     <section className="cities__no-places">
       <div className="cities__status-wrapper tabs__content">
-        <b className="cities__status">No places to stay available</b>
+        <b>No places to stay available</b>
         <p className="cities__status-description">
           We could not find any property available at the moment in{' '}
           {useAppSelector(placesSelectors.cityName)}
@@ -26,11 +27,24 @@ function NoPlaces(): JSX.Element {
   );
 }
 
+function LoadingFrame(): JSX.Element {
+  return (
+    <section className="cities__no-places">
+      <div className="cities__status-wrapper tabs__content">
+        <b>
+          <Loading />
+        </b>
+      </div>
+    </section>
+  );
+}
+
 export default function MainPage(): JSX.Element {
   const cityName = useParams().cityName as CityName;
   const placesCity = useAppSelector(placesSelectors.placesCity);
   const city = useAppSelector(placesSelectors.city(cityName));
-  const isEmpty: boolean = placesCity.length === 0;
+  const isLoading = useAppSelector(placesSelectors.isLoading);
+  const isEmpty: boolean = isLoading || placesCity.length === 0;
 
   return (
     <div
@@ -54,9 +68,9 @@ export default function MainPage(): JSX.Element {
               'container'
             )}
           >
-            {isEmpty ? (
-              <NoPlaces />
-            ) : (
+            {isLoading && <LoadingFrame />}
+            {!isLoading && isEmpty && <NoPlaces />}
+            {!isLoading && !isEmpty && (
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <PlacesTitle
