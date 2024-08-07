@@ -29,6 +29,7 @@ function NoPlaces(): JSX.Element {
 export default function MainPage(): JSX.Element {
   const cityName = useParams().cityName as CityName;
   const placesCity = useAppSelector(placesSelectors.placesCity);
+  const city = useAppSelector(placesSelectors.city(cityName));
   const isEmpty: boolean = placesCity.length === 0;
 
   return (
@@ -68,11 +69,7 @@ export default function MainPage(): JSX.Element {
             )}
             <div className="cities__right-section">
               {!isEmpty && (
-                <Map
-                  cityName={cityName}
-                  places={placesCity}
-                  viewType={MapType.City}
-                />
+                <Map city={city} places={placesCity} viewType={MapType.City} />
               )}
             </div>
           </div>

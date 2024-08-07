@@ -106,16 +106,25 @@ const MapMarkerCurrent = {
   iconAnchor: ICON_ANCHOR,
 };
 
+const enum APIRoute {
+  Offers = '/offers',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout',
+}
+
 export {
   MAX_REVIEWS,
   MAX_NEAR_PLACES_ON_MAP,
   SortItems,
   RatingStars,
-  RatingSetup,
-  ReviewFormSetup,
   Pages,
+  APIRoute,
 };
 export {
+  RatingSetup,
+  ReviewFormSetup,
   PlaceCardType,
   LogoType,
   BookmarkType,
