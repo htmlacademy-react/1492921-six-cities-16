@@ -36,7 +36,7 @@ export default function OfferPage(): JSX.Element {
             <OfferCard offer={offer} />
           </div>
           <Map
-            cityName={offer.city.name}
+            city={offer.city}
             places={[placesModel.getPlace(offer.id) ?? ({} as Place)].concat(
               placesNearly.slice(0, MAX_NEAR_PLACES_ON_MAP)
             )}
