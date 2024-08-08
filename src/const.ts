@@ -108,8 +108,11 @@ const MapMarkerCurrent = {
 
 const enum APIRoute {
   Offers = '/offers',
+  Offer = '/offers/{offerId}',
+  OffersNear = '/offers/{offerId}/nearby',
   Favorite = '/favorite',
-  Comments = '/comments',
+  FavoritePost = '/favorite/{offerId}/{status}',
+  Comments = '/comments/{offerId}',
   Login = '/login',
   Logout = '/logout',
 }
