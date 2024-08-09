@@ -28,8 +28,8 @@ export default function PlaceCard({
   return (
     <article
       className={`${viewType.classPrefix}__card place-card`}
-      onMouseEnter={() => dispatch(setActivePlace(place.id))}
-      onMouseLeave={() => dispatch(setActivePlace(''))}
+      onMouseEnter={() => dispatch(setActivePlace(place))}
+      onMouseLeave={() => dispatch(setActivePlace(null))}
     >
       {place.isPremium && <Premium viewType={PremiumType.Place} />}
       <div

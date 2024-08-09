@@ -1,6 +1,5 @@
-import { CityName, Place, ComponentOptions } from '../../types/types';
+import { City, Place, ComponentOptions } from '../../types/types';
 import { MapMarkerCurrent, MapMarkerDefault } from '../../const';
-import { getCity } from '../../data/cities';
 import { useRef, useEffect } from 'react';
 import useMap from '../../hooks/use-map';
 import { Icon, Marker, layerGroup } from 'leaflet';
@@ -9,7 +8,7 @@ import { useAppSelector } from '../../hooks/store';
 import { placesSelectors } from '../../store/places-slice';
 
 type MapProps = {
-  cityName: CityName;
+  city: City;
   places: Place[];
   viewType: ComponentOptions;
 };
@@ -17,15 +16,10 @@ type MapProps = {
 const defaultCustomIcon = new Icon(MapMarkerDefault);
 const currentCustomIcon = new Icon(MapMarkerCurrent);
 
-export default function Map({
-  cityName,
-  places,
-  viewType,
-}: MapProps): JSX.Element {
-  const city = getCity(cityName);
+export default function Map({ city, places, viewType }: MapProps): JSX.Element {
+  const activePlace = useAppSelector(placesSelectors.activePlace);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
-  const activePlaceId = useAppSelector(placesSelectors.activePlaceId);
 
   useEffect(() => {
     if (map) {
@@ -48,7 +42,9 @@ export default function Map({
 
         marker
           .setIcon(
-            place.id === activePlaceId ? currentCustomIcon : defaultCustomIcon
+            activePlace && place.id === activePlace.id
+              ? currentCustomIcon
+              : defaultCustomIcon
           )
           .addTo(markerLayer);
       });
@@ -56,7 +52,7 @@ export default function Map({
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, city, places, activePlaceId]);
+  }, [map, city, places, activePlace]);
 
   return (
     <section className={`${viewType.classPrefix}__map map`} ref={mapRef} />
