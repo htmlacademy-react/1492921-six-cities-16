@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import placesSlice from './places-slice';
+import userSlice from './user-slice';
 import { createAPI } from '../services/api';
 
 export const api = createAPI();
@@ -7,6 +8,7 @@ export const api = createAPI();
 const store = configureStore({
   reducer: {
     places: placesSlice,
+    user: userSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
