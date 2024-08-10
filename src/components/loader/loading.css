@@ -2,9 +2,10 @@
   height: 100%;
   font-size: 1.8em;
   font-weight: bold;
+  font-style: italic;
   opacity: 0.89;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column ;
+  flex-direction: column;
 }
