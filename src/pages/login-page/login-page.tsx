@@ -3,38 +3,24 @@ import { CityName, Login } from '../../types/types';
 import { CITIES } from '../../data/cities';
 import Header from '../../components/header/header';
 import { getRandomArrayElement } from '../../utils';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { FormEvent, ChangeEvent } from 'react';
-import { userModel } from '../../data/user-model';
+import { useAppDispatch } from '../../hooks/store';
+import { userLogin } from '../../store/api-actions';
 
 export default function LoginPage(): JSX.Element {
-  const navigate = useNavigate();
-  // Открываем форму логина только если рользователь не авторизован
-  if (userModel.isLogged) {
-    return <Navigate to={Pages.Login.route} />;
-  }
+  const dispatch = useAppDispatch();
   const randomCity: CityName = getRandomArrayElement(CITIES);
-  //const [login, setLogin] = useState({} as Login);
   let login: Login;
 
   const fieldChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => {
-    //setLogin({ ...login, [evt.target.name]: evt.target.value });
     login = { ...login, [evt.target.name]: evt.target.value };
   };
 
-  const formSubmitHandler = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (userModel.checkPassword(login.password)) {
-      userModel.login(login);
-      if (userModel.isLogged) {
-        navigate(Pages.Main.route);
-      }
-    } else {
-      throw new Error(
-        'Пароль должен содержать не менее одной буквы и одной цифры!'
-      );
-    }
+    dispatch(userLogin(login));
   };
 
   return (
@@ -51,7 +37,7 @@ export default function LoginPage(): JSX.Element {
               className="login__form form"
               action="#"
               method="post"
-              onSubmit={formSubmitHandler}
+              onSubmit={handleFormSubmit}
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>

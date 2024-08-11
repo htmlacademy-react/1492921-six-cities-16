@@ -19,6 +19,7 @@ type PlacesState = {
   isLoading: boolean;
   activePlace: ActivePlace;
   sortType: SortId;
+  favoritesCount: number;
 };
 
 const initialState: PlacesState = {
@@ -27,6 +28,7 @@ const initialState: PlacesState = {
   isLoading: false,
   activePlace: {} as Place,
   sortType: 'Popular',
+  favoritesCount: 0,
 };
 
 export const placesSlice = createSlice({
@@ -41,6 +43,9 @@ export const placesSlice = createSlice({
     },
     setSorting: (state, action: PayloadAction<SortId>) => {
       state.sortType = action.payload;
+    },
+    setFavoritesCount: (state, action: PayloadAction<number>) => {
+      state.favoritesCount = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -65,6 +70,7 @@ export const placesSlice = createSlice({
     isLoading: (state) => state.isLoading,
     activePlace: (state) => state.activePlace,
     sortType: (state) => state.sortType,
+    favoritesCount: (state) => state.favoritesCount,
   },
 });
 

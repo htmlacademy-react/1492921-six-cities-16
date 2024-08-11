@@ -1,23 +1,24 @@
-import { Pages, AuthorizationStatus } from '../../const';
-import { CallbackFunction } from '../../types/types';
+import { Pages } from '../../const';
 import { Link } from 'react-router-dom';
-import { userModel } from '../../data/user-model';
-import { placesModel } from '../../data/places-model';
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { userSelectors } from '../../store/user-slice';
+import { placesSelectors } from '../../store/places-slice';
+import { userLogout } from '../../store/api-actions';
 
 type SignInProps = {
-  email: string | undefined;
-  favoritesCount: number;
+  isLogged: boolean;
 };
-function SignIn({ email, favoritesCount }: SignInProps): JSX.Element {
+function SignIn({ isLogged }: SignInProps): JSX.Element {
+  const email = useAppSelector(userSelectors.user).email;
+  const favoritesCount = useAppSelector(placesSelectors.favoritesCount);
   return (
     <li className="header__nav-item user">
       <Link
         className="header__nav-link header__nav-link--profile"
-        to={Pages.Favorites.route}
+        to={isLogged ? Pages.Favorites.route : Pages.Login.route}
       >
         <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-        {userModel.isLogged ? (
+        {isLogged ? (
           <>
             <span className="header__user-name user__name">{email}</span>
             <span className="header__favorite-count">{favoritesCount}</span>
@@ -30,14 +31,17 @@ function SignIn({ email, favoritesCount }: SignInProps): JSX.Element {
   );
 }
 
-type SignOutProps = {
-  onLogOut: CallbackFunction;
-};
-function SignOut({ onLogOut }: SignOutProps): JSX.Element {
+function SignOut(): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  const handleLogOutClick = () => {
+    dispatch(userLogout());
+  };
+
   return (
     <li className="header__nav-item">
       <Link className="header__nav-link" to={Pages.Main.route}>
-        <span className="header__signout" onClick={onLogOut}>
+        <span className="header__signout" onClick={handleLogOutClick}>
           Sign out
         </span>
       </Link>
@@ -46,23 +50,12 @@ function SignOut({ onLogOut }: SignOutProps): JSX.Element {
 }
 
 export default function SignUser(): JSX.Element {
-  const [isLogged, setIsLogged] = useState(
-    userModel.status === AuthorizationStatus.Auth
-  );
-
-  const logOutHandler = () => {
-    userModel.logOut(userModel.loginInfo.token ?? '');
-    setIsLogged(false);
-  };
-
+  const isLogged = useAppSelector(userSelectors.isLogged);
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
-        <SignIn
-          email={userModel.loginInfo.email}
-          favoritesCount={placesModel.favoritesCount}
-        />
-        {isLogged && <SignOut onLogOut={logOutHandler} />}
+        <SignIn isLogged={isLogged} />
+        {isLogged && <SignOut />}
       </ul>
     </nav>
   );
