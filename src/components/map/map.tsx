@@ -1,8 +1,8 @@
-import { City, Place, ComponentOptions } from '../../types/types';
+import { City, Place, ComponentOptions, Location } from '../../types/types';
 import { MapMarkerCurrent, MapMarkerDefault } from '../../const';
 import { useRef, useEffect } from 'react';
 import useMap from '../../hooks/use-map';
-import { Icon, Marker, layerGroup } from 'leaflet';
+import { Icon, LayerGroup, Marker, layerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../hooks/store';
 import { placesSelectors } from '../../store/places-slice';
@@ -21,6 +21,18 @@ export default function Map({ city, places, viewType }: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
+  const setMarker = (
+    markerLayer: LayerGroup,
+    location: Location,
+    icon: Icon
+  ): void => {
+    const marker = new Marker({
+      lat: location.latitude,
+      lng: location.longitude,
+    });
+    marker.setIcon(icon).addTo(markerLayer);
+  };
+
   useEffect(() => {
     if (map) {
       map.flyTo(
@@ -33,26 +45,27 @@ export default function Map({ city, places, viewType }: MapProps): JSX.Element {
 
   useEffect(() => {
     if (map && places) {
-      const markerLayer = layerGroup().addTo(map);
+      const markerDefaultLayer = layerGroup().addTo(map);
       places.forEach((place) => {
-        const marker = new Marker({
-          lat: place.location.latitude,
-          lng: place.location.longitude,
-        });
-
-        marker
-          .setIcon(
-            activePlace && place.id === activePlace.id
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
-          .addTo(markerLayer);
+        setMarker(markerDefaultLayer, place.location, defaultCustomIcon);
       });
       return () => {
-        map.removeLayer(markerLayer);
+        map.removeLayer(markerDefaultLayer);
       };
     }
-  }, [map, city, places, activePlace]);
+  }, [map, city, places]);
+
+  useEffect(() => {
+    if (map && activePlace) {
+      const markerActiveLayer = layerGroup().addTo(map);
+      if (activePlace.id) {
+        setMarker(markerActiveLayer, activePlace.location, currentCustomIcon);
+      }
+      return () => {
+        map.removeLayer(markerActiveLayer);
+      };
+    }
+  }, [map, activePlace]);
 
   return (
     <section className={`${viewType.classPrefix}__map map`} ref={mapRef} />
