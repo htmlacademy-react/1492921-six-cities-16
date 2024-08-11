@@ -38,7 +38,10 @@ type Place = {
   rating: number;
   previewImage: string;
 };
-type ActivePlace = Place | null;
+type ActivePlace = {
+  id: string;
+  location: Location;
+} | null;
 
 type PlaceSortFunction = (a: Place, b: Place) => number;
 type SortOptions = {

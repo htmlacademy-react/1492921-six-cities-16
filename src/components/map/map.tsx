@@ -1,4 +1,4 @@
-import { City, Place, ComponentOptions, Location } from '../../types/types';
+import { City, ComponentOptions, Location } from '../../types/types';
 import { MapMarkerCurrent, MapMarkerDefault } from '../../const';
 import { useRef, useEffect } from 'react';
 import useMap from '../../hooks/use-map';
@@ -9,14 +9,14 @@ import { placesSelectors } from '../../store/places-slice';
 
 type MapProps = {
   city: City;
-  places: Place[];
+  points: Location[];
   viewType: ComponentOptions;
 };
 
 const defaultCustomIcon = new Icon(MapMarkerDefault);
 const currentCustomIcon = new Icon(MapMarkerCurrent);
 
-export default function Map({ city, places, viewType }: MapProps): JSX.Element {
+export default function Map({ city, points, viewType }: MapProps): JSX.Element {
   const activePlace = useAppSelector(placesSelectors.activePlace);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -44,23 +44,27 @@ export default function Map({ city, places, viewType }: MapProps): JSX.Element {
   }, [map, city]);
 
   useEffect(() => {
-    if (map && places) {
+    if (map && points) {
       const markerDefaultLayer = layerGroup().addTo(map);
-      places.forEach((place) => {
-        setMarker(markerDefaultLayer, place.location, defaultCustomIcon);
+      points.forEach((point) => {
+        if (
+          !activePlace ||
+          (point.latitude !== activePlace.location.latitude &&
+            point.longitude !== activePlace.location.longitude)
+        ) {
+          setMarker(markerDefaultLayer, point, defaultCustomIcon);
+        }
       });
       return () => {
         map.removeLayer(markerDefaultLayer);
       };
     }
-  }, [map, city, places]);
+  }, [map, city, points, activePlace]);
 
   useEffect(() => {
     if (map && activePlace) {
       const markerActiveLayer = layerGroup().addTo(map);
-      if (activePlace.id) {
-        setMarker(markerActiveLayer, activePlace.location, currentCustomIcon);
-      }
+      setMarker(markerActiveLayer, activePlace.location, currentCustomIcon);
       return () => {
         map.removeLayer(markerActiveLayer);
       };

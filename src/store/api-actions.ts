@@ -20,22 +20,21 @@ export const loadOffers = createAsyncThunk<
   return data;
 });
 
-export const loadOffer = createAsyncThunk<
-  Offer,
-  { offerId: string },
-  AsyncThunkOptions
->('places/loadOffer', async ({ offerId }, { extra: api }) => {
-  const { data } = await api.get<Offer>(
-    APIRoute.Offer.replace('{offerId}', offerId)
-  );
-  return data;
-});
+export const loadOffer = createAsyncThunk<Offer, string, AsyncThunkOptions>(
+  'offer/loadOffer',
+  async (offerId, { extra: api }) => {
+    const { data } = await api.get<Offer>(
+      APIRoute.Offer.replace('{offerId}', offerId)
+    );
+    return data;
+  }
+);
 
 export const loadNearPlaces = createAsyncThunk<
   Place[],
-  { offerId: string },
+  string,
   AsyncThunkOptions
->('places/loadNearPlaces', async ({ offerId }, { extra: api }) => {
+>('offer/loadNearPlaces', async (offerId, { extra: api }) => {
   const { data } = await api.get<Place[]>(
     APIRoute.OffersNear.replace('{offerId}', offerId)
   );
@@ -67,9 +66,9 @@ export const uploadFavorite = createAsyncThunk<
 
 export const loadComments = createAsyncThunk<
   Review[],
-  { offerId: string },
+  string,
   AsyncThunkOptions
->('places/loadComments', async ({ offerId }, { extra: api }) => {
+>('places/loadComments', async (offerId, { extra: api }) => {
   const { data } = await api.get<Review[]>(
     APIRoute.Comments.replace('{offerId}', offerId)
   );

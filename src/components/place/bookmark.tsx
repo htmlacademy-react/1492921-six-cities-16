@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { Pages } from '../../const';
 import { ComponentOptions } from '../../types/types';
-import { userModel } from '../../data/user-model';
 import { placesModel } from '../../data/places-model';
 import classNames from 'classnames';
 import { useState } from 'react';
+import { useAppSelector } from '../../hooks/store';
+import { userSelectors } from '../../store/user-slice';
 
 type BookmarkProps = {
   idPlace: string;
@@ -19,10 +20,11 @@ export default function Bookmark({
 }: BookmarkProps): JSX.Element {
   const [isCheck, setCheck] = useState(isFavorite);
   const navigate = useNavigate();
+  const isLogged = useAppSelector(userSelectors.isLogged);
 
   const bookmarkButtonClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
-    if (!userModel.isLogged) {
+    if (!isLogged) {
       navigate(Pages.Login.route);
       return;
     }

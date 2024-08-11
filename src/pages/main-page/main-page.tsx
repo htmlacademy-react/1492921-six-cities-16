@@ -38,6 +38,7 @@ function LoadingFrame(): JSX.Element {
 export default function MainPage(): JSX.Element {
   const cityName = useParams().cityName as CityName;
   const placesCity = useAppSelector(placesSelectors.placesCity);
+  const points = useAppSelector(placesSelectors.points);
   const city = useAppSelector(placesSelectors.getCity(cityName));
   const isLoading = useAppSelector(placesSelectors.isLoading);
   const isEmpty: boolean = isLoading || placesCity.length === 0;
@@ -78,8 +79,8 @@ export default function MainPage(): JSX.Element {
               </section>
             )}
             <div className="cities__right-section">
-              {!isEmpty && (
-                <Map city={city} places={placesCity} viewType={MapType.City} />
+              {points && (
+                <Map city={city} points={points} viewType={MapType.City} />
               )}
             </div>
           </div>

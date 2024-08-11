@@ -25,7 +25,7 @@ const initialState: PlacesState = {
   cityName: CITIES[0],
   places: {},
   isLoading: false,
-  activePlace: {} as Place,
+  activePlace: null,
   sortType: 'Popular',
   favoritesCount: 0,
 };
@@ -88,6 +88,11 @@ const placesSelectors = {
     placesSlice.selectors.sortType,
     (places, cityName, sortType) =>
       places[cityName]?.toSorted(SortItems[sortType].sort) ?? EMPTY_PLACES
+  ),
+  points: createSelector(
+    placesSlice.selectors.places,
+    placesSlice.selectors.cityName,
+    (places, cityName) => places[cityName]?.map((place) => place.location)
   ),
   getCity: (cityName: CityName) =>
     createSelector(placesSlice.selectors.places, (places) => {
