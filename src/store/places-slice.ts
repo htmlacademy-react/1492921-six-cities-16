@@ -30,10 +30,10 @@ const initialState: PlacesState = {
   favoritesCount: 0,
 };
 
-const loadingWait = (state: PlacesState): void => {
+const loadingWait = (state: PlacesState) => {
   state.isLoading = true;
 };
-const loadingError = (state: PlacesState): void => {
+const loadingError = (state: PlacesState) => {
   state.isLoading = false;
 };
 const loadingEnd = (
