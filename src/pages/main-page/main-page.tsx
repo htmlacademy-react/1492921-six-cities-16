@@ -38,7 +38,7 @@ function LoadingFrame(): JSX.Element {
 export default function MainPage(): JSX.Element {
   const cityName = useParams().cityName as CityName;
   const placesCity = useAppSelector(placesSelectors.placesCity);
-  const city = useAppSelector(placesSelectors.city(cityName));
+  const city = useAppSelector(placesSelectors.getCity(cityName));
   const isLoading = useAppSelector(placesSelectors.isLoading);
   const isEmpty: boolean = isLoading || placesCity.length === 0;
 

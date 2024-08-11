@@ -11,7 +11,6 @@ import { CITIES } from '../data/cities';
 import { SortItems } from '../const';
 import { loadOffers } from './api-actions';
 import { createSelector } from 'reselect';
-import { RootState } from './store';
 
 type PlacesState = {
   cityName: CityName;
@@ -45,7 +44,7 @@ const loadingEnd = (
   state.isLoading = false;
 };
 
-export const placesSlice = createSlice({
+const placesSlice = createSlice({
   name: 'places',
   initialState,
   reducers: {
@@ -78,35 +77,39 @@ export const placesSlice = createSlice({
   },
 });
 
-const FALLBACK_ARRAY = [] as Place[];
-
-// Селектор для получение данных о городе по его названию
-const selectorCity = createSelector(
-  [
-    (state: RootState) => state.places,
-    (_state: RootState, cityName: CityName) => cityName,
-  ],
-  (state, cityName) => {
-    const places = state.places[cityName] ?? [];
-    return places.length > 0 ? places[0].city : ({ name: cityName } as City);
-  }
-);
-const selectCity = (cityName: CityName) => (state: RootState) =>
-  selectorCity(state, cityName);
-
+const EMPTY_PLACES = [] as Place[];
 const { setCurrentCity, setActivePlace, setSorting } = placesSlice.actions;
 
-export { setCurrentCity, setActivePlace, setSorting };
-export const placesSelectors = {
+const placesSelectors = {
   ...placesSlice.selectors,
-  city: selectCity,
   placesCity: createSelector(
     placesSlice.selectors.places,
     placesSlice.selectors.cityName,
     placesSlice.selectors.sortType,
     (places, cityName, sortType) =>
-      places[cityName]?.toSorted(SortItems[sortType].sort) ?? FALLBACK_ARRAY
+      places[cityName]?.toSorted(SortItems[sortType].sort) ?? EMPTY_PLACES
   ),
+  getCity: (cityName: CityName) =>
+    createSelector(placesSlice.selectors.places, (places) => {
+      const placesCity = places[cityName] ?? EMPTY_PLACES;
+      return placesCity.length > 0
+        ? placesCity[0].city
+        : ({ name: cityName } as City);
+    }),
+  getPlace: (cityName: CityName, id: string) =>
+    createSelector(
+      placesSlice.selectors.places,
+      (places) =>
+        (places[cityName] ?? EMPTY_PLACES).find((place) => place.id === id) ??
+        null
+    ),
 };
 
+export {
+  EMPTY_PLACES,
+  placesSelectors,
+  setCurrentCity,
+  setActivePlace,
+  setSorting,
+};
 export default placesSlice.reducer;
