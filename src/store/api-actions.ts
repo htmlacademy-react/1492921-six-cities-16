@@ -3,6 +3,7 @@ import { AxiosInstance } from 'axios';
 import { Login, Offer, Place, Review, User } from '../types/types';
 import { AppDispatch, RootState } from './store';
 import { APIRoute } from '../const';
+import { dropToken } from '../services/token';
 
 export type AsyncThunkOptions = {
   state: RootState;
@@ -116,5 +117,6 @@ export const userLogout = createAsyncThunk<void, undefined, AsyncThunkOptions>(
   'user/userLogout',
   async (_arg, { extra: api }) => {
     await api.delete(APIRoute.Logout);
+    dropToken();
   }
 );

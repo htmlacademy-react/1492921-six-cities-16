@@ -9,7 +9,7 @@ type SignInProps = {
   isLogged: boolean;
 };
 function SignIn({ isLogged }: SignInProps): JSX.Element {
-  const email = useAppSelector(userSelectors.user).email;
+  const email = useAppSelector(userSelectors.email);
   const favoritesCount = useAppSelector(placesSelectors.favoritesCount);
   return (
     <li className="header__nav-item user">
