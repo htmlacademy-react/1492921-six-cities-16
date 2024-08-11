@@ -31,6 +31,20 @@ const initialState: PlacesState = {
   favoritesCount: 0,
 };
 
+const loadingWait = (state: PlacesState): void => {
+  state.isLoading = true;
+};
+const loadingError = (state: PlacesState): void => {
+  state.isLoading = false;
+};
+const loadingEnd = (
+  state: PlacesState,
+  action: PayloadAction<Place[]>
+): void => {
+  state.places = Object.groupBy(action.payload, (offer) => offer.city.name);
+  state.isLoading = false;
+};
+
 export const placesSlice = createSlice({
   name: 'places',
   initialState,
@@ -50,19 +64,9 @@ export const placesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadOffers.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(loadOffers.fulfilled, (state, action) => {
-        state.places = Object.groupBy(
-          action.payload,
-          (offer) => offer.city.name
-        );
-        state.isLoading = false;
-      })
-      .addCase(loadOffers.rejected, (state) => {
-        state.isLoading = false;
-      });
+      .addCase(loadOffers.pending, loadingWait)
+      .addCase(loadOffers.fulfilled, loadingEnd)
+      .addCase(loadOffers.rejected, loadingError);
   },
   selectors: {
     places: (state) => state.places,
