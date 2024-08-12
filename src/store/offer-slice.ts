@@ -8,11 +8,17 @@ import {
 import { Offer, Place, Review, Location } from '../types/types';
 import { MAX_NEAR_PLACES_ON_MAP, MAX_REVIEWS } from '../const';
 import { EMPTY_PLACES } from './places-slice';
-import Reviews from '../components/place/reviews';
 
 const EMPTY_OFFER = null;
 const EMPTY_COMMENTS = [] as Review[];
 const EMPTY_POINTS = [] as Location[];
+
+export enum SavingStatus {
+  Idle = 'IDLE',
+  Saving = 'SAVING',
+  Success = 'SUCCESS',
+  Error = 'ERROR',
+}
 
 type OfferState = {
   offer: Offer | null;
@@ -21,7 +27,7 @@ type OfferState = {
   isLoadingNearPlaces: boolean;
   comments: Review[];
   isLoadingComments: boolean;
-  isSavingComment: boolean;
+  savingCommentStatus: SavingStatus;
 };
 
 const initialState: OfferState = {
@@ -31,21 +37,18 @@ const initialState: OfferState = {
   isLoadingNearPlaces: false,
   comments: EMPTY_COMMENTS,
   isLoadingComments: false,
-  isSavingComment: false,
+  savingCommentStatus: SavingStatus.Idle,
 };
 
-const loadingOfferWait = (state: OfferState): void => {
+const loadingOfferWait = (state: OfferState) => {
   state.offer = EMPTY_OFFER;
   state.isLoadingOffer = true;
 };
-const loadingOfferError = (state: OfferState): void => {
+const loadingOfferError = (state: OfferState) => {
   state.offer = EMPTY_OFFER;
   state.isLoadingOffer = false;
 };
-const loadingOfferEnd = (
-  state: OfferState,
-  action: PayloadAction<Offer>
-): void => {
+const loadingOfferEnd = (state: OfferState, action: PayloadAction<Offer>) => {
   state.offer = action.payload;
   state.isLoadingOffer = false;
 };
@@ -61,7 +64,7 @@ const loadingNearPlacesError = (state: OfferState) => {
 const loadingNearPlacesEnd = (
   state: OfferState,
   action: PayloadAction<Place[]>
-): void => {
+) => {
   state.nearPlaces = action.payload;
   state.isLoadingNearPlaces = false;
 };
@@ -77,23 +80,23 @@ const loadingCommentsError = (state: OfferState) => {
 const loadingCommentsEnd = (
   state: OfferState,
   action: PayloadAction<Review[]>
-): void => {
+) => {
   state.comments = action.payload;
   state.isLoadingComments = false;
 };
 
 const savingCommentWait = (state: OfferState) => {
-  state.isSavingComment = true;
+  state.savingCommentStatus = SavingStatus.Saving;
 };
 const savingCommentError = (state: OfferState) => {
-  state.isSavingComment = false;
+  state.savingCommentStatus = SavingStatus.Error;
 };
 const savingCommentEnd = (
   state: OfferState,
   action: PayloadAction<Review>
 ): void => {
   state.comments = [...state.comments, action.payload];
-  state.isSavingComment = false;
+  state.savingCommentStatus = SavingStatus.Success;
 };
 
 const offerSlice = createSlice({
@@ -123,7 +126,7 @@ const offerSlice = createSlice({
     comments: (state) => state.comments,
     isLoadingComments: (state) => state.isLoadingComments,
     commentsCount: (state) => state.comments.length,
-    isSavingComment: (state) => state.isSavingComment,
+    savingCommentStatus: (state) => state.savingCommentStatus,
   },
 });
 

@@ -10,7 +10,7 @@ import { ReviewFormSetup } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { uploadComment } from '../../store/api-actions';
 import { Comment } from '../../types/types';
-import { offerSelectors } from '../../store/offer-slice';
+import { offerSelectors, SavingStatus } from '../../store/offer-slice';
 
 type RatingStarProps = {
   value: number;
@@ -57,24 +57,27 @@ type ReviewFormProps = {
 
 export default function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const isSavingComment = useAppSelector(offerSelectors.isSavingComment);
+  const savingCommentStatus = useAppSelector(
+    offerSelectors.savingCommentStatus
+  );
+  const isSavingComment = savingCommentStatus === SavingStatus.Saving;
   const [formData, setFormData] = useState({
     rating: 0,
     comment: '',
   });
 
   useEffect(() => {
-    if (!isSavingComment) {
+    if (savingCommentStatus === SavingStatus.Success) {
       setFormData({
         rating: 0,
         comment: '',
       });
     }
-  }, [isSavingComment]);
+  }, [savingCommentStatus]);
 
   const isSubmitDisabled =
     !formData.rating ||
-    formData.comment.length < ReviewFormSetup.MinChars ||
+    //formData.comment.length < ReviewFormSetup.MinChars ||
     formData.comment.length > ReviewFormSetup.MaxChars ||
     isSavingComment;
 
