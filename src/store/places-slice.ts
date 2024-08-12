@@ -36,10 +36,7 @@ const loadingWait = (state: PlacesState) => {
 const loadingError = (state: PlacesState) => {
   state.isLoading = false;
 };
-const loadingEnd = (
-  state: PlacesState,
-  action: PayloadAction<Place[]>
-): void => {
+const loadingEnd = (state: PlacesState, action: PayloadAction<Place[]>) => {
   state.places = Object.groupBy(action.payload, (offer) => offer.city.name);
   state.isLoading = false;
 };

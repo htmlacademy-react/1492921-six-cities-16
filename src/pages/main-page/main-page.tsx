@@ -56,7 +56,6 @@ export default function MainPage(): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <Cities cityActive={cityName} />
-        {/*onChangeCity={changeCityHandler} /> */}
         <div className="cities">
           <div
             className={classNames(
