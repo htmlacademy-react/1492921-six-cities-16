@@ -41,8 +41,8 @@ export default function OfferPage(): JSX.Element {
     };
   }, [dispatch, offer]);
 
-  if (!offerId) {
-    return <ErrorPage />;
+  if (!isLoadingOffer && !offer) {
+    return <ErrorPage description={`Offer not found (id = ${offerId})`} />;
   }
 
   return (

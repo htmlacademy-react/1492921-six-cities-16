@@ -66,6 +66,11 @@ type Review = {
   comment: string;
   rating: number;
 };
+type Comment = {
+  offerId: string;
+  comment: string;
+  rating: number;
+};
 
 type ComponentOptions = {
   classPrefix: string;
@@ -98,6 +103,7 @@ export type {
   SortOptions,
   Offer,
   Review,
+  Comment,
 };
 export type {
   User,

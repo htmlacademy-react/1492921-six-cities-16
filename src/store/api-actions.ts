@@ -20,27 +20,6 @@ export const loadOffers = createAsyncThunk<
   return data;
 });
 
-export const loadOffer = createAsyncThunk<Offer, string, AsyncThunkOptions>(
-  'offer/loadOffer',
-  async (offerId, { extra: api }) => {
-    const { data } = await api.get<Offer>(
-      APIRoute.Offer.replace('{offerId}', offerId)
-    );
-    return data;
-  }
-);
-
-export const loadNearPlaces = createAsyncThunk<
-  Place[],
-  string,
-  AsyncThunkOptions
->('offer/loadNearPlaces', async (offerId, { extra: api }) => {
-  const { data } = await api.get<Place[]>(
-    APIRoute.OffersNear.replace('{offerId}', offerId)
-  );
-  return data;
-});
-
 export const loadFavorite = createAsyncThunk<
   Place[],
   undefined,
@@ -64,11 +43,32 @@ export const uploadFavorite = createAsyncThunk<
   return data;
 });
 
+export const loadOffer = createAsyncThunk<Offer, string, AsyncThunkOptions>(
+  'offer/loadOffer',
+  async (offerId, { extra: api }) => {
+    const { data } = await api.get<Offer>(
+      APIRoute.Offer.replace('{offerId}', offerId)
+    );
+    return data;
+  }
+);
+
+export const loadNearPlaces = createAsyncThunk<
+  Place[],
+  string,
+  AsyncThunkOptions
+>('offer/loadNearPlaces', async (offerId, { extra: api }) => {
+  const { data } = await api.get<Place[]>(
+    APIRoute.OffersNear.replace('{offerId}', offerId)
+  );
+  return data;
+});
+
 export const loadComments = createAsyncThunk<
   Review[],
   string,
   AsyncThunkOptions
->('places/loadComments', async (offerId, { extra: api }) => {
+>('offer/loadComments', async (offerId, { extra: api }) => {
   const { data } = await api.get<Review[]>(
     APIRoute.Comments.replace('{offerId}', offerId)
   );
@@ -80,7 +80,7 @@ export const uploadComment = createAsyncThunk<
   { offerId: string; comment: string; rating: number },
   AsyncThunkOptions
 >(
-  'places/uploadComment',
+  'offer/uploadComment',
   async ({ offerId, comment, rating }, { extra: api }) => {
     const { data } = await api.post<Review>(
       APIRoute.Comments.replace('{offerId}', offerId),

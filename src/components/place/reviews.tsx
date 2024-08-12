@@ -63,13 +63,13 @@ export default function Reviews({ offerId }: ReviewsProps): JSX.Element {
         <span className="reviews__amount">{comments.length}</span>
       </h2>
       {isLoadingComments ? (
+        <Loading />
+      ) : (
         <ul className="reviews__list">
           {comments.map((item) => (
             <ReviewItem key={item.id} item={item} />
           ))}
         </ul>
-      ) : (
-        <Loading />
       )}
     </>
   );

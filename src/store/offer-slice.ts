@@ -1,5 +1,10 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { loadComments, loadNearPlaces, loadOffer } from './api-actions';
+import {
+  loadComments,
+  loadNearPlaces,
+  loadOffer,
+  uploadComment,
+} from './api-actions';
 import { Offer, Place, Review, Location } from '../types/types';
 import { MAX_NEAR_PLACES_ON_MAP, MAX_REVIEWS } from '../const';
 import { EMPTY_PLACES } from './places-slice';
@@ -16,6 +21,7 @@ type OfferState = {
   isLoadingNearPlaces: boolean;
   comments: Review[];
   isLoadingComments: boolean;
+  isSavingComment: boolean;
 };
 
 const initialState: OfferState = {
@@ -25,6 +31,7 @@ const initialState: OfferState = {
   isLoadingNearPlaces: false,
   comments: EMPTY_COMMENTS,
   isLoadingComments: false,
+  isSavingComment: false,
 };
 
 const loadingOfferWait = (state: OfferState): void => {
@@ -65,14 +72,28 @@ const loadingCommentsWait = (state: OfferState) => {
 };
 const loadingCommentsError = (state: OfferState) => {
   state.comments = EMPTY_COMMENTS;
-  state.isLoadingNearPlaces = false;
+  state.isLoadingComments = false;
 };
 const loadingCommentsEnd = (
   state: OfferState,
   action: PayloadAction<Review[]>
 ): void => {
   state.comments = action.payload;
-  state.isLoadingNearPlaces = false;
+  state.isLoadingComments = false;
+};
+
+const savingCommentWait = (state: OfferState) => {
+  state.isSavingComment = true;
+};
+const savingCommentError = (state: OfferState) => {
+  state.isSavingComment = false;
+};
+const savingCommentEnd = (
+  state: OfferState,
+  action: PayloadAction<Review>
+): void => {
+  state.comments = [...state.comments, action.payload];
+  state.isSavingComment = false;
 };
 
 const offerSlice = createSlice({
@@ -89,7 +110,10 @@ const offerSlice = createSlice({
       .addCase(loadNearPlaces.rejected, loadingNearPlacesError)
       .addCase(loadComments.pending, loadingCommentsWait)
       .addCase(loadComments.fulfilled, loadingCommentsEnd)
-      .addCase(loadComments.rejected, loadingCommentsError);
+      .addCase(loadComments.rejected, loadingCommentsError)
+      .addCase(uploadComment.pending, savingCommentWait)
+      .addCase(uploadComment.rejected, savingCommentError)
+      .addCase(uploadComment.fulfilled, savingCommentEnd);
   },
   selectors: {
     offer: (state) => state.offer,
@@ -99,6 +123,7 @@ const offerSlice = createSlice({
     comments: (state) => state.comments,
     isLoadingComments: (state) => state.isLoadingComments,
     commentsCount: (state) => state.comments.length,
+    isSavingComment: (state) => state.isSavingComment,
   },
 });
 
