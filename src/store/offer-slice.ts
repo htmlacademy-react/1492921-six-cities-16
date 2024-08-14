@@ -5,52 +5,49 @@ import {
   loadOffer,
   uploadComment,
 } from './api-actions';
-import { Offer, Place, Review, Location } from '../types/types';
-import { MAX_NEAR_PLACES_ON_MAP, MAX_REVIEWS } from '../const';
-import { EMPTY_PLACES } from './places-slice';
-
-const EMPTY_OFFER = null;
-const EMPTY_COMMENTS = [] as Review[];
-const EMPTY_POINTS = [] as Location[];
-
-export enum SavingStatus {
-  Idle = 'IDLE',
-  Saving = 'SAVING',
-  Success = 'SUCCESS',
-  Error = 'ERROR',
-}
+import { Offer, Place, Review, PlacePoint } from '../types/types';
+import {
+  EMPTY_COMMENTS,
+  EMPTY_OFFER,
+  EMPTY_PLACE_POINTS,
+  EMPTY_PLACES,
+  MAX_NEAR_PLACES_ON_MAP,
+  MAX_REVIEWS,
+  NameSpace,
+  ProcessStatus,
+} from '../const';
 
 type OfferState = {
   offer: Offer | null;
-  isLoadingOffer: boolean;
+  loadingOfferStatus: ProcessStatus;
   nearPlaces: Place[];
   isLoadingNearPlaces: boolean;
   comments: Review[];
   isLoadingComments: boolean;
-  savingCommentStatus: SavingStatus;
+  savingCommentStatus: ProcessStatus;
 };
 
 const initialState: OfferState = {
   offer: EMPTY_OFFER,
-  isLoadingOffer: false,
+  loadingOfferStatus: ProcessStatus.Idle,
   nearPlaces: EMPTY_PLACES,
   isLoadingNearPlaces: false,
   comments: EMPTY_COMMENTS,
   isLoadingComments: false,
-  savingCommentStatus: SavingStatus.Idle,
+  savingCommentStatus: ProcessStatus.Idle,
 };
 
 const loadingOfferWait = (state: OfferState) => {
   state.offer = EMPTY_OFFER;
-  state.isLoadingOffer = true;
+  state.loadingOfferStatus = ProcessStatus.Process;
 };
 const loadingOfferError = (state: OfferState) => {
   state.offer = EMPTY_OFFER;
-  state.isLoadingOffer = false;
+  state.loadingOfferStatus = ProcessStatus.Error;
 };
 const loadingOfferEnd = (state: OfferState, action: PayloadAction<Offer>) => {
   state.offer = action.payload;
-  state.isLoadingOffer = false;
+  state.loadingOfferStatus = ProcessStatus.Success;
 };
 
 const loadingNearPlacesWait = (state: OfferState) => {
@@ -86,21 +83,18 @@ const loadingCommentsEnd = (
 };
 
 const savingCommentWait = (state: OfferState) => {
-  state.savingCommentStatus = SavingStatus.Saving;
+  state.savingCommentStatus = ProcessStatus.Process;
 };
 const savingCommentError = (state: OfferState) => {
-  state.savingCommentStatus = SavingStatus.Error;
+  state.savingCommentStatus = ProcessStatus.Error;
 };
-const savingCommentEnd = (
-  state: OfferState,
-  action: PayloadAction<Review>
-): void => {
+const savingCommentEnd = (state: OfferState, action: PayloadAction<Review>) => {
   state.comments = [...state.comments, action.payload];
-  state.savingCommentStatus = SavingStatus.Success;
+  state.savingCommentStatus = ProcessStatus.Success;
 };
 
 const offerSlice = createSlice({
-  name: 'offer',
+  name: NameSpace.Offer,
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -120,7 +114,7 @@ const offerSlice = createSlice({
   },
   selectors: {
     offer: (state) => state.offer,
-    isLoadingOffer: (state) => state.isLoadingOffer,
+    loadingOfferStatus: (state) => state.loadingOfferStatus,
     nearPlaces: (state) => state.nearPlaces,
     isLoadingNearPlaces: (state) => state.isLoadingNearPlaces,
     comments: (state) => state.comments,
@@ -146,12 +140,10 @@ const offerSelectors = {
     offerSlice.selectors.nearPlaces,
     (offer, nearPlaces) => {
       if (!offer) {
-        return EMPTY_POINTS;
+        return EMPTY_PLACE_POINTS;
       }
-      const nearPoints = nearPlaces.map((place) => place.location);
-      return nearPoints
-        .slice(0, MAX_NEAR_PLACES_ON_MAP)
-        .concat([offer.location]);
+      const nearPoints: PlacePoint[] = [offer];
+      return nearPoints.concat(nearPlaces.slice(0, MAX_NEAR_PLACES_ON_MAP));
     }
   ),
 };

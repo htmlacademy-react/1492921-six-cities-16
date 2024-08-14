@@ -18,13 +18,9 @@ export default function NearPlaces({ offerId }: NearPlacesProps): JSX.Element {
   const nearPlaces = useAppSelector(offerSelectors.nearPlaces);
 
   useEffect(() => {
-    let isLoading = true;
-    if (isLoading && offerId) {
+    if (offerId) {
       dispatch(loadNearPlaces(offerId));
     }
-    return () => {
-      isLoading = false;
-    };
   }, [dispatch, offerId]);
 
   return (
@@ -39,6 +35,7 @@ export default function NearPlaces({ offerId }: NearPlacesProps): JSX.Element {
               key={place.id}
               place={place}
               viewType={PlaceCardType.City}
+              isActivePlaceChange={false}
             />
           ))}
         </div>

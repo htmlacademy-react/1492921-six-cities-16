@@ -1,3 +1,5 @@
+import { numberItemsText } from '../../utils';
+
 type PlacesTitleProps = {
   placeCount: number;
   cityName: string;
@@ -9,7 +11,7 @@ export default function PlacesTitle({
 }: PlacesTitleProps): JSX.Element {
   return (
     <b className="places__found">
-      {placeCount} places to stay in {cityName}
+      {numberItemsText(placeCount, 'place')} to stay in {cityName}
     </b>
   );
 }
