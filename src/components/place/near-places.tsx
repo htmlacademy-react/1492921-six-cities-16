@@ -1,24 +1,48 @@
+import { useEffect } from 'react';
 import { PlaceCardType } from '../../const';
-import { Place } from '../../types/types';
+import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { offerSelectors } from '../../store/offer-slice';
 import PlaceCard from './place-card';
+import { loadNearPlaces } from '../../store/api-actions';
+import Loading from '../loader/loading';
 
 type NearPlacesProps = {
-  places: Place[];
+  offerId: string;
 };
 
-export default function NearPlaces({ places }: NearPlacesProps): JSX.Element {
+export default function NearPlaces({ offerId }: NearPlacesProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const isLoadingNearPlaces = useAppSelector(
+    offerSelectors.isLoadingNearPlaces
+  );
+  const nearPlaces = useAppSelector(offerSelectors.nearPlaces);
+
+  useEffect(() => {
+    let isLoading = true;
+    if (isLoading && offerId) {
+      dispatch(loadNearPlaces(offerId));
+    }
+    return () => {
+      isLoading = false;
+    };
+  }, [dispatch, offerId]);
+
   return (
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
-      <div className="near-places__list places__list">
-        {places.map((place) => (
-          <PlaceCard
-            key={place.id}
-            place={place}
-            viewType={PlaceCardType.City}
-          />
-        ))}
-      </div>
+      {isLoadingNearPlaces ? (
+        <Loading />
+      ) : (
+        <div className="near-places__list places__list">
+          {nearPlaces.map((place) => (
+            <PlaceCard
+              key={place.id}
+              place={place}
+              viewType={PlaceCardType.City}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

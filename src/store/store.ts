@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import placesSlice from './places-slice';
 import userSlice from './user-slice';
+import offerSlice from './offer-slice';
 import { createAPI } from '../services/api';
 
 export const api = createAPI();
@@ -9,6 +10,7 @@ const store = configureStore({
   reducer: {
     places: placesSlice,
     user: userSlice,
+    offer: offerSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

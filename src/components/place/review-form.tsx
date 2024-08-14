@@ -1,17 +1,29 @@
-import { ChangeEvent, ChangeEventHandler, FormEvent, useState } from 'react';
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  FormEvent,
+  useEffect,
+  useState,
+} from 'react';
 import { RatingStars } from '../../const';
 import { ReviewFormSetup } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { uploadComment } from '../../store/api-actions';
+import { Comment } from '../../types/types';
+import { offerSelectors, SavingStatus } from '../../store/offer-slice';
 
 type RatingStarProps = {
   value: number;
   title: (typeof RatingStars)[number];
   rating: number;
+  isDisabled: boolean;
   onRatingChange: ChangeEventHandler<HTMLInputElement>;
 };
 function RatingStar({
   value,
   title,
   rating,
+  isDisabled,
   onRatingChange,
 }: RatingStarProps): JSX.Element {
   return (
@@ -23,6 +35,7 @@ function RatingStar({
         id={`${value}-stars`}
         type="radio"
         checked={value === rating}
+        disabled={isDisabled}
         onChange={onRatingChange}
       />
       <label
@@ -42,21 +55,34 @@ type ReviewFormProps = {
   offerId: string;
 };
 
-export default function ReviewForm({
-  offerId: _unused,
-}: ReviewFormProps): JSX.Element {
+export default function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const savingCommentStatus = useAppSelector(
+    offerSelectors.savingCommentStatus
+  );
+  const isSavingComment = savingCommentStatus === SavingStatus.Saving;
   const [formData, setFormData] = useState({
     rating: 0,
-    textReview: '',
+    comment: '',
   });
+
+  useEffect(() => {
+    if (savingCommentStatus === SavingStatus.Success) {
+      setFormData({
+        rating: 0,
+        comment: '',
+      });
+    }
+  }, [savingCommentStatus]);
 
   const isSubmitDisabled =
     !formData.rating ||
-    formData.textReview.length < ReviewFormSetup.MinChars ||
-    formData.textReview.length > ReviewFormSetup.MaxChars;
+    //formData.comment.length < ReviewFormSetup.MinChars ||
+    formData.comment.length > ReviewFormSetup.MaxChars ||
+    isSavingComment;
 
-  const textChangeHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => {
-    setFormData({ ...formData, textReview: evt.target.value });
+  const handleTextChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+    setFormData({ ...formData, comment: evt.target.value });
   };
 
   const ratingChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -65,14 +91,8 @@ export default function ReviewForm({
 
   const formSubmitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    // eslint-disable-next-line no-alert
-    alert(
-      `Отправка на сервер\nРейтинг = ${formData.rating}\nТекст=${formData.textReview}`
-    );
-    setFormData({
-      rating: 0,
-      textReview: '',
-    });
+    const comment: Comment = { ...formData, offerId: offerId };
+    dispatch(uploadComment(comment));
   };
 
   return (
@@ -92,6 +112,7 @@ export default function ReviewForm({
             value={RatingStars.length - index}
             title={name}
             rating={formData.rating}
+            isDisabled={isSavingComment}
             onRatingChange={ratingChangeHandler}
           />
         ))}
@@ -101,8 +122,9 @@ export default function ReviewForm({
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={formData.textReview}
-        onInput={textChangeHandler}
+        value={formData.comment}
+        disabled={isSavingComment}
+        onInput={handleTextChange}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

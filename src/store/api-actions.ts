@@ -3,6 +3,7 @@ import { AxiosInstance } from 'axios';
 import { Login, Offer, Place, Review, User } from '../types/types';
 import { AppDispatch, RootState } from './store';
 import { APIRoute } from '../const';
+import { dropToken } from '../services/token';
 
 export type AsyncThunkOptions = {
   state: RootState;
@@ -16,28 +17,6 @@ export const loadOffers = createAsyncThunk<
   AsyncThunkOptions
 >('places/loadOffers', async (_arg, { extra: api }) => {
   const { data } = await api.get<Place[]>(APIRoute.Offers);
-  return data;
-});
-
-export const loadOffer = createAsyncThunk<
-  Offer,
-  { offerId: string },
-  AsyncThunkOptions
->('places/loadOffer', async ({ offerId }, { extra: api }) => {
-  const { data } = await api.get<Offer>(
-    APIRoute.Offer.replace('{offerId}', offerId)
-  );
-  return data;
-});
-
-export const loadNearPlaces = createAsyncThunk<
-  Place[],
-  { offerId: string },
-  AsyncThunkOptions
->('places/loadNearPlaces', async ({ offerId }, { extra: api }) => {
-  const { data } = await api.get<Place[]>(
-    APIRoute.OffersNear.replace('{offerId}', offerId)
-  );
   return data;
 });
 
@@ -64,11 +43,32 @@ export const uploadFavorite = createAsyncThunk<
   return data;
 });
 
+export const loadOffer = createAsyncThunk<Offer, string, AsyncThunkOptions>(
+  'offer/loadOffer',
+  async (offerId, { extra: api }) => {
+    const { data } = await api.get<Offer>(
+      APIRoute.Offer.replace('{offerId}', offerId)
+    );
+    return data;
+  }
+);
+
+export const loadNearPlaces = createAsyncThunk<
+  Place[],
+  string,
+  AsyncThunkOptions
+>('offer/loadNearPlaces', async (offerId, { extra: api }) => {
+  const { data } = await api.get<Place[]>(
+    APIRoute.OffersNear.replace('{offerId}', offerId)
+  );
+  return data;
+});
+
 export const loadComments = createAsyncThunk<
   Review[],
-  { offerId: string },
+  string,
   AsyncThunkOptions
->('places/loadComments', async ({ offerId }, { extra: api }) => {
+>('offer/loadComments', async (offerId, { extra: api }) => {
   const { data } = await api.get<Review[]>(
     APIRoute.Comments.replace('{offerId}', offerId)
   );
@@ -80,7 +80,7 @@ export const uploadComment = createAsyncThunk<
   { offerId: string; comment: string; rating: number },
   AsyncThunkOptions
 >(
-  'places/uploadComment',
+  'offer/uploadComment',
   async ({ offerId, comment, rating }, { extra: api }) => {
     const { data } = await api.post<Review>(
       APIRoute.Comments.replace('{offerId}', offerId),
@@ -116,5 +116,6 @@ export const userLogout = createAsyncThunk<void, undefined, AsyncThunkOptions>(
   'user/userLogout',
   async (_arg, { extra: api }) => {
     await api.delete(APIRoute.Logout);
+    dropToken();
   }
 );

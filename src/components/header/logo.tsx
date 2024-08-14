@@ -1,12 +1,14 @@
 import { ComponentOptions } from '../../types/types';
 import { Pages } from '../../const';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 type LogoProps = {
   viewType: ComponentOptions;
 };
 
 export default function Logo({ viewType }: LogoProps): JSX.Element {
+  const path = useLocation().pathname;
+  const isMainPage = path.includes(Pages.City.route.split('/')[1]);
   const imgElement = (
     <img
       className={`${viewType.classPrefix}__logo`}
@@ -19,7 +21,7 @@ export default function Logo({ viewType }: LogoProps): JSX.Element {
   return (
     <Link
       className={`${viewType.classPrefix}__logo-link header__logo-link--active`}
-      to={Pages.Main.route}
+      to={isMainPage ? '#' : Pages.Main.route}
     >
       {imgElement}
     </Link>

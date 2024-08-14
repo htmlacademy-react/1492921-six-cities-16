@@ -1,5 +1,5 @@
 import { Pages } from '../../const';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { userSelectors } from '../../store/user-slice';
 import { placesSelectors } from '../../store/places-slice';
@@ -9,13 +9,15 @@ type SignInProps = {
   isLogged: boolean;
 };
 function SignIn({ isLogged }: SignInProps): JSX.Element {
-  const email = useAppSelector(userSelectors.user).email;
+  const location = useLocation();
+  const email = useAppSelector(userSelectors.email);
   const favoritesCount = useAppSelector(placesSelectors.favoritesCount);
   return (
     <li className="header__nav-item user">
       <Link
         className="header__nav-link header__nav-link--profile"
         to={isLogged ? Pages.Favorites.route : Pages.Login.route}
+        state={{ from: location }}
       >
         <div className="header__avatar-wrapper user__avatar-wrapper"></div>
         {isLogged ? (
@@ -33,6 +35,7 @@ function SignIn({ isLogged }: SignInProps): JSX.Element {
 
 function SignOut(): JSX.Element {
   const dispatch = useAppDispatch();
+  const path = useLocation().pathname;
 
   const handleLogOutClick = () => {
     dispatch(userLogout());
@@ -40,7 +43,10 @@ function SignOut(): JSX.Element {
 
   return (
     <li className="header__nav-item">
-      <Link className="header__nav-link" to={Pages.Main.route}>
+      <Link
+        className="header__nav-link"
+        to={path === Pages.Favorites.route ? Pages.Main.route : '#'}
+      >
         <span className="header__signout" onClick={handleLogOutClick}>
           Sign out
         </span>

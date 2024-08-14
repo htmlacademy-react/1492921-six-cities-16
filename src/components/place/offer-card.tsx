@@ -7,13 +7,15 @@ import Rating from './rating';
 import Price from './price';
 import Reviews from './reviews';
 import ReviewForm from './review-form';
-import { userModel } from '../../data/user-model';
 import classNames from 'classnames';
+import { useAppSelector } from '../../hooks/store';
+import { userSelectors } from '../../store/user-slice';
 
 type OfferProps = {
   offer: Offer;
 };
 export default function OfferCard({ offer }: OfferProps): JSX.Element {
+  const isLogged = useAppSelector(userSelectors.isLogged);
   return (
     <div className="offer__wrapper">
       {offer.isPremium && <Premium viewType={PremiumType.Offer} />}
@@ -82,7 +84,7 @@ export default function OfferCard({ offer }: OfferProps): JSX.Element {
       </div>
       <section className="offer__reviews reviews">
         <Reviews offerId={offer.id} />
-        {userModel.isLogged && <ReviewForm offerId={offer.id} />}
+        {isLogged && <ReviewForm offerId={offer.id} />}
       </section>
     </div>
   );
