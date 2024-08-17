@@ -2,8 +2,8 @@ import { Pages } from '../../const';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { userSelectors } from '../../store/user-slice';
-import { placesSelectors } from '../../store/places-slice';
 import { userLogout } from '../../store/api-actions';
+import FavoritesCount from './favorites-count';
 
 type SignInProps = {
   isLogged: boolean;
@@ -11,7 +11,6 @@ type SignInProps = {
 function SignIn({ isLogged }: SignInProps): JSX.Element {
   const location = useLocation();
   const email = useAppSelector(userSelectors.email);
-  const favoritesCount = useAppSelector(placesSelectors.favoritesCount);
   return (
     <li className="header__nav-item user">
       <Link
@@ -23,7 +22,7 @@ function SignIn({ isLogged }: SignInProps): JSX.Element {
         {isLogged ? (
           <>
             <span className="header__user-name user__name">{email}</span>
-            <span className="header__favorite-count">{favoritesCount}</span>
+            <FavoritesCount />
           </>
         ) : (
           <span className="header__login">Sign in</span>

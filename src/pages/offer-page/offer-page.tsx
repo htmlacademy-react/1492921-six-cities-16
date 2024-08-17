@@ -1,4 +1,4 @@
-import { MapType } from '../../const';
+import { MapType, ProcessStatus } from '../../const';
 import Header from '../../components/header/header';
 import OfferGallery from '../../components/place/offer-gallery';
 import OfferCard from '../../components/place/offer-card';
@@ -12,36 +12,30 @@ import { offerSelectors } from '../../store/offer-slice';
 import { useEffect } from 'react';
 import Loading from '../../components/loader/loading';
 import { loadOffer } from '../../store/api-actions';
-import { setActivePlace } from '../../store/places-slice';
+import { setActivePlacePoint } from '../../store/places-slice';
+import { ActivePlacePoint } from '../../types/types';
 
 export default function OfferPage(): JSX.Element {
   const { offerId = '' } = useParams();
   const dispatch = useAppDispatch();
-  const isLoadingOffer = useAppSelector(offerSelectors.isLoadingOffer);
+  const loadingOfferStatus = useAppSelector(offerSelectors.loadingOfferStatus);
   const offer = useAppSelector(offerSelectors.offer);
+  const activePlacePoint: ActivePlacePoint = offer;
   const pointsInMap = useAppSelector(offerSelectors.pointsInMap);
 
   useEffect(() => {
-    let isLoading = true;
-    if (isLoading && offerId) {
+    if (offerId) {
       dispatch(loadOffer(offerId));
     }
-    return () => {
-      isLoading = false;
-    };
   }, [dispatch, offerId]);
 
   useEffect(() => {
-    let isLoading = true;
-    if (isLoading && offer) {
-      dispatch(setActivePlace(offer));
+    if (activePlacePoint) {
+      dispatch(setActivePlacePoint(activePlacePoint));
     }
-    return () => {
-      isLoading = false;
-    };
-  }, [dispatch, offer]);
+  }, [dispatch, activePlacePoint]);
 
-  if (!isLoadingOffer && !offer) {
+  if (loadingOfferStatus === ProcessStatus.Error) {
     return <ErrorPage description={`Offer not found (id = ${offerId})`} />;
   }
 
@@ -52,7 +46,7 @@ export default function OfferPage(): JSX.Element {
       </Helmet>
       <Header />
       <main className="page__main page__main--offer">
-        {!offer || isLoadingOffer ? (
+        {!offer || loadingOfferStatus === ProcessStatus.Process ? (
           <Loading />
         ) : (
           <section className="offer">
@@ -63,13 +57,13 @@ export default function OfferPage(): JSX.Element {
               <OfferCard offer={offer} />
             </div>
             <Map
-              city={offer.city}
+              cityName={offer.city.name}
               points={pointsInMap}
               viewType={MapType.Offer}
             />
           </section>
         )}
-        {offer && !isLoadingOffer && (
+        {loadingOfferStatus === ProcessStatus.Success && (
           <div className="container">
             <NearPlaces offerId={offerId} />
           </div>

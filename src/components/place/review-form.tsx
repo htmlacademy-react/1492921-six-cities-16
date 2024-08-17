@@ -5,12 +5,11 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { RatingStars } from '../../const';
-import { ReviewFormSetup } from '../../const';
+import { RatingStars, ProcessStatus, ReviewFormSetup } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { uploadComment } from '../../store/api-actions';
 import { Comment } from '../../types/types';
-import { offerSelectors, SavingStatus } from '../../store/offer-slice';
+import { offerSelectors } from '../../store/offer-slice';
 
 type RatingStarProps = {
   value: number;
@@ -60,14 +59,14 @@ export default function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const savingCommentStatus = useAppSelector(
     offerSelectors.savingCommentStatus
   );
-  const isSavingComment = savingCommentStatus === SavingStatus.Saving;
+  const isSavingComment = savingCommentStatus === ProcessStatus.Process;
   const [formData, setFormData] = useState({
     rating: 0,
     comment: '',
   });
 
   useEffect(() => {
-    if (savingCommentStatus === SavingStatus.Success) {
+    if (savingCommentStatus === ProcessStatus.Success) {
       setFormData({
         rating: 0,
         comment: '',

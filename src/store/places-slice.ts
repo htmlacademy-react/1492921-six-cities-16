@@ -1,117 +1,139 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  ActivePlace,
+  ActivePlacePoint,
   City,
   CityName,
   Place,
-  PlacesCity,
+  PlacePoint,
   SortId,
 } from '../types/types';
 import { CITIES } from '../data/cities';
-import { SortItems } from '../const';
-import { loadOffers } from './api-actions';
+import {
+  EMPTY_PLACE_POINTS,
+  EMPTY_PLACES,
+  NameSpace,
+  ProcessStatus,
+  SortItems,
+} from '../const';
+import { loadFavorite, loadOffers, uploadFavorite } from './api-actions';
 import { createSelector } from 'reselect';
+import { updateFavorites } from '../data/favorites';
 
 type PlacesState = {
   cityName: CityName;
-  places: PlacesCity;
-  isLoading: boolean;
-  activePlace: ActivePlace;
+  places: Place[];
+  status: ProcessStatus;
+  activePlacePoint: ActivePlacePoint;
   sortType: SortId;
-  favoritesCount: number;
+  isLoaded: boolean;
 };
 
 const initialState: PlacesState = {
   cityName: CITIES[0],
-  places: {},
-  isLoading: false,
-  activePlace: null,
+  places: EMPTY_PLACES,
+  status: ProcessStatus.Idle,
+  activePlacePoint: null,
   sortType: 'Popular',
-  favoritesCount: 0,
+  isLoaded: false,
 };
 
 const loadingWait = (state: PlacesState) => {
-  state.isLoading = true;
+  state.status = ProcessStatus.Process;
 };
 const loadingError = (state: PlacesState) => {
-  state.isLoading = false;
+  state.status = ProcessStatus.Error;
 };
 const loadingEnd = (state: PlacesState, action: PayloadAction<Place[]>) => {
-  state.places = Object.groupBy(action.payload, (offer) => offer.city.name);
-  state.isLoading = false;
+  state.places = action.payload;
+  state.status = ProcessStatus.Success;
+  state.isLoaded = true;
+};
+
+const setFavorite = (state: PlacesState, action: PayloadAction<Place>) => {
+  const offer = state.places.find((place) => place.id === action.payload.id);
+  if (offer) {
+    offer.isFavorite = action.payload.isFavorite;
+  }
+};
+
+const loadedFavorites = (
+  state: PlacesState,
+  action: PayloadAction<Place[]>
+) => {
+  updateFavorites(state.places, action.payload);
 };
 
 const placesSlice = createSlice({
-  name: 'places',
+  name: NameSpace.Places,
   initialState,
   reducers: {
     setCurrentCity: (state, action: PayloadAction<CityName>) => {
       state.cityName = action.payload;
     },
-    setActivePlace: (state, action: PayloadAction<ActivePlace>) => {
-      state.activePlace = action.payload;
+    setActivePlacePoint: (state, action: PayloadAction<ActivePlacePoint>) => {
+      state.activePlacePoint = action.payload;
     },
     setSorting: (state, action: PayloadAction<SortId>) => {
       state.sortType = action.payload;
-    },
-    setFavoritesCount: (state, action: PayloadAction<number>) => {
-      state.favoritesCount = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(loadOffers.pending, loadingWait)
       .addCase(loadOffers.fulfilled, loadingEnd)
-      .addCase(loadOffers.rejected, loadingError);
+      .addCase(loadOffers.rejected, loadingError)
+      .addCase(uploadFavorite.fulfilled, setFavorite)
+      .addCase(loadFavorite.fulfilled, loadedFavorites);
   },
   selectors: {
     places: (state) => state.places,
     cityName: (state) => state.cityName,
-    isLoading: (state) => state.isLoading,
-    activePlace: (state) => state.activePlace,
+    status: (state) => state.status,
+    activePlacePoint: (state) => state.activePlacePoint,
     sortType: (state) => state.sortType,
-    favoritesCount: (state) => state.favoritesCount,
+    isLoaded: (state) => state.isLoaded,
   },
 });
 
-const EMPTY_PLACES = [] as Place[];
-const { setCurrentCity, setActivePlace, setSorting } = placesSlice.actions;
+const { setCurrentCity, setActivePlacePoint, setSorting } = placesSlice.actions;
+
+const selectorPlacesCity = createSelector(
+  placesSlice.selectors.places,
+  placesSlice.selectors.cityName,
+  placesSlice.selectors.sortType,
+  (places, cityName, sortType) =>
+    Object.groupBy(places, (offer) => offer.city.name)[cityName]?.toSorted(
+      SortItems[sortType].sort
+    ) ?? EMPTY_PLACES
+);
 
 const placesSelectors = {
   ...placesSlice.selectors,
-  placesCity: createSelector(
-    placesSlice.selectors.places,
-    placesSlice.selectors.cityName,
-    placesSlice.selectors.sortType,
-    (places, cityName, sortType) =>
-      places[cityName]?.toSorted(SortItems[sortType].sort) ?? EMPTY_PLACES
-  ),
+  placesCity: selectorPlacesCity,
   points: createSelector(
-    placesSlice.selectors.places,
-    placesSlice.selectors.cityName,
-    (places, cityName) => places[cityName]?.map((place) => place.location)
+    selectorPlacesCity,
+    (places) => places.map((place) => place as PlacePoint) ?? EMPTY_PLACE_POINTS
+  ),
+  isEmptyPlacesCity: createSelector(
+    selectorPlacesCity,
+    (places) => places.length === 0
   ),
   getCity: (cityName: CityName) =>
-    createSelector(placesSlice.selectors.places, (places) => {
-      const placesCity = places[cityName] ?? EMPTY_PLACES;
-      return placesCity.length > 0
-        ? placesCity[0].city
-        : ({ name: cityName } as City);
-    }),
-  getPlace: (cityName: CityName, id: string) =>
+    createSelector(selectorPlacesCity, (places) =>
+      places.length > 0 ? places[0].city : ({ name: cityName } as City)
+    ),
+  getPlace: (id: string) =>
     createSelector(
       placesSlice.selectors.places,
-      (places) =>
-        (places[cityName] ?? EMPTY_PLACES).find((place) => place.id === id) ??
-        null
+      (places) => places.find((place) => place.id === id) ?? null
     ),
 };
 
 export {
-  EMPTY_PLACES,
   placesSelectors,
+  updateFavorites,
   setCurrentCity,
-  setActivePlace,
+  setActivePlacePoint,
   setSorting,
 };
 export default placesSlice.reducer;

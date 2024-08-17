@@ -22,7 +22,7 @@ export default function OfferCard({ offer }: OfferProps): JSX.Element {
       <div className="offer__name-wrapper">
         <h1 className="offer__name">{offer.title}</h1>
         <Bookmark
-          idPlace={offer.id}
+          placeId={offer.id}
           isFavorite={offer.isFavorite}
           viewType={BookmarkType.Offer}
         />

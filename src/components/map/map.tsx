@@ -1,4 +1,4 @@
-import { City, ComponentOptions, Location } from '../../types/types';
+import { CityName, ComponentOptions, PlacePoint } from '../../types/types';
 import { MapMarkerCurrent, MapMarkerDefault } from '../../const';
 import { useRef, useEffect } from 'react';
 import useMap from '../../hooks/use-map';
@@ -8,27 +8,33 @@ import { useAppSelector } from '../../hooks/store';
 import { placesSelectors } from '../../store/places-slice';
 
 type MapProps = {
-  city: City;
-  points: Location[];
+  cityName: CityName;
+  points: PlacePoint[];
   viewType: ComponentOptions;
 };
 
 const defaultCustomIcon = new Icon(MapMarkerDefault);
 const currentCustomIcon = new Icon(MapMarkerCurrent);
 
-export default function Map({ city, points, viewType }: MapProps): JSX.Element {
-  const activePlace = useAppSelector(placesSelectors.activePlace);
+export default function Map({
+  cityName,
+  points,
+  viewType,
+}: MapProps): JSX.Element {
+  const activePlacePoint = useAppSelector(placesSelectors.activePlacePoint);
+  const city = useAppSelector(placesSelectors.getCity(cityName));
+
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
   const setMarker = (
     markerLayer: LayerGroup,
-    location: Location,
+    placePoint: PlacePoint,
     icon: Icon
   ): void => {
     const marker = new Marker({
-      lat: location.latitude,
-      lng: location.longitude,
+      lat: placePoint.location.latitude,
+      lng: placePoint.location.longitude,
     });
     marker.setIcon(icon).addTo(markerLayer);
   };
@@ -47,11 +53,7 @@ export default function Map({ city, points, viewType }: MapProps): JSX.Element {
     if (map && points) {
       const markerDefaultLayer = layerGroup().addTo(map);
       points.forEach((point) => {
-        if (
-          !activePlace ||
-          (point.latitude !== activePlace.location.latitude &&
-            point.longitude !== activePlace.location.longitude)
-        ) {
+        if (!activePlacePoint || point.id !== activePlacePoint.id) {
           setMarker(markerDefaultLayer, point, defaultCustomIcon);
         }
       });
@@ -59,17 +61,17 @@ export default function Map({ city, points, viewType }: MapProps): JSX.Element {
         map.removeLayer(markerDefaultLayer);
       };
     }
-  }, [map, city, points, activePlace]);
+  }, [map, city, points, activePlacePoint]);
 
   useEffect(() => {
-    if (map && activePlace) {
+    if (map && activePlacePoint) {
       const markerActiveLayer = layerGroup().addTo(map);
-      setMarker(markerActiveLayer, activePlace.location, currentCustomIcon);
+      setMarker(markerActiveLayer, activePlacePoint, currentCustomIcon);
       return () => {
         map.removeLayer(markerActiveLayer);
       };
     }
-  }, [map, activePlace]);
+  }, [map, activePlacePoint]);
 
   return (
     <section className={`${viewType.classPrefix}__map map`} ref={mapRef} />
