@@ -1,7 +1,11 @@
 import { Review } from '../../types/types';
 import { RatingType } from '../../const';
-import { getOfferReviews } from '../../data/offer';
 import Rating from './rating';
+import { loadComments } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { useEffect } from 'react';
+import { offerSelectors } from '../../store/offer-slice';
+import Loading from '../loader/loading';
 
 type ReviewProps = {
   item: Review;
@@ -39,18 +43,34 @@ type ReviewsProps = {
   offerId: string;
 };
 export default function Reviews({ offerId }: ReviewsProps): JSX.Element {
-  const reviews = getOfferReviews(offerId);
+  const dispatch = useAppDispatch();
+  const isLoadingComments = useAppSelector(offerSelectors.isLoadingComments);
+  const comments = useAppSelector(offerSelectors.comments);
+
+  useEffect(() => {
+    let isLoading = true;
+    if (isLoading && offerId) {
+      dispatch(loadComments(offerId));
+    }
+    return () => {
+      isLoading = false;
+    };
+  }, [dispatch, offerId]);
   return (
     <>
       <h2 className="reviews__title">
         Reviews &middot;{' '}
-        <span className="reviews__amount">{reviews.length}</span>
+        <span className="reviews__amount">{comments.length}</span>
       </h2>
-      <ul className="reviews__list">
-        {reviews.map((item) => (
-          <ReviewItem key={item.id} item={item} />
-        ))}
-      </ul>
+      {isLoadingComments ? (
+        <Loading />
+      ) : (
+        <ul className="reviews__list">
+          {comments.map((item) => (
+            <ReviewItem key={item.id} item={item} />
+          ))}
+        </ul>
+      )}
     </>
   );
 }

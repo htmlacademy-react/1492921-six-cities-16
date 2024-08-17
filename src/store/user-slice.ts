@@ -1,60 +1,55 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../types/types';
 import { checkLogin, userLogin, userLogout } from './api-actions';
-import { dropToken, setToken } from '../services/token';
+import { setToken } from '../services/token';
 import { AuthorizationStatus } from '../const';
 
-const EMPTY_USER = {} as User;
-
 type userState = {
-  user: User;
+  email: string;
   status: AuthorizationStatus;
 };
 
 const initialState: userState = {
-  user: EMPTY_USER,
+  email: '',
   status: AuthorizationStatus.Unknown,
 };
 
-export const userSlice = createSlice({
+const userWaitAuth = (state: userState) => {
+  state.status = AuthorizationStatus.Unknown;
+};
+
+const userNoAuth = (state: userState) => {
+  state.status = AuthorizationStatus.NoAuth;
+  state.email = '';
+};
+
+const userAuth = (state: userState, action: PayloadAction<User>) => {
+  state.status = AuthorizationStatus.Auth;
+  state.email = action.payload.email ?? '';
+  setToken(action.payload.token ?? '');
+};
+
+const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(checkLogin.pending, (state) => {
-        state.status = AuthorizationStatus.Unknown;
-      })
-      .addCase(checkLogin.fulfilled, (state, action) => {
-        state.status = AuthorizationStatus.Auth;
-        state.user = action.payload;
-        setToken(action.payload.token ?? '');
-      })
-      .addCase(checkLogin.rejected, (state) => {
-        state.status = AuthorizationStatus.NoAuth;
-        state.user = EMPTY_USER;
-      })
-      .addCase(userLogin.fulfilled, (state, action) => {
-        state.status = AuthorizationStatus.Auth;
-        state.user = action.payload;
-        setToken(action.payload.token ?? '');
-      })
-      .addCase(userLogin.rejected, (state) => {
-        state.status = AuthorizationStatus.NoAuth;
-        state.user = EMPTY_USER;
-      })
-      .addCase(userLogout.fulfilled, (state) => {
-        dropToken();
-        state.status = AuthorizationStatus.NoAuth;
-        state.user = EMPTY_USER;
-      });
+      .addCase(checkLogin.pending, userWaitAuth)
+      .addCase(checkLogin.fulfilled, userAuth)
+      .addCase(checkLogin.rejected, userNoAuth)
+      .addCase(userLogin.fulfilled, userAuth)
+      .addCase(userLogin.rejected, userNoAuth)
+      .addCase(userLogout.fulfilled, userNoAuth);
   },
   selectors: {
-    user: (state) => state.user,
+    email: (state) => state.email,
     status: (state) => state.status,
     isLogged: (state) => state.status === AuthorizationStatus.Auth,
   },
 });
 
-export const userSelectors = userSlice.selectors;
+const userSelectors = userSlice.selectors;
+
+export { userSelectors };
 export default userSlice.reducer;

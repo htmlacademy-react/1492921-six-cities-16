@@ -1,25 +1,37 @@
-import { City, Place, ComponentOptions } from '../../types/types';
+import { City, ComponentOptions, Location } from '../../types/types';
 import { MapMarkerCurrent, MapMarkerDefault } from '../../const';
 import { useRef, useEffect } from 'react';
 import useMap from '../../hooks/use-map';
-import { Icon, Marker, layerGroup } from 'leaflet';
+import { Icon, LayerGroup, Marker, layerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../hooks/store';
 import { placesSelectors } from '../../store/places-slice';
 
 type MapProps = {
   city: City;
-  places: Place[];
+  points: Location[];
   viewType: ComponentOptions;
 };
 
 const defaultCustomIcon = new Icon(MapMarkerDefault);
 const currentCustomIcon = new Icon(MapMarkerCurrent);
 
-export default function Map({ city, places, viewType }: MapProps): JSX.Element {
+export default function Map({ city, points, viewType }: MapProps): JSX.Element {
   const activePlace = useAppSelector(placesSelectors.activePlace);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+
+  const setMarker = (
+    markerLayer: LayerGroup,
+    location: Location,
+    icon: Icon
+  ): void => {
+    const marker = new Marker({
+      lat: location.latitude,
+      lng: location.longitude,
+    });
+    marker.setIcon(icon).addTo(markerLayer);
+  };
 
   useEffect(() => {
     if (map) {
@@ -32,27 +44,32 @@ export default function Map({ city, places, viewType }: MapProps): JSX.Element {
   }, [map, city]);
 
   useEffect(() => {
-    if (map && places) {
-      const markerLayer = layerGroup().addTo(map);
-      places.forEach((place) => {
-        const marker = new Marker({
-          lat: place.location.latitude,
-          lng: place.location.longitude,
-        });
-
-        marker
-          .setIcon(
-            activePlace && place.id === activePlace.id
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
-          .addTo(markerLayer);
+    if (map && points) {
+      const markerDefaultLayer = layerGroup().addTo(map);
+      points.forEach((point) => {
+        if (
+          !activePlace ||
+          (point.latitude !== activePlace.location.latitude &&
+            point.longitude !== activePlace.location.longitude)
+        ) {
+          setMarker(markerDefaultLayer, point, defaultCustomIcon);
+        }
       });
       return () => {
-        map.removeLayer(markerLayer);
+        map.removeLayer(markerDefaultLayer);
       };
     }
-  }, [map, city, places, activePlace]);
+  }, [map, city, points, activePlace]);
+
+  useEffect(() => {
+    if (map && activePlace) {
+      const markerActiveLayer = layerGroup().addTo(map);
+      setMarker(markerActiveLayer, activePlace.location, currentCustomIcon);
+      return () => {
+        map.removeLayer(markerActiveLayer);
+      };
+    }
+  }, [map, activePlace]);
 
   return (
     <section className={`${viewType.classPrefix}__map map`} ref={mapRef} />

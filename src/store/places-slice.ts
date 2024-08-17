@@ -11,7 +11,6 @@ import { CITIES } from '../data/cities';
 import { SortItems } from '../const';
 import { loadOffers } from './api-actions';
 import { createSelector } from 'reselect';
-import { RootState } from './store';
 
 type PlacesState = {
   cityName: CityName;
@@ -26,12 +25,23 @@ const initialState: PlacesState = {
   cityName: CITIES[0],
   places: {},
   isLoading: false,
-  activePlace: {} as Place,
+  activePlace: null,
   sortType: 'Popular',
   favoritesCount: 0,
 };
 
-export const placesSlice = createSlice({
+const loadingWait = (state: PlacesState) => {
+  state.isLoading = true;
+};
+const loadingError = (state: PlacesState) => {
+  state.isLoading = false;
+};
+const loadingEnd = (state: PlacesState, action: PayloadAction<Place[]>) => {
+  state.places = Object.groupBy(action.payload, (offer) => offer.city.name);
+  state.isLoading = false;
+};
+
+const placesSlice = createSlice({
   name: 'places',
   initialState,
   reducers: {
@@ -50,19 +60,9 @@ export const placesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadOffers.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(loadOffers.fulfilled, (state, action) => {
-        state.places = Object.groupBy(
-          action.payload,
-          (offer) => offer.city.name
-        );
-        state.isLoading = false;
-      })
-      .addCase(loadOffers.rejected, (state) => {
-        state.isLoading = false;
-      });
+      .addCase(loadOffers.pending, loadingWait)
+      .addCase(loadOffers.fulfilled, loadingEnd)
+      .addCase(loadOffers.rejected, loadingError);
   },
   selectors: {
     places: (state) => state.places,
@@ -74,35 +74,44 @@ export const placesSlice = createSlice({
   },
 });
 
-const FALLBACK_ARRAY = [] as Place[];
-
-// Селектор для получение данных о городе по его названию
-const selectorCity = createSelector(
-  [
-    (state: RootState) => state.places,
-    (_state: RootState, cityName: CityName) => cityName,
-  ],
-  (state, cityName) => {
-    const places = state.places[cityName] ?? [];
-    return places.length > 0 ? places[0].city : ({ name: cityName } as City);
-  }
-);
-const selectCity = (cityName: CityName) => (state: RootState) =>
-  selectorCity(state, cityName);
-
+const EMPTY_PLACES = [] as Place[];
 const { setCurrentCity, setActivePlace, setSorting } = placesSlice.actions;
 
-export { setCurrentCity, setActivePlace, setSorting };
-export const placesSelectors = {
+const placesSelectors = {
   ...placesSlice.selectors,
-  city: selectCity,
   placesCity: createSelector(
     placesSlice.selectors.places,
     placesSlice.selectors.cityName,
     placesSlice.selectors.sortType,
     (places, cityName, sortType) =>
-      places[cityName]?.toSorted(SortItems[sortType].sort) ?? FALLBACK_ARRAY
+      places[cityName]?.toSorted(SortItems[sortType].sort) ?? EMPTY_PLACES
   ),
+  points: createSelector(
+    placesSlice.selectors.places,
+    placesSlice.selectors.cityName,
+    (places, cityName) => places[cityName]?.map((place) => place.location)
+  ),
+  getCity: (cityName: CityName) =>
+    createSelector(placesSlice.selectors.places, (places) => {
+      const placesCity = places[cityName] ?? EMPTY_PLACES;
+      return placesCity.length > 0
+        ? placesCity[0].city
+        : ({ name: cityName } as City);
+    }),
+  getPlace: (cityName: CityName, id: string) =>
+    createSelector(
+      placesSlice.selectors.places,
+      (places) =>
+        (places[cityName] ?? EMPTY_PLACES).find((place) => place.id === id) ??
+        null
+    ),
 };
 
+export {
+  EMPTY_PLACES,
+  placesSelectors,
+  setCurrentCity,
+  setActivePlace,
+  setSorting,
+};
 export default placesSlice.reducer;

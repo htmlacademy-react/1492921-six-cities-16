@@ -1,26 +1,50 @@
-import { MapType, MAX_NEAR_PLACES_ON_MAP } from '../../const';
+import { MapType } from '../../const';
 import Header from '../../components/header/header';
 import OfferGallery from '../../components/place/offer-gallery';
 import OfferCard from '../../components/place/offer-card';
-import { getOffer, getOffersNearly } from '../../data/offer';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import ErrorPage from '../../pages/error-page/error-page';
 import Map from '../../components/map/map';
-import { placesModel } from '../../data/places-model';
-import { Place } from '../../types/types';
 import NearPlaces from '../../components/place/near-places';
+import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { offerSelectors } from '../../store/offer-slice';
+import { useEffect } from 'react';
+import Loading from '../../components/loader/loading';
+import { loadOffer } from '../../store/api-actions';
+import { setActivePlace } from '../../store/places-slice';
 
 export default function OfferPage(): JSX.Element {
-  const { offerId } = useParams();
-  if (!offerId) {
-    return <ErrorPage />;
+  const { offerId = '' } = useParams();
+  const dispatch = useAppDispatch();
+  const isLoadingOffer = useAppSelector(offerSelectors.isLoadingOffer);
+  const offer = useAppSelector(offerSelectors.offer);
+  const pointsInMap = useAppSelector(offerSelectors.pointsInMap);
+
+  useEffect(() => {
+    let isLoading = true;
+    if (isLoading && offerId) {
+      dispatch(loadOffer(offerId));
+    }
+    return () => {
+      isLoading = false;
+    };
+  }, [dispatch, offerId]);
+
+  useEffect(() => {
+    let isLoading = true;
+    if (isLoading && offer) {
+      dispatch(setActivePlace(offer));
+    }
+    return () => {
+      isLoading = false;
+    };
+  }, [dispatch, offer]);
+
+  if (!isLoadingOffer && !offer) {
+    return <ErrorPage description={`Offer not found (id = ${offerId})`} />;
   }
-  const offer = getOffer(offerId);
-  if (!offer.description) {
-    return <ErrorPage text={offer.title} description="Offers not found" />;
-  }
-  const placesNearly = getOffersNearly(offerId);
+
   return (
     <div className="page">
       <Helmet>
@@ -28,24 +52,28 @@ export default function OfferPage(): JSX.Element {
       </Helmet>
       <Header />
       <main className="page__main page__main--offer">
-        <section className="offer">
-          <div className="offer__gallery-container container">
-            <OfferGallery images={offer.images} />
+        {!offer || isLoadingOffer ? (
+          <Loading />
+        ) : (
+          <section className="offer">
+            <div className="offer__gallery-container container">
+              {offer.images && <OfferGallery images={offer.images} />}
+            </div>
+            <div className="offer__container container">
+              <OfferCard offer={offer} />
+            </div>
+            <Map
+              city={offer.city}
+              points={pointsInMap}
+              viewType={MapType.Offer}
+            />
+          </section>
+        )}
+        {offer && !isLoadingOffer && (
+          <div className="container">
+            <NearPlaces offerId={offerId} />
           </div>
-          <div className="offer__container container">
-            <OfferCard offer={offer} />
-          </div>
-          <Map
-            city={offer.city}
-            places={[placesModel.getPlace(offer.id) ?? ({} as Place)].concat(
-              placesNearly.slice(0, MAX_NEAR_PLACES_ON_MAP)
-            )}
-            viewType={MapType.Offer}
-          />
-        </section>
-        <div className="container">
-          <NearPlaces places={placesNearly} />
-        </div>
+        )}
       </main>
     </div>
   );
