@@ -48,13 +48,9 @@ export default function Reviews({ offerId }: ReviewsProps): JSX.Element {
   const comments = useAppSelector(offerSelectors.comments);
 
   useEffect(() => {
-    let isLoading = true;
-    if (isLoading && offerId) {
+    if (offerId) {
       dispatch(loadComments(offerId));
     }
-    return () => {
-      isLoading = false;
-    };
   }, [dispatch, offerId]);
   return (
     <>

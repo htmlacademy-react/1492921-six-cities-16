@@ -1,32 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../types/types';
 import { checkLogin, userLogin, userLogout } from './api-actions';
-import { setToken } from '../services/token';
 import { AuthorizationStatus } from '../const';
 
-type userState = {
+type UserState = {
   email: string;
   status: AuthorizationStatus;
 };
 
-const initialState: userState = {
+const initialState: UserState = {
   email: '',
   status: AuthorizationStatus.Unknown,
 };
 
-const userWaitAuth = (state: userState) => {
+const userWaitAuth = (state: UserState) => {
   state.status = AuthorizationStatus.Unknown;
 };
 
-const userNoAuth = (state: userState) => {
+const userNoAuth = (state: UserState) => {
   state.status = AuthorizationStatus.NoAuth;
   state.email = '';
 };
 
-const userAuth = (state: userState, action: PayloadAction<User>) => {
+const userAuth = (state: UserState, action: PayloadAction<User>) => {
   state.status = AuthorizationStatus.Auth;
   state.email = action.payload.email ?? '';
-  setToken(action.payload.token ?? '');
 };
 
 const userSlice = createSlice({

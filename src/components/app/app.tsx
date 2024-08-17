@@ -8,8 +8,21 @@ import ErrorPage from '../../pages/error-page/error-page';
 import PrivateRoute from '../route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import MainRoute from '../route/main-route';
+import { userSelectors } from '../../store/user-slice';
+import { loadFavorite } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { useEffect } from 'react';
 
 export default function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const isLogged = useAppSelector(userSelectors.isLogged);
+
+  useEffect(() => {
+    if (isLogged) {
+      dispatch(loadFavorite());
+    }
+  }, [dispatch, isLogged]);
+
   return (
     <HelmetProvider>
       <BrowserRouter>

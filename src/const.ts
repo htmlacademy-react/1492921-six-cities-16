@@ -1,4 +1,11 @@
-import { SortOptions, ComponentOptions, PageOptions } from './types/types';
+import {
+  SortOptions,
+  ComponentOptions,
+  PageOptions,
+  Place,
+  PlacePoint,
+  Review,
+} from './types/types';
 
 const MAX_REVIEWS = 10;
 const MAX_NEAR_PLACES_ON_MAP = 3;
@@ -117,6 +124,25 @@ const enum APIRoute {
   Logout = '/logout',
 }
 
+const enum NameSpace {
+  User = 'user',
+  Places = 'places',
+  Offer = 'offer',
+  Favorites = 'favorites',
+}
+
+const enum ProcessStatus {
+  Idle = 'IDLE',
+  Process = 'PROCESS',
+  Success = 'SUCCESS',
+  Error = 'ERROR',
+}
+
+const EMPTY_PLACES: Place[] = [];
+const EMPTY_PLACE_POINTS: PlacePoint[] = [];
+const EMPTY_OFFER = null;
+const EMPTY_COMMENTS: Review[] = [];
+
 export {
   MAX_REVIEWS,
   MAX_NEAR_PLACES_ON_MAP,
@@ -124,6 +150,11 @@ export {
   RatingStars,
   Pages,
   APIRoute,
+  NameSpace,
+  EMPTY_PLACES,
+  EMPTY_PLACE_POINTS,
+  EMPTY_OFFER,
+  EMPTY_COMMENTS,
 };
 export {
   RatingSetup,
@@ -137,4 +168,5 @@ export {
   MapType,
   MapMarkerDefault,
   MapMarkerCurrent,
+  ProcessStatus,
 };
