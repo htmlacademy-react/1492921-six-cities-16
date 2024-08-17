@@ -56,7 +56,7 @@ export default function OfferPage(): JSX.Element {
               <OfferCard offer={offer} />
             </div>
             <Map
-              city={offer.city}
+              cityName={offer.city.name}
               points={pointsInMap}
               viewType={MapType.Offer}
             />

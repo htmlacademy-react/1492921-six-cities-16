@@ -4,6 +4,7 @@ import {
   loadNearPlaces,
   loadOffer,
   uploadComment,
+  uploadFavorite,
 } from './api-actions';
 import { Offer, Place, Review, PlacePoint } from '../types/types';
 import {
@@ -110,7 +111,8 @@ const offerSlice = createSlice({
       .addCase(loadComments.rejected, loadingCommentsError)
       .addCase(uploadComment.pending, savingCommentWait)
       .addCase(uploadComment.rejected, savingCommentError)
-      .addCase(uploadComment.fulfilled, savingCommentEnd);
+      .addCase(uploadComment.fulfilled, savingCommentEnd)
+      .addCase(uploadFavorite.fulfilled, setFavorite);
   },
   selectors: {
     offer: (state) => state.offer,
