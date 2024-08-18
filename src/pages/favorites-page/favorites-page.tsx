@@ -1,14 +1,19 @@
 import { PlaceCardType, LogoType } from '../../const';
-import { placesModel } from '../../data/places-model';
 import Header from '../../components/header/header';
 import Place from '../../components/place/place-card';
 import classNames from 'classnames';
 import Logo from '../../components/header/logo';
 import { CityName } from '../../types/types';
 import { Helmet } from 'react-helmet-async';
+import { useAppSelector } from '../../hooks/store';
+import { favoritesSelectors } from '../../store/favorites-slice';
+import Loading from '../../components/loader/loading';
 
 export default function FavoritesPage(): JSX.Element {
-  const isEmpty = placesModel.favoritesCount === 0;
+  const isLoading = useAppSelector(favoritesSelectors.isLoading);
+  const favorites = useAppSelector(favoritesSelectors.placesCity);
+  const favoritesCount = useAppSelector(favoritesSelectors.count);
+  const isEmpty = favoritesCount === 0;
   return (
     <div className={classNames('page', { 'page--favorites-empty': isEmpty })}>
       <Helmet>
@@ -20,13 +25,16 @@ export default function FavoritesPage(): JSX.Element {
           <div className="page__favorites-container container">
             <section className="favorites favorites--empty">
               <h1 className="visually-hidden">Favorites (empty)</h1>
-              <div className="favorites__status-wrapper">
-                <b className="favorites__status">Nothing yet saved.</b>
-                <p className="favorites__status-description">
-                  Save properties to narrow down search or plan your future
-                  trips.
-                </p>
-              </div>
+              {isLoading && <Loading />}
+              {!isLoading && (
+                <div className="favorites__status-wrapper">
+                  <b className="favorites__status">Nothing yet saved.</b>
+                  <p className="favorites__status-description">
+                    Save properties to narrow down search or plan your future
+                    trips.
+                  </p>
+                </div>
+              )}
             </section>
           </div>
         </main>
@@ -36,7 +44,7 @@ export default function FavoritesPage(): JSX.Element {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {Object.keys(placesModel.favorites).map((city) => (
+                {Object.keys(favorites).map((city) => (
                   <li key={city} className="favorites__locations-items">
                     <div className="favorites__locations locations locations--current">
                       <div className="locations__item">
@@ -46,15 +54,13 @@ export default function FavoritesPage(): JSX.Element {
                       </div>
                     </div>
                     <div className="favorites__places">
-                      {(placesModel.favorites[city as CityName] ?? []).map(
-                        (place) => (
-                          <Place
-                            key={place.id}
-                            place={place}
-                            viewType={PlaceCardType.Favorite}
-                          />
-                        )
-                      )}
+                      {(favorites[city as CityName] ?? []).map((place) => (
+                        <Place
+                          key={place.id}
+                          place={place}
+                          viewType={PlaceCardType.Favorite}
+                        />
+                      ))}
                     </div>
                   </li>
                 ))}

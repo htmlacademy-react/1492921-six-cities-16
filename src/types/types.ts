@@ -3,9 +3,12 @@ import { SortItems } from '../const';
 
 type CityName = (typeof CITIES)[number];
 
-type Location = {
+type Point = {
   latitude: number;
   longitude: number;
+};
+
+type Location = Point & {
   zoom: number;
 };
 
@@ -14,17 +17,19 @@ type City = {
   location: Location;
 };
 
-type User = {
+type Host = {
   name: string;
   avatarUrl: string;
   isPro: boolean;
-  email?: string;
-  token?: string;
 };
 type Login = {
   email: string;
   password: string;
 };
+type User = Host &
+  Login & {
+    token: string;
+  };
 
 type Place = {
   id: string;
@@ -38,10 +43,15 @@ type Place = {
   rating: number;
   previewImage: string;
 };
-type ActivePlace = {
+type PlaceFavorite = {
   id: string;
-  location: Location;
-} | null;
+  isFavorite: boolean;
+};
+type PlacePoint = {
+  id: string;
+  location: Point;
+};
+type ActivePlaceId = string | null;
 
 type PlaceSortFunction = (a: Place, b: Place) => number;
 type SortOptions = {
@@ -98,7 +108,9 @@ export type {
   City,
   PlacesCity,
   Place,
-  ActivePlace,
+  PlaceFavorite,
+  PlacePoint,
+  ActivePlaceId,
   PlaceSortFunction,
   SortOptions,
   Offer,

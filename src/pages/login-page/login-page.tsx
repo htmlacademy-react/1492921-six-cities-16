@@ -57,8 +57,8 @@ export default function LoginPage(): JSX.Element {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  pattern="^(?=.*[a-zA-Zа-яА-Я])(?=.*\d).*$"
-                  title="'Пароль должен содержать не менее одной буквы и одной цифры!'"
+                  pattern="^(?=.*[a-zA-Z])(?=.*\d).*$"
+                  title="'Пароль должен содержать не менее одной латинской буквы и одной цифры!'"
                   required
                   onChange={fieldChangeHandler}
                 />

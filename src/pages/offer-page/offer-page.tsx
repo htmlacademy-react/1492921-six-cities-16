@@ -1,4 +1,4 @@
-import { MapType } from '../../const';
+import { MapType, ProcessStatus } from '../../const';
 import Header from '../../components/header/header';
 import OfferGallery from '../../components/place/offer-gallery';
 import OfferCard from '../../components/place/offer-card';
@@ -12,36 +12,29 @@ import { offerSelectors } from '../../store/offer-slice';
 import { useEffect } from 'react';
 import Loading from '../../components/loader/loading';
 import { loadOffer } from '../../store/api-actions';
-import { setActivePlace } from '../../store/places-slice';
+import { setActivePlaceId } from '../../store/places-slice';
 
 export default function OfferPage(): JSX.Element {
   const { offerId = '' } = useParams();
   const dispatch = useAppDispatch();
-  const isLoadingOffer = useAppSelector(offerSelectors.isLoadingOffer);
+  const loadingOfferStatus = useAppSelector(offerSelectors.loadingOfferStatus);
   const offer = useAppSelector(offerSelectors.offer);
+  const activePlaceId = offer?.id ?? null;
   const pointsInMap = useAppSelector(offerSelectors.pointsInMap);
 
   useEffect(() => {
-    let isLoading = true;
-    if (isLoading && offerId) {
+    if (offerId) {
       dispatch(loadOffer(offerId));
     }
-    return () => {
-      isLoading = false;
-    };
   }, [dispatch, offerId]);
 
   useEffect(() => {
-    let isLoading = true;
-    if (isLoading && offer) {
-      dispatch(setActivePlace(offer));
+    if (activePlaceId) {
+      dispatch(setActivePlaceId(activePlaceId));
     }
-    return () => {
-      isLoading = false;
-    };
-  }, [dispatch, offer]);
+  }, [dispatch, activePlaceId]);
 
-  if (!isLoadingOffer && !offer) {
+  if (loadingOfferStatus === ProcessStatus.Error) {
     return <ErrorPage description={`Offer not found (id = ${offerId})`} />;
   }
 
@@ -52,7 +45,7 @@ export default function OfferPage(): JSX.Element {
       </Helmet>
       <Header />
       <main className="page__main page__main--offer">
-        {!offer || isLoadingOffer ? (
+        {!offer || loadingOfferStatus === ProcessStatus.Process ? (
           <Loading />
         ) : (
           <section className="offer">
@@ -69,7 +62,7 @@ export default function OfferPage(): JSX.Element {
             />
           </section>
         )}
-        {offer && !isLoadingOffer && (
+        {loadingOfferStatus === ProcessStatus.Success && (
           <div className="container">
             <NearPlaces offerId={offerId} />
           </div>

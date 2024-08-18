@@ -49,7 +49,16 @@ export const createAPI = (): AxiosInstance => {
       }
       if (error.response && shouldDisplayError(error.response)) {
         const detailMessage = error.response.data;
-        toast.warn(detailMessage.message);
+        if (
+          !(
+            detailMessage.message.includes('Token') ||
+            detailMessage.message.includes('Access') ||
+            (detailMessage.message.startsWith('Offer with id') &&
+              detailMessage.message.endsWith('not found.'))
+          )
+        ) {
+          toast.warn(detailMessage.message);
+        }
       }
       throw error;
     }

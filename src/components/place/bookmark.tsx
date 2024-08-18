@@ -1,35 +1,37 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Pages } from '../../const';
 import { ComponentOptions } from '../../types/types';
-import { placesModel } from '../../data/places-model';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { useAppSelector } from '../../hooks/store';
+import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { userSelectors } from '../../store/user-slice';
+import { uploadFavorite } from '../../store/api-actions';
 
 type BookmarkProps = {
-  idPlace: string;
+  placeId: string;
   isFavorite: boolean;
   viewType: ComponentOptions;
 };
 
 export default function Bookmark({
-  idPlace,
+  placeId,
   isFavorite,
   viewType,
 }: BookmarkProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const location = useLocation();
   const [isCheck, setCheck] = useState(isFavorite);
   const navigate = useNavigate();
   const isLogged = useAppSelector(userSelectors.isLogged);
 
-  const bookmarkButtonClick = (evt: React.MouseEvent<HTMLElement>) => {
+  const handleBookmarkButtonClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
     if (!isLogged) {
-      navigate(Pages.Login.route);
+      navigate(Pages.Login.route, { state: { from: location } });
       return;
     }
     evt.stopPropagation();
-    placesModel.setFavorite(idPlace, !isCheck);
+    dispatch(uploadFavorite({ id: placeId, isFavorite: !isCheck }));
     setCheck(!isCheck);
   };
 
@@ -37,11 +39,14 @@ export default function Bookmark({
     <button
       className={classNames(
         `${viewType.classPrefix}__bookmark-button`,
-        { [`${viewType.classPrefix}__bookmark-button--active`]: isCheck },
+        {
+          [`${viewType.classPrefix}__bookmark-button--active`]:
+            isCheck && isLogged,
+        },
         'button'
       )}
       type="button"
-      onClick={bookmarkButtonClick}
+      onClick={handleBookmarkButtonClick}
     >
       <svg
         className={`${viewType.classPrefix}__bookmark-icon`}

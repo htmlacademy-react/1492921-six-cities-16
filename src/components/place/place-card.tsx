@@ -12,24 +12,32 @@ import Bookmark from './bookmark';
 import Rating from './rating';
 import Price from './price';
 import { Link } from 'react-router-dom';
-import { setActivePlace } from '../../store/places-slice';
+import { setActivePlaceId } from '../../store/places-slice';
 import { useAppDispatch } from '../../hooks/store';
 
 type PlaceProps = {
   place: Place;
   viewType: ComponentOptions;
+  isActivePlaceChange?: boolean;
 };
 
 export default function PlaceCard({
   place,
   viewType,
+  isActivePlaceChange = true,
 }: PlaceProps): JSX.Element {
   const dispatch = useAppDispatch();
   return (
     <article
       className={`${viewType.classPrefix}__card place-card`}
-      onMouseEnter={() => dispatch(setActivePlace(place))}
-      onMouseLeave={() => dispatch(setActivePlace(null))}
+      onMouseEnter={
+        isActivePlaceChange
+          ? () => dispatch(setActivePlaceId(place.id))
+          : undefined
+      }
+      onMouseLeave={
+        isActivePlaceChange ? () => dispatch(setActivePlaceId(null)) : undefined
+      }
     >
       {place.isPremium && <Premium viewType={PremiumType.Place} />}
       <div
@@ -49,7 +57,7 @@ export default function PlaceCard({
         <div className="place-card__price-wrapper">
           <Price value={place.price} viewType={PriceType.Place} />
           <Bookmark
-            idPlace={place.id}
+            placeId={place.id}
             isFavorite={place.isFavorite}
             viewType={BookmarkType.Place}
           />
