@@ -45,7 +45,7 @@ type ReviewsProps = {
 export default function Reviews({ offerId }: ReviewsProps): JSX.Element {
   const dispatch = useAppDispatch();
   const isLoadingComments = useAppSelector(offerSelectors.isLoadingComments);
-  const comments = useAppSelector(offerSelectors.comments);
+  const comments = useAppSelector(offerSelectors.commentsView);
 
   useEffect(() => {
     if (offerId) {
