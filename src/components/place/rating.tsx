@@ -1,4 +1,5 @@
-import { RatingSetup, RatingType } from '../../const';
+import { memo } from 'react';
+import { RatingType } from '../../const';
 import { ComponentOptions } from '../../types/types';
 
 type RatingProps = {
@@ -6,16 +7,11 @@ type RatingProps = {
   viewType: ComponentOptions;
 };
 
-export default function Rating({ value, viewType }: RatingProps): JSX.Element {
+function RatingComponent({ value, viewType }: RatingProps): JSX.Element {
   return (
     <div className={`${viewType.classPrefix}__rating rating`}>
       <div className={`${viewType.classPrefix}__stars rating__stars`}>
-        <span
-          style={{
-            width: `${Math.round((value * 100) / RatingSetup.MaxRating)}%`,
-          }}
-        />
-
+        <span style={{ width: `${value}%` }} />
         <span className="visually-hidden">Rating</span>
       </div>
       {viewType === RatingType.Offer && (
@@ -24,3 +20,7 @@ export default function Rating({ value, viewType }: RatingProps): JSX.Element {
     </div>
   );
 }
+
+const Rating = memo(RatingComponent);
+
+export default Rating;

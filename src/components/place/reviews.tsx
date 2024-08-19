@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { useEffect } from 'react';
 import { offerSelectors } from '../../store/offer-slice';
 import Loading from '../loader/loading';
+import { getRatingInPercents } from '../../utils';
 
 type ReviewProps = {
   item: Review;
@@ -26,7 +27,10 @@ function ReviewItem({ item }: ReviewProps): JSX.Element {
         <span className="reviews__user-name">{item.user.name}</span>
       </div>
       <div className="reviews__info">
-        <Rating value={item.rating} viewType={RatingType.Review} />
+        <Rating
+          value={getRatingInPercents(item.rating)}
+          viewType={RatingType.Review}
+        />
         <p className="reviews__text">{item.comment}</p>
         <time className="reviews__time" dateTime={item.date}>
           {new Date(item.date).toLocaleDateString('en-GB', {

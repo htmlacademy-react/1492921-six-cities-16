@@ -24,4 +24,5 @@ function CityComponent({ cityName, isActive }: CityProps): JSX.Element {
   );
 }
 
-export const City = memo(CityComponent);
+const City = memo(CityComponent);
+export default City;
