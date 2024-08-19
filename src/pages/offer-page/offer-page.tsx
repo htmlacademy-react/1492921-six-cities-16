@@ -1,4 +1,9 @@
-import { EMPTY_PLACE_POINTS, MapType, ProcessStatus } from '../../const';
+import {
+  EMPTY_PLACE_POINTS,
+  MapType,
+  MAX_IMAGES_IN_GALLERY,
+  ProcessStatus,
+} from '../../const';
 import Header from '../../components/header/header';
 import OfferGallery from '../../components/place/offer-gallery';
 import OfferCard from '../../components/place/offer-card';
@@ -57,9 +62,13 @@ export default function OfferPage(): JSX.Element {
           <Loading />
         ) : (
           <section className="offer">
-            <div className="offer__gallery-container container">
-              {offer.images && <OfferGallery images={offer.images} />}
-            </div>
+            {offer.images && (
+              <div className="offer__gallery-container container">
+                <OfferGallery
+                  images={offer.images.slice(0, MAX_IMAGES_IN_GALLERY)}
+                />
+              </div>
+            )}
             <div className="offer__container container">
               <OfferCard offer={offer} />
             </div>

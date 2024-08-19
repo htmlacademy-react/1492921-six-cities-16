@@ -14,28 +14,31 @@ import {
   ProcessStatus,
   SortItems,
 } from '../const';
-import { loadFavorite, loadOffers, uploadFavorite } from './api-actions';
+import {
+  loadFavorite,
+  loadOffers,
+  uploadFavorite,
+  userLogin,
+} from './api-actions';
 import { createSelector } from 'reselect';
 import { updateFavorites } from '../data/favorites';
 
 type PlacesState = {
   cityName: CityName;
-  places: Place[];
+  //places: Place[];
   placesCities: PlacesCity;
   status: ProcessStatus;
   activePlaceId: ActivePlaceId;
   sortType: SortId;
-  isLoaded: boolean;
 };
 
 const initialState: PlacesState = {
   cityName: CITIES[0],
-  places: EMPTY_PLACES,
+  //places: EMPTY_PLACES,
   placesCities: EMPTY_PLACES_CITIES,
   status: ProcessStatus.Idle,
   activePlaceId: null,
   sortType: 'Popular',
-  isLoaded: false,
 };
 
 const loadingWait = (state: PlacesState) => {
@@ -45,22 +48,32 @@ const loadingError = (state: PlacesState) => {
   state.status = ProcessStatus.Error;
 };
 const loadingEnd = (state: PlacesState, action: PayloadAction<Place[]>) => {
-  state.places = action.payload;
-  state.placesCities = Object.groupBy(state.places, (offer) => offer.city.name);
+  //state.places = action.payload;
+  state.placesCities = Object.groupBy(
+    action.payload,
+    (offer) => offer.city.name
+  );
   state.status = ProcessStatus.Success;
-  state.isLoaded = true;
 };
 
-const updateFavorite = (state: PlacesState, action: PayloadAction<Place[]>) => {
-  state.places.forEach((place) => {
-    place.isFavorite =
-      action.payload.find((favorite) => favorite.id === place.id)?.isFavorite ??
-      false;
-  });
+const startLoading = (state: PlacesState) => {
+  state.status = ProcessStatus.Idle;
 };
+
+// const updateFavorite = (state: PlacesState, action: PayloadAction<Place[]>) => {
+//   Object.values(state.placesCities).forEach((cities) => {
+//     cities.forEach((place) => {
+//       place.isFavorite =
+//         action.payload.find((favorite) => favorite.id === place.id)
+//           ?.isFavorite ?? false;
+//     });
+//   });
+// };
 
 const setFavorite = (state: PlacesState, action: PayloadAction<Place>) => {
-  const offer = state.places.find((place) => place.id === action.payload.id);
+  const offer = state.placesCities[action.payload.city.name]?.find(
+    (place) => place.id === action.payload.id
+  );
   if (offer) {
     offer.isFavorite = action.payload.isFavorite;
   }
@@ -85,17 +98,17 @@ const placesSlice = createSlice({
       .addCase(loadOffers.pending, loadingWait)
       .addCase(loadOffers.fulfilled, loadingEnd)
       .addCase(loadOffers.rejected, loadingError)
-      .addCase(loadFavorite.fulfilled, updateFavorite)
-      .addCase(uploadFavorite.fulfilled, setFavorite);
+      .addCase(uploadFavorite.fulfilled, setFavorite)
+      .addCase(userLogin.fulfilled, startLoading);
   },
   selectors: {
-    places: (state) => state.places,
+    //places: (state) => state.places,
     placesCities: (state) => state.placesCities,
     cityName: (state) => state.cityName,
     status: (state) => state.status,
     activePlaceId: (state) => state.activePlaceId,
     sortType: (state) => state.sortType,
-    isLoaded: (state) => state.isLoaded,
+    //isLoaded: (state) => state.isLoaded,
     isEmptyPlacesCity: (state) =>
       (state.placesCities[state.cityName]?.length ?? 0) === 0,
   },

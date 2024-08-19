@@ -1,6 +1,10 @@
 import { Offer } from '../../types/types';
 import { BookmarkType, PremiumType, RatingType, PriceType } from '../../const';
-import { numberItemsText, capitalLetterText } from '../../utils';
+import {
+  numberItemsText,
+  capitalLetterText,
+  getRatingInPercents,
+} from '../../utils';
 import Premium from './premium';
 import Bookmark from './bookmark';
 import Rating from './rating';
@@ -27,7 +31,11 @@ export default function OfferCard({ offer }: OfferProps): JSX.Element {
           viewType={BookmarkType.Offer}
         />
       </div>
-      <Rating value={offer.rating} viewType={RatingType.Offer} />
+      <Rating
+        valuePercent={getRatingInPercents(offer.rating)}
+        value={offer.rating}
+        viewType={RatingType.Offer}
+      />
       <ul className="offer__features">
         <li className="offer__feature offer__feature--entire">
           {capitalLetterText(offer.type)}
@@ -72,12 +80,13 @@ export default function OfferCard({ offer }: OfferProps): JSX.Element {
           {offer.host.isPro && <span className="offer__user-status">Pro</span>}
         </div>
         <div className="offer__description">
-          <p className="offer__text">{offer.description.split('.')[0]}</p>
+          <p className="offer__text">{offer.description}</p>
+          {/* <p className="offer__text">{offer.description.split('.')[0]}</p>
           <p className="offer__text">
             {offer.description.substring(
               offer.description.split('.')[0].length + 2
             )}
-          </p>
+          </p> */}
         </div>
       </div>
       <section className="offer__reviews reviews">

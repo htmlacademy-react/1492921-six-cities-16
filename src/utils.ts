@@ -9,7 +9,7 @@ const getRandomArrayElement = <T>(arr: T[] | readonly T[]): T =>
   arr[Math.floor(Math.random() * arr.length)];
 
 const getRatingInPercents = (value: number) =>
-  Math.round((value * 100) / RatingSetup.MaxRating);
+  (Math.round(value) * 100) / RatingSetup.MaxRating;
 
 export {
   numberItemsText,

@@ -28,7 +28,7 @@ function ReviewItem({ item }: ReviewProps): JSX.Element {
       </div>
       <div className="reviews__info">
         <Rating
-          value={getRatingInPercents(item.rating)}
+          valuePercent={getRatingInPercents(item.rating)}
           viewType={RatingType.Review}
         />
         <p className="reviews__text">{item.comment}</p>

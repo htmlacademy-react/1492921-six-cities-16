@@ -24,7 +24,7 @@ export default function NearPlaces({ places }: NearPlacesProps): JSX.Element {
             <PlaceCard
               key={place.id}
               place={place}
-              viewType={PlaceCardType.City}
+              viewType={PlaceCardType.NearPlaces}
               isActivePlaceChange={false}
             />
           ))}

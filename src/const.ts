@@ -1,3 +1,4 @@
+import NearPlaces from './components/place/near-places';
 import {
   SortOptions,
   ComponentOptions,
@@ -22,6 +23,7 @@ const RatingSetup = {
 };
 
 const MAX_NEAR_PLACES = 3;
+const MAX_IMAGES_IN_GALLERY = 6;
 
 const ReviewSetup = {
   MaxComments: 10,
@@ -53,6 +55,11 @@ const SortItems = {
 const PlaceCardType = {
   City: { classPrefix: 'cities', imageWidth: 260, imageHeight: 200 },
   Favorite: { classPrefix: 'favorites', imageWidth: 150, imageHeight: 110 },
+  NearPlaces: {
+    classPrefix: 'near-places',
+    imageWidth: 260,
+    imageHeight: 200,
+  },
 } as const satisfies Record<string, ComponentOptions>;
 
 const LogoType = {
@@ -149,6 +156,7 @@ const EMPTY_COMMENTS: Review[] = [];
 
 export {
   MAX_NEAR_PLACES,
+  MAX_IMAGES_IN_GALLERY,
   SortItems,
   RatingStars,
   Pages,

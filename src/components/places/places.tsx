@@ -43,15 +43,14 @@ export default function Places({ cityName }: PlacesProps): JSX.Element {
   const dispatch = useAppDispatch();
   const placesCity = useAppSelector(placesSelectors.placesCity);
   const processStatus = useAppSelector(placesSelectors.status);
-  const isLoaded = useAppSelector(placesSelectors.isLoaded);
   const isEmpty = placesCity.length === 0;
   const isLoading = processStatus === ProcessStatus.Process;
 
   useEffect(() => {
-    if (!isLoaded && !isLoading) {
+    if (processStatus === ProcessStatus.Idle) {
       dispatch(loadOffers());
     }
-  }, [dispatch, isLoaded, isLoading]);
+  }, [dispatch, processStatus]);
   return (
     <div className="cities">
       <div
