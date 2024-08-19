@@ -126,15 +126,15 @@ const offerSlice = createSlice({
 
 const offerSelectors = {
   ...offerSlice.selectors,
-  commentsView: createSelector(offerSlice.selectors.comments, (comments) => {
+  commentsView: createSelector(offerSlice.selectors.comments, (comments) =>
     comments
-      ?.sort((item1, item2) => {
+      .toSorted((item1, item2) => {
         const date1 = new Date(item1.date);
         const date2 = new Date(item2.date);
         return +date2 - +date1;
       })
-      .slice(0, MAX_REVIEWS);
-  }),
+      .slice(0, MAX_REVIEWS)
+  ),
   pointsInMap: createSelector(
     offerSlice.selectors.offer,
     offerSlice.selectors.nearPlaces,

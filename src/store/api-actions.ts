@@ -7,6 +7,7 @@ import {
   Review,
   User,
   PlaceFavorite,
+  Comment,
 } from '../types/types';
 import { AppDispatch, RootState } from './store';
 import { APIRoute, NameSpace } from '../const';
@@ -87,7 +88,7 @@ export const loadComments = createAsyncThunk<
 
 export const uploadComment = createAsyncThunk<
   Review,
-  { offerId: string; comment: string; rating: number },
+  Comment,
   AsyncThunkOptions
 >(
   `${NameSpace.Offer}/uploadComment'`,
