@@ -84,11 +84,11 @@ export default function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
     setFormData({ ...formData, comment: evt.target.value });
   };
 
-  const ratingChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, rating: +evt.target.value });
   };
 
-  const formSubmitHandler = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const comment: Comment = { ...formData, offerId: offerId };
     dispatch(uploadComment(comment));
@@ -99,7 +99,7 @@ export default function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
       className="reviews__form form"
       action="#"
       method="post"
-      onSubmit={formSubmitHandler}
+      onSubmit={handleFormSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
@@ -112,7 +112,7 @@ export default function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
             title={name}
             rating={formData.rating}
             isDisabled={isSavingComment}
-            onRatingChange={ratingChangeHandler}
+            onRatingChange={handleRatingChange}
           />
         ))}
       </div>
