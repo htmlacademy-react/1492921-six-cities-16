@@ -14,18 +14,12 @@ import {
   ProcessStatus,
   SortItems,
 } from '../const';
-import {
-  loadFavorite,
-  loadOffers,
-  uploadFavorite,
-  userLogin,
-} from './api-actions';
+import { loadOffers, uploadFavorite, userLogin } from './api-actions';
 import { createSelector } from 'reselect';
 import { updateFavorites } from '../data/favorites';
 
 type PlacesState = {
   cityName: CityName;
-  //places: Place[];
   placesCities: PlacesCity;
   status: ProcessStatus;
   activePlaceId: ActivePlaceId;
@@ -34,7 +28,6 @@ type PlacesState = {
 
 const initialState: PlacesState = {
   cityName: CITIES[0],
-  //places: EMPTY_PLACES,
   placesCities: EMPTY_PLACES_CITIES,
   status: ProcessStatus.Idle,
   activePlaceId: null,
@@ -48,7 +41,6 @@ const loadingError = (state: PlacesState) => {
   state.status = ProcessStatus.Error;
 };
 const loadingEnd = (state: PlacesState, action: PayloadAction<Place[]>) => {
-  //state.places = action.payload;
   state.placesCities = Object.groupBy(
     action.payload,
     (offer) => offer.city.name
@@ -59,16 +51,6 @@ const loadingEnd = (state: PlacesState, action: PayloadAction<Place[]>) => {
 const startLoading = (state: PlacesState) => {
   state.status = ProcessStatus.Idle;
 };
-
-// const updateFavorite = (state: PlacesState, action: PayloadAction<Place[]>) => {
-//   Object.values(state.placesCities).forEach((cities) => {
-//     cities.forEach((place) => {
-//       place.isFavorite =
-//         action.payload.find((favorite) => favorite.id === place.id)
-//           ?.isFavorite ?? false;
-//     });
-//   });
-// };
 
 const setFavorite = (state: PlacesState, action: PayloadAction<Place>) => {
   const offer = state.placesCities[action.payload.city.name]?.find(
@@ -102,13 +84,11 @@ const placesSlice = createSlice({
       .addCase(userLogin.fulfilled, startLoading);
   },
   selectors: {
-    //places: (state) => state.places,
     placesCities: (state) => state.placesCities,
     cityName: (state) => state.cityName,
     status: (state) => state.status,
     activePlaceId: (state) => state.activePlaceId,
     sortType: (state) => state.sortType,
-    //isLoaded: (state) => state.isLoaded,
     isEmptyPlacesCity: (state) =>
       (state.placesCities[state.cityName]?.length ?? 0) === 0,
   },

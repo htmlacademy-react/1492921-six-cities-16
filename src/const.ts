@@ -1,4 +1,3 @@
-import NearPlaces from './components/place/near-places';
 import {
   SortOptions,
   ComponentOptions,
