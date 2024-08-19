@@ -1,14 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ActivePlaceId, CityName, Place, SortId } from '../types/types';
+import {
+  ActivePlaceId,
+  CityName,
+  Place,
+  PlacesCity,
+  SortId,
+} from '../types/types';
 import { CITIES } from '../data/cities';
-import { EMPTY_PLACES, NameSpace, ProcessStatus, SortItems } from '../const';
-import { loadOffers, uploadFavorite } from './api-actions';
+import {
+  EMPTY_PLACES,
+  EMPTY_PLACES_CITIES,
+  NameSpace,
+  ProcessStatus,
+  SortItems,
+} from '../const';
+import { loadFavorite, loadOffers, uploadFavorite } from './api-actions';
 import { createSelector } from 'reselect';
 import { updateFavorites } from '../data/favorites';
 
 type PlacesState = {
   cityName: CityName;
   places: Place[];
+  placesCities: PlacesCity;
   status: ProcessStatus;
   activePlaceId: ActivePlaceId;
   sortType: SortId;
@@ -18,6 +31,7 @@ type PlacesState = {
 const initialState: PlacesState = {
   cityName: CITIES[0],
   places: EMPTY_PLACES,
+  placesCities: EMPTY_PLACES_CITIES,
   status: ProcessStatus.Idle,
   activePlaceId: null,
   sortType: 'Popular',
@@ -32,8 +46,17 @@ const loadingError = (state: PlacesState) => {
 };
 const loadingEnd = (state: PlacesState, action: PayloadAction<Place[]>) => {
   state.places = action.payload;
+  state.placesCities = Object.groupBy(state.places, (offer) => offer.city.name);
   state.status = ProcessStatus.Success;
   state.isLoaded = true;
+};
+
+const updateFavorite = (state: PlacesState, action: PayloadAction<Place[]>) => {
+  state.places.forEach((place) => {
+    place.isFavorite =
+      action.payload.find((favorite) => favorite.id === place.id)?.isFavorite ??
+      false;
+  });
 };
 
 const setFavorite = (state: PlacesState, action: PayloadAction<Place>) => {
@@ -62,36 +85,32 @@ const placesSlice = createSlice({
       .addCase(loadOffers.pending, loadingWait)
       .addCase(loadOffers.fulfilled, loadingEnd)
       .addCase(loadOffers.rejected, loadingError)
+      .addCase(loadFavorite.fulfilled, updateFavorite)
       .addCase(uploadFavorite.fulfilled, setFavorite);
   },
   selectors: {
     places: (state) => state.places,
+    placesCities: (state) => state.placesCities,
     cityName: (state) => state.cityName,
     status: (state) => state.status,
     activePlaceId: (state) => state.activePlaceId,
     sortType: (state) => state.sortType,
     isLoaded: (state) => state.isLoaded,
+    isEmptyPlacesCity: (state) =>
+      (state.placesCities[state.cityName]?.length ?? 0) === 0,
   },
 });
 
 const { setCurrentCity, setActivePlaceId, setSorting } = placesSlice.actions;
 
-const selectorPlacesCity = createSelector(
-  placesSlice.selectors.places,
-  placesSlice.selectors.cityName,
-  placesSlice.selectors.sortType,
-  (places, cityName, sortType) =>
-    Object.groupBy(places, (offer) => offer.city.name)[cityName]?.toSorted(
-      SortItems[sortType].sort
-    ) ?? EMPTY_PLACES
-);
-
 const placesSelectors = {
   ...placesSlice.selectors,
-  placesCity: selectorPlacesCity,
-  isEmptyPlacesCity: createSelector(
-    selectorPlacesCity,
-    (places) => places.length === 0
+  placesCity: createSelector(
+    placesSlice.selectors.placesCities,
+    placesSlice.selectors.cityName,
+    placesSlice.selectors.sortType,
+    (places, cityName, sortType) =>
+      places[cityName]?.toSorted(SortItems[sortType].sort) ?? EMPTY_PLACES
   ),
 };
 

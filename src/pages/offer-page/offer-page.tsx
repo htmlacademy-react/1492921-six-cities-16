@@ -1,4 +1,4 @@
-import { MapType, ProcessStatus } from '../../const';
+import { EMPTY_PLACE_POINTS, MapType, ProcessStatus } from '../../const';
 import Header from '../../components/header/header';
 import OfferGallery from '../../components/place/offer-gallery';
 import OfferCard from '../../components/place/offer-card';
@@ -11,20 +11,28 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { offerSelectors } from '../../store/offer-slice';
 import { useEffect } from 'react';
 import Loading from '../../components/loader/loading';
-import { loadOffer } from '../../store/api-actions';
+import { loadNearPlaces, loadOffer } from '../../store/api-actions';
 import { setActivePlaceId } from '../../store/places-slice';
+import { PlacePoint } from '../../types/types';
 
 export default function OfferPage(): JSX.Element {
   const { offerId = '' } = useParams();
   const dispatch = useAppDispatch();
+
   const loadingOfferStatus = useAppSelector(offerSelectors.loadingOfferStatus);
   const offer = useAppSelector(offerSelectors.offer);
+
+  const nearPlaces = useAppSelector(offerSelectors.nearPlacesView);
   const activePlaceId = offer?.id ?? null;
-  const pointsInMap = useAppSelector(offerSelectors.pointsInMap);
+
+  const pointsInMap: PlacePoint[] = offer
+    ? [offer as PlacePoint].concat(nearPlaces)
+    : EMPTY_PLACE_POINTS;
 
   useEffect(() => {
     if (offerId) {
       dispatch(loadOffer(offerId));
+      dispatch(loadNearPlaces(offerId));
     }
   }, [dispatch, offerId]);
 
@@ -64,7 +72,7 @@ export default function OfferPage(): JSX.Element {
         )}
         {loadingOfferStatus === ProcessStatus.Success && (
           <div className="container">
-            <NearPlaces offerId={offerId} />
+            <NearPlaces places={nearPlaces} />
           </div>
         )}
       </main>

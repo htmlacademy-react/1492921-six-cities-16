@@ -1,6 +1,6 @@
 import { CITIES } from '../../data/cities';
 import { CityName } from '../../types/types';
-import City from './city';
+import { City } from './city';
 
 type CitiesProps = {
   cityActive: CityName;

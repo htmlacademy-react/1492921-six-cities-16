@@ -69,9 +69,7 @@ export default function OfferCard({ offer }: OfferProps): JSX.Element {
             />
           </div>
           <span className="offer__user-name">{offer.host.name}</span>
-          <span className="offer__user-status">
-            {offer.host.isPro && 'Pro'}
-          </span>
+          {offer.host.isPro && <span className="offer__user-status">Pro</span>}
         </div>
         <div className="offer__description">
           <p className="offer__text">{offer.description.split('.')[0]}</p>

@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { RatingStars, ProcessStatus, ReviewFormSetup } from '../../const';
+import { RatingStars, ProcessStatus, ReviewSetup } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { uploadComment } from '../../store/api-actions';
 import { Comment } from '../../types/types';
@@ -76,8 +76,8 @@ export default function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
 
   const isSubmitDisabled =
     !formData.rating ||
-    formData.comment.length < ReviewFormSetup.MinChars ||
-    formData.comment.length > ReviewFormSetup.MaxChars ||
+    formData.comment.length < ReviewSetup.CommentMinChars ||
+    formData.comment.length > ReviewSetup.CommentMaxChars ||
     isSavingComment;
 
   const handleTextChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
@@ -131,7 +131,7 @@ export default function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
           <span className="reviews__star">rating</span> and describe your stay
           with at least{' '}
           <b className="reviews__text-amount">
-            {ReviewFormSetup.MinChars} characters
+            {ReviewSetup.CommentMinChars} characters
           </b>
           .
         </p>

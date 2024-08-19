@@ -46,6 +46,7 @@ export default function Reviews({ offerId }: ReviewsProps): JSX.Element {
   const dispatch = useAppDispatch();
   const isLoadingComments = useAppSelector(offerSelectors.isLoadingComments);
   const comments = useAppSelector(offerSelectors.commentsView);
+  const commentsCount = useAppSelector(offerSelectors.commentsCount);
 
   useEffect(() => {
     if (offerId) {
@@ -56,7 +57,7 @@ export default function Reviews({ offerId }: ReviewsProps): JSX.Element {
     <>
       <h2 className="reviews__title">
         Reviews &middot;{' '}
-        <span className="reviews__amount">{comments.length}</span>
+        <span className="reviews__amount">{commentsCount}</span>
       </h2>
       {isLoadingComments ? (
         <Loading />

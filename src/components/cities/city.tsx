@@ -2,13 +2,14 @@ import { CityName } from '../../types/types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { Pages } from '../../const';
+import { memo } from 'react';
 
 type CityProps = {
   cityName: CityName;
   isActive: boolean;
 };
 
-export default function City({ cityName, isActive }: CityProps): JSX.Element {
+function CityComponent({ cityName, isActive }: CityProps): JSX.Element {
   return (
     <li className="locations__item">
       <Link
@@ -22,3 +23,5 @@ export default function City({ cityName, isActive }: CityProps): JSX.Element {
     </li>
   );
 }
+
+export const City = memo(CityComponent);
