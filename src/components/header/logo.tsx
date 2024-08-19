@@ -7,8 +7,10 @@ type LogoProps = {
   viewType: ComponentOptions;
 };
 
-function ImgLogoComponent({ viewType }: LogoProps): JSX.Element {
-  return (
+function LogoComponent({ viewType }: LogoProps): JSX.Element {
+  const path = useLocation().pathname;
+  const isMainPage = path.includes(Pages.City.route.split('/')[1]);
+  const imgElement = (
     <img
       className={`${viewType.classPrefix}__logo`}
       src="img/logo.svg"
@@ -17,20 +19,13 @@ function ImgLogoComponent({ viewType }: LogoProps): JSX.Element {
       height={viewType.imageHeight}
     />
   );
-}
-
-const ImgLogo = memo(ImgLogoComponent);
-
-function LogoComponent({ viewType }: LogoProps): JSX.Element {
-  const path = useLocation().pathname;
-  const isMainPage = path.includes(Pages.City.route.split('/')[1]);
   return (
     <Link
       className={`${viewType.classPrefix}__logo-link header__logo-link--active`}
       to={Pages.Main.route}
       style={isMainPage ? { pointerEvents: 'none' } : {}}
     >
-      <ImgLogo viewType={viewType} />
+      {imgElement}
     </Link>
   );
 }
