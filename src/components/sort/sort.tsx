@@ -2,10 +2,10 @@ import { SortItems } from '../../const';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { placesSelectors, setSorting } from '../../store/places-slice';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { SortId } from '../../types/types';
 
-export default function Sort(): JSX.Element {
+function SortComponent(): JSX.Element {
   const [isOpened, setIsOpened] = useState(false);
   const sortActive = useAppSelector(placesSelectors.sortType);
   const dispatch = useAppDispatch();
@@ -40,7 +40,7 @@ export default function Sort(): JSX.Element {
               'places__option--active': entry[0] === sortActive,
             })}
             tabIndex={0}
-            onClick={() => handleSortChange(entry[0])}
+            onClick={() => handleSortChange(entry[0] as SortId)}
           >
             {entry[1].text}
           </li>
@@ -49,3 +49,6 @@ export default function Sort(): JSX.Element {
     </form>
   );
 }
+
+const Sort = memo(SortComponent);
+export default Sort;

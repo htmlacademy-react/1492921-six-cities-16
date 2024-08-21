@@ -5,10 +5,8 @@ import {
   Place,
   PlacePoint,
   Review,
+  PlacesCity,
 } from './types/types';
-
-const MAX_REVIEWS = 10;
-const MAX_NEAR_PLACES_ON_MAP = 3;
 
 const RatingStars = [
   'perfect',
@@ -23,12 +21,18 @@ const RatingSetup = {
   MaxRating: RatingStars.length,
 };
 
-const ReviewFormSetup = {
-  MinChars: 50,
-  MaxChars: 300,
+const MAX_NEAR_PLACES = 3;
+const MAX_IMAGES_IN_GALLERY = 6;
+
+const ReviewSetup = {
+  MaxComments: 10,
+  Sort: (item1: Review, item2: Review) =>
+    +new Date(item2.date) - +new Date(item1.date),
+  CommentMinChars: 50,
+  CommentMaxChars: 300,
 };
 
-const SortItems: Record<string, SortOptions> = {
+const SortItems = {
   Popular: {
     text: 'Popular',
     sort: () => 0,
@@ -45,52 +49,57 @@ const SortItems: Record<string, SortOptions> = {
     text: 'Top rated first',
     sort: (a, b) => b.rating - a.rating,
   },
-} as const;
+} as const satisfies Record<string, SortOptions>;
 
-const PlaceCardType: Record<string, ComponentOptions> = {
+const PlaceCardType = {
   City: { classPrefix: 'cities', imageWidth: 260, imageHeight: 200 },
   Favorite: { classPrefix: 'favorites', imageWidth: 150, imageHeight: 110 },
-};
+  NearPlaces: {
+    classPrefix: 'near-places',
+    imageWidth: 260,
+    imageHeight: 200,
+  },
+} as const satisfies Record<string, ComponentOptions>;
 
-const LogoType: Record<string, ComponentOptions> = {
+const LogoType = {
   Header: { classPrefix: 'header', imageWidth: 81, imageHeight: 41 },
   Footer: { classPrefix: 'footer', imageWidth: 64, imageHeight: 33 },
-};
+} as const satisfies Record<string, ComponentOptions>;
 
-const BookmarkType: Record<string, ComponentOptions> = {
+const BookmarkType = {
   Place: { classPrefix: 'place-card', imageWidth: 18, imageHeight: 19 },
   Offer: { classPrefix: 'offer', imageWidth: 31, imageHeight: 33 },
-};
+} as const satisfies Record<string, ComponentOptions>;
 
-const PremiumType: Record<string, ComponentOptions> = {
+const PremiumType = {
   Place: { classPrefix: 'place-card' },
   Offer: { classPrefix: 'offer' },
-};
+} as const satisfies Record<string, ComponentOptions>;
 
-const RatingType: Record<string, ComponentOptions> = {
+const RatingType = {
   Place: { classPrefix: 'place-card' },
   Offer: { classPrefix: 'offer' },
   Review: { classPrefix: 'reviews' },
-};
+} as const satisfies Record<string, ComponentOptions>;
 
-const PriceType: Record<string, ComponentOptions> = {
+const PriceType = {
   Place: { classPrefix: 'place-card' },
   Offer: { classPrefix: 'offer' },
-};
+} as const satisfies Record<string, ComponentOptions>;
 
-const MapType: Record<string, ComponentOptions> = {
+const MapType = {
   City: { classPrefix: 'cities' },
   Offer: { classPrefix: 'offer' },
-};
+} as const satisfies Record<string, ComponentOptions>;
 
-const Pages: Record<string, PageOptions> = {
+const Pages = {
   Main: { route: '/' },
   City: { route: '/city/:cityName' },
   Favorites: { route: '/favorites' },
   Login: { route: '/login' },
   Offer: { route: '/offer/:offerId' },
   Error: { route: '*' },
-};
+} as const satisfies Record<string, PageOptions>;
 
 export enum AuthorizationStatus {
   Auth = 'AUTH',
@@ -139,26 +148,28 @@ const enum ProcessStatus {
 }
 
 const EMPTY_PLACES: Place[] = [];
+const EMPTY_PLACES_CITIES: PlacesCity = {};
 const EMPTY_PLACE_POINTS: PlacePoint[] = [];
 const EMPTY_OFFER = null;
 const EMPTY_COMMENTS: Review[] = [];
 
 export {
-  MAX_REVIEWS,
-  MAX_NEAR_PLACES_ON_MAP,
+  MAX_NEAR_PLACES,
+  MAX_IMAGES_IN_GALLERY,
   SortItems,
   RatingStars,
   Pages,
   APIRoute,
   NameSpace,
   EMPTY_PLACES,
+  EMPTY_PLACES_CITIES,
   EMPTY_PLACE_POINTS,
   EMPTY_OFFER,
   EMPTY_COMMENTS,
 };
 export {
   RatingSetup,
-  ReviewFormSetup,
+  ReviewSetup,
   PlaceCardType,
   LogoType,
   BookmarkType,

@@ -34,7 +34,6 @@ function SignIn({ isLogged }: SignInProps): JSX.Element {
 
 function SignOut(): JSX.Element {
   const dispatch = useAppDispatch();
-  const path = useLocation().pathname;
 
   const handleLogOutClick = () => {
     dispatch(userLogout());
@@ -42,10 +41,7 @@ function SignOut(): JSX.Element {
 
   return (
     <li className="header__nav-item">
-      <Link
-        className="header__nav-link"
-        to={path === Pages.Favorites.route ? Pages.Main.route : '#'}
-      >
+      <Link className="header__nav-link" to="#">
         <span className="header__signout" onClick={handleLogOutClick}>
           Sign out
         </span>

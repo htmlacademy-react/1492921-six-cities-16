@@ -18,7 +18,7 @@ function NoPlaces({ cityName }: NoPlacesProps): JSX.Element {
   return (
     <section className="cities__no-places">
       <div className="cities__status-wrapper tabs__content">
-        <b>No places to stay available</b>
+        <b className="cities__status">No places to stay available</b>
         <p className="cities__status-description">
           We could not find any property available at the moment in {cityName}
         </p>
@@ -43,15 +43,14 @@ export default function Places({ cityName }: PlacesProps): JSX.Element {
   const dispatch = useAppDispatch();
   const placesCity = useAppSelector(placesSelectors.placesCity);
   const processStatus = useAppSelector(placesSelectors.status);
-  const isLoaded = useAppSelector(placesSelectors.isLoaded);
   const isEmpty = placesCity.length === 0;
   const isLoading = processStatus === ProcessStatus.Process;
 
   useEffect(() => {
-    if (!isLoaded && !isLoading) {
+    if (processStatus === ProcessStatus.Idle) {
       dispatch(loadOffers());
     }
-  }, [dispatch, isLoaded, isLoading]);
+  }, [dispatch, processStatus]);
   return (
     <div className="cities">
       <div

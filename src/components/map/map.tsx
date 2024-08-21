@@ -55,7 +55,12 @@ export default function Map({ city, points, viewType }: MapProps): JSX.Element {
   }, [map, city, points, viewType]);
 
   useEffect(() => {
-    if (map && viewType === MapType.City && activePlaceId) {
+    if (
+      map &&
+      viewType === MapType.City &&
+      activePlaceId &&
+      hashMarker.current[activePlaceId]
+    ) {
       const marker = hashMarker.current[activePlaceId];
       marker.setIcon(currentCustomIcon);
       return () => {
