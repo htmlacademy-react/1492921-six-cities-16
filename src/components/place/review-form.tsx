@@ -9,7 +9,7 @@ import { RatingStars, ProcessStatus, ReviewSetup } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { uploadComment } from '../../store/api-actions';
 import { Comment } from '../../types/types';
-import { offerSelectors } from '../../store/offer-slice';
+import { offerSelectors } from '../../store/offer-slice/offer-slice';
 
 type RatingStarProps = {
   value: number;

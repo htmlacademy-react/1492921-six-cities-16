@@ -4,7 +4,10 @@ import { useParams } from 'react-router-dom';
 import { Pages } from '../../const';
 import ErrorPage from '../../pages/error-page/error-page';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { placesSelectors, setCurrentCity } from '../../store/places-slice';
+import {
+  placesSelectors,
+  setCurrentCity,
+} from '../../store/places-slice/places-slice';
 import { useEffect } from 'react';
 import { isValidCity } from '../../utils/utils';
 

@@ -4,7 +4,7 @@ import Rating from './rating';
 import { loadComments } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { useEffect } from 'react';
-import { offerSelectors } from '../../store/offer-slice';
+import { offerSelectors } from '../../store/offer-slice/offer-slice';
 import Loading from '../loader/loading';
 import { getRatingInPercents } from '../../utils/utils';
 

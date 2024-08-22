@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { CityName } from '../../types/types';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { placesSelectors } from '../../store/places-slice';
+import { placesSelectors } from '../../store/places-slice/places-slice';
 import { useAppSelector } from '../../hooks/store';
 import Places from '../../components/places/places';
 

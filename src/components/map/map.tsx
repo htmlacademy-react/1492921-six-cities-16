@@ -5,7 +5,7 @@ import useMap from '../../hooks/use-map';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../hooks/store';
-import { placesSelectors } from '../../store/places-slice';
+import { placesSelectors } from '../../store/places-slice/places-slice';
 
 type MapProps = {
   city: City;

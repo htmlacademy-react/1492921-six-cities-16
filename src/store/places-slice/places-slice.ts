@@ -5,7 +5,7 @@ import {
   Place,
   PlacesCity,
   SortId,
-} from '../types/types';
+} from '../../types/types';
 import {
   CITIES,
   EMPTY_PLACES,
@@ -13,8 +13,8 @@ import {
   NameSpace,
   ProcessStatus,
   SortItems,
-} from '../const';
-import { loadOffers, uploadFavorite, userLogin } from './api-actions';
+} from '../../const';
+import { loadOffers, uploadFavorite, userLogin } from '../api-actions';
 import { createSelector } from 'reselect';
 
 type PlacesState = {

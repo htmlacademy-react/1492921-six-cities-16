@@ -12,7 +12,7 @@ import Bookmark from './bookmark';
 import Rating from './rating';
 import Price from './price';
 import { Link } from 'react-router-dom';
-import { setActivePlaceId } from '../../store/places-slice';
+import { setActivePlaceId } from '../../store/places-slice/places-slice';
 import { useAppDispatch } from '../../hooks/store';
 
 type PlaceProps = {

@@ -1,7 +1,7 @@
 import { CityName } from '../../types/types';
 import { MapType, ProcessStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { placesSelectors } from '../../store/places-slice';
+import { placesSelectors } from '../../store/places-slice/places-slice';
 import { useEffect } from 'react';
 import { loadOffers } from '../../store/api-actions';
 import classNames from 'classnames';

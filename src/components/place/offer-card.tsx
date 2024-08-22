@@ -13,7 +13,7 @@ import Reviews from './reviews';
 import ReviewForm from './review-form';
 import classNames from 'classnames';
 import { useAppSelector } from '../../hooks/store';
-import { userSelectors } from '../../store/user-slice';
+import { userSelectors } from '../../store/user-slice/user-slice';
 
 type OfferProps = {
   offer: Offer;

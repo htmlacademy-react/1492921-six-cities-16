@@ -13,11 +13,11 @@ import ErrorPage from '../../pages/error-page/error-page';
 import Map from '../../components/map/map';
 import NearPlaces from '../../components/place/near-places';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { offerSelectors } from '../../store/offer-slice';
+import { offerSelectors } from '../../store/offer-slice/offer-slice';
 import { useEffect } from 'react';
 import Loading from '../../components/loader/loading';
 import { loadNearPlaces, loadOffer } from '../../store/api-actions';
-import { setActivePlaceId } from '../../store/places-slice';
+import { setActivePlaceId } from '../../store/places-slice/places-slice';
 import { PlacePoint } from '../../types/types';
 
 export default function OfferPage(): JSX.Element {

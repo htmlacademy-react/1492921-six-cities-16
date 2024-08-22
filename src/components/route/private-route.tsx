@@ -1,7 +1,7 @@
 import { Location, Navigate, useLocation } from 'react-router-dom';
 import { RouteProps } from '../../types/types';
 import { useAppSelector } from '../../hooks/store';
-import { userSelectors } from '../../store/user-slice';
+import { userSelectors } from '../../store/user-slice/user-slice';
 import { AuthorizationStatus, Pages } from '../../const';
 import LoadingPage from '../../pages/loading-page.tsx/loading-page';
 

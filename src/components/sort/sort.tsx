@@ -1,7 +1,10 @@
 import { SortItems } from '../../const';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { placesSelectors, setSorting } from '../../store/places-slice';
+import {
+  placesSelectors,
+  setSorting,
+} from '../../store/places-slice/places-slice';
 import { memo, useState } from 'react';
 import { SortId } from '../../types/types';
 

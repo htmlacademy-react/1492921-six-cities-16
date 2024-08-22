@@ -6,7 +6,7 @@ import Logo from '../../components/header/logo';
 import { CityName } from '../../types/types';
 import { Helmet } from 'react-helmet-async';
 import { useAppSelector } from '../../hooks/store';
-import { favoritesSelectors } from '../../store/favorites-slice';
+import { favoritesSelectors } from '../../store/favorite-slice/favorites-slice';
 import Loading from '../../components/loader/loading';
 import { Link } from 'react-router-dom';
 

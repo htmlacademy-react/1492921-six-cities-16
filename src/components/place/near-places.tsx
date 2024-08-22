@@ -1,5 +1,5 @@
 import { PlaceCardType } from '../../const';
-import { offerSelectors } from '../../store/offer-slice';
+import { offerSelectors } from '../../store/offer-slice/offer-slice';
 import PlaceCard from './place-card';
 import Loading from '../loader/loading';
 import { Place } from '../../types/types';
