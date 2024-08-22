@@ -49,5 +49,7 @@ const userSlice = createSlice({
 
 const userSelectors = userSlice.selectors;
 
-export { userSelectors };
+export { initialState, userSelectors };
+export type { UserState };
+
 export default userSlice.reducer;
