@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { RatingStars, ProcessStatus, ReviewFormSetup } from '../../const';
+import { RatingStars, ProcessStatus, ReviewSetup } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { uploadComment } from '../../store/api-actions';
 import { Comment } from '../../types/types';
@@ -76,19 +76,19 @@ export default function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
 
   const isSubmitDisabled =
     !formData.rating ||
-    formData.comment.length < ReviewFormSetup.MinChars ||
-    formData.comment.length > ReviewFormSetup.MaxChars ||
+    formData.comment.length < ReviewSetup.CommentMinChars ||
+    formData.comment.length > ReviewSetup.CommentMaxChars ||
     isSavingComment;
 
   const handleTextChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setFormData({ ...formData, comment: evt.target.value });
   };
 
-  const ratingChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, rating: +evt.target.value });
   };
 
-  const formSubmitHandler = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const comment: Comment = { ...formData, offerId: offerId };
     dispatch(uploadComment(comment));
@@ -99,7 +99,7 @@ export default function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
       className="reviews__form form"
       action="#"
       method="post"
-      onSubmit={formSubmitHandler}
+      onSubmit={handleFormSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
@@ -112,7 +112,7 @@ export default function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
             title={name}
             rating={formData.rating}
             isDisabled={isSavingComment}
-            onRatingChange={ratingChangeHandler}
+            onRatingChange={handleRatingChange}
           />
         ))}
       </div>
@@ -131,7 +131,7 @@ export default function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
           <span className="reviews__star">rating</span> and describe your stay
           with at least{' '}
           <b className="reviews__text-amount">
-            {ReviewFormSetup.MinChars} characters
+            {ReviewSetup.CommentMinChars} characters
           </b>
           .
         </p>

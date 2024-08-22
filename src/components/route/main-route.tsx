@@ -6,21 +6,36 @@ import { Pages } from '../../const';
 import ErrorPage from '../../pages/error-page/error-page';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { placesSelectors, setCurrentCity } from '../../store/places-slice';
+import { useEffect } from 'react';
+
+function NavigateToActiveCity(): JSX.Element {
+  const cityName = useAppSelector(placesSelectors.cityName);
+  return <Navigate to={Pages.City.route.replace(':cityName', cityName)} />;
+}
+
+function useUpdateActiveCityByRoute() {
+  const dispatch = useAppDispatch();
+  const { cityName } = useParams();
+  const isValid = cityName ? isValidCity(cityName) : false;
+  useEffect(() => {
+    if (isValid) {
+      dispatch(setCurrentCity(cityName as CityName));
+    }
+  }, [dispatch, cityName, isValid]);
+  return { isValid, cityName };
+}
 
 export default function MainRoute({ children }: RouteProps): JSX.Element {
-  const dispatch = useAppDispatch();
-  const cityName = useAppSelector(placesSelectors.cityName);
-  const param = useParams();
-  if (param.cityName && isValidCity(param.cityName)) {
-    dispatch(setCurrentCity(param.cityName as CityName));
+  const { isValid, cityName } = useUpdateActiveCityByRoute();
+  if (isValid) {
     return children;
   }
-  if (param.cityName) {
+  if (cityName) {
     return (
       <ErrorPage
-        description={`The city with the name ${param.cityName} was not found`}
+        description={`The city with the name ${cityName} was not found`}
       />
     );
   }
-  return <Navigate to={Pages.City.route.replace(':cityName', cityName)} />;
+  return <NavigateToActiveCity />;
 }

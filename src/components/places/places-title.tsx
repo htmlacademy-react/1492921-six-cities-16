@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { numberItemsText } from '../../utils';
 
 type PlacesTitleProps = {
@@ -5,7 +6,7 @@ type PlacesTitleProps = {
   cityName: string;
 };
 
-export default function PlacesTitle({
+function PlacesTitleComponent({
   placeCount,
   cityName,
 }: PlacesTitleProps): JSX.Element {
@@ -15,3 +16,6 @@ export default function PlacesTitle({
     </b>
   );
 }
+
+const PlacesTitle = memo(PlacesTitleComponent);
+export default PlacesTitle;

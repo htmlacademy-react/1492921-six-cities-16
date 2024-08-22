@@ -6,7 +6,7 @@ import {
   PriceType,
   Pages,
 } from '../../const';
-import { capitalLetterText } from '../../utils';
+import { capitalLetterText, getRatingInPercents } from '../../utils';
 import Premium from './premium';
 import Bookmark from './bookmark';
 import Rating from './rating';
@@ -62,7 +62,10 @@ export default function PlaceCard({
             viewType={BookmarkType.Place}
           />
         </div>
-        <Rating value={place.rating} viewType={RatingType.Place} />
+        <Rating
+          valuePercent={getRatingInPercents(place.rating)}
+          viewType={RatingType.Place}
+        />
         <h2 className="place-card__name">
           <Link to={Pages.Offer.route.replace(':offerId', place.id)}>
             {place.title}

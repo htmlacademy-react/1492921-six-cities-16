@@ -5,16 +5,15 @@ import {
   loadOffer,
   uploadComment,
 } from './api-actions';
-import { Offer, Place, Review, PlacePoint } from '../types/types';
+import { Offer, Place, Review } from '../types/types';
 import {
   EMPTY_COMMENTS,
   EMPTY_OFFER,
-  EMPTY_PLACE_POINTS,
   EMPTY_PLACES,
-  MAX_NEAR_PLACES_ON_MAP,
-  MAX_REVIEWS,
+  MAX_NEAR_PLACES,
   NameSpace,
   ProcessStatus,
+  ReviewSetup,
 } from '../const';
 
 type OfferState = {
@@ -127,24 +126,10 @@ const offerSlice = createSlice({
 const offerSelectors = {
   ...offerSlice.selectors,
   commentsView: createSelector(offerSlice.selectors.comments, (comments) =>
-    comments
-      .toSorted((item1, item2) => {
-        const date1 = new Date(item1.date);
-        const date2 = new Date(item2.date);
-        return +date2 - +date1;
-      })
-      .slice(0, MAX_REVIEWS)
+    comments.toSorted(ReviewSetup.Sort).slice(0, ReviewSetup.MaxComments)
   ),
-  pointsInMap: createSelector(
-    offerSlice.selectors.offer,
-    offerSlice.selectors.nearPlaces,
-    (offer, nearPlaces) => {
-      if (!offer) {
-        return EMPTY_PLACE_POINTS;
-      }
-      const nearPoints: PlacePoint[] = [offer];
-      return nearPoints.concat(nearPlaces.slice(0, MAX_NEAR_PLACES_ON_MAP));
-    }
+  nearPlacesView: createSelector(offerSlice.selectors.nearPlaces, (places) =>
+    places.slice(0, MAX_NEAR_PLACES)
   ),
 };
 

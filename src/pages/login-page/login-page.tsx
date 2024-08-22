@@ -14,7 +14,7 @@ export default function LoginPage(): JSX.Element {
   const randomCity: CityName = getRandomArrayElement(CITIES);
   let login: Login;
 
-  const fieldChangeHandler = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleFieldChange = (evt: ChangeEvent<HTMLInputElement>) => {
     login = { ...login, [evt.target.name]: evt.target.value };
   };
 
@@ -47,7 +47,7 @@ export default function LoginPage(): JSX.Element {
                   name="email"
                   placeholder="Email"
                   required
-                  onChange={fieldChangeHandler}
+                  onChange={handleFieldChange}
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
@@ -60,7 +60,7 @@ export default function LoginPage(): JSX.Element {
                   pattern="^(?=.*[a-zA-Z])(?=.*\d).*$"
                   title="'Пароль должен содержать не менее одной латинской буквы и одной цифры!'"
                   required
-                  onChange={fieldChangeHandler}
+                  onChange={handleFieldChange}
                 />
               </div>
               <button

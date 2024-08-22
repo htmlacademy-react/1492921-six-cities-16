@@ -13,14 +13,36 @@ type DetailMessageType = {
   message: string;
 };
 
-const StatusCodeMapping: Record<number, boolean> = {
-  [StatusCodes.BAD_REQUEST]: true,
-  [StatusCodes.UNAUTHORIZED]: true,
-  [StatusCodes.NOT_FOUND]: true,
+type IgnoreErrorMessage = {
+  Start?: string;
+  End?: string;
+  Include?: string;
 };
 
+const IgnoreErrorMessages: IgnoreErrorMessage[] = [
+  { Include: 'Token' },
+  { Start: 'Access' },
+  { Start: 'Offer with id', End: 'not found.' },
+];
+
+const ignoreErrorMessage = (errorMessage: DetailMessageType): boolean =>
+  IgnoreErrorMessages.reduce(
+    (result, item) =>
+      result ||
+      (errorMessage.message.includes(item.Include ?? '') &&
+        errorMessage.message.startsWith(item.Start ?? '') &&
+        errorMessage.message.endsWith(item.End ?? '')),
+    false
+  );
+
+const StatusCodeMapping = new Set([
+  StatusCodes.BAD_REQUEST,
+  StatusCodes.UNAUTHORIZED,
+  StatusCodes.NOT_FOUND,
+]);
+
 const shouldDisplayError = (response: AxiosResponse) =>
-  !!StatusCodeMapping[response.status];
+  StatusCodeMapping.has(response.status);
 
 const BACKEND_URL = 'https://16.design.htmlacademy.pro/six-cities';
 const REQUEST_TIMEOUT = 5000;
@@ -49,14 +71,7 @@ export const createAPI = (): AxiosInstance => {
       }
       if (error.response && shouldDisplayError(error.response)) {
         const detailMessage = error.response.data;
-        if (
-          !(
-            detailMessage.message.includes('Token') ||
-            detailMessage.message.includes('Access') ||
-            (detailMessage.message.startsWith('Offer with id') &&
-              detailMessage.message.endsWith('not found.'))
-          )
-        ) {
+        if (!ignoreErrorMessage(detailMessage)) {
           toast.warn(detailMessage.message);
         }
       }

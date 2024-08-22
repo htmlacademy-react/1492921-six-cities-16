@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Pages } from '../../const';
 import { ComponentOptions } from '../../types/types';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { userSelectors } from '../../store/user-slice';
 import { uploadFavorite } from '../../store/api-actions';
@@ -13,7 +13,7 @@ type BookmarkProps = {
   viewType: ComponentOptions;
 };
 
-export default function Bookmark({
+function BookmarkComponent({
   placeId,
   isFavorite,
   viewType,
@@ -23,6 +23,19 @@ export default function Bookmark({
   const [isCheck, setCheck] = useState(isFavorite);
   const navigate = useNavigate();
   const isLogged = useAppSelector(userSelectors.isLogged);
+
+  const className = useMemo(
+    () =>
+      classNames(
+        `${viewType.classPrefix}__bookmark-button`,
+        {
+          [`${viewType.classPrefix}__bookmark-button--active`]:
+            isCheck && isLogged,
+        },
+        'button'
+      ),
+    [isCheck, isLogged, viewType]
+  );
 
   const handleBookmarkButtonClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
@@ -37,14 +50,7 @@ export default function Bookmark({
 
   return (
     <button
-      className={classNames(
-        `${viewType.classPrefix}__bookmark-button`,
-        {
-          [`${viewType.classPrefix}__bookmark-button--active`]:
-            isCheck && isLogged,
-        },
-        'button'
-      )}
+      className={className}
       type="button"
       onClick={handleBookmarkButtonClick}
     >
@@ -59,3 +65,6 @@ export default function Bookmark({
     </button>
   );
 }
+
+const Bookmark = memo(BookmarkComponent);
+export default Bookmark;
