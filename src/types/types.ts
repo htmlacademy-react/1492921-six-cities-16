@@ -1,5 +1,4 @@
-import { CITIES } from '../data/cities';
-import { SortItems } from '../const';
+import { CITIES, SortItems } from '../const';
 
 type CityName = (typeof CITIES)[number];
 
@@ -125,4 +124,5 @@ export type {
   CallbackFunction,
   ChangeCityFunction,
   RouteProps,
+  Host,
 };

@@ -8,6 +8,18 @@ import {
   PlacesCity,
 } from './types/types';
 
+const MAX_NEAR_PLACES = 3;
+const MAX_IMAGES_IN_GALLERY = 6;
+
+const CITIES = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+] as const;
+
 const RatingStars = [
   'perfect',
   'good',
@@ -20,9 +32,6 @@ const RatingSetup = {
   MinRating: 1,
   MaxRating: RatingStars.length,
 };
-
-const MAX_NEAR_PLACES = 3;
-const MAX_IMAGES_IN_GALLERY = 6;
 
 const ReviewSetup = {
   MaxComments: 10,
@@ -156,6 +165,7 @@ const EMPTY_COMMENTS: Review[] = [];
 export {
   MAX_NEAR_PLACES,
   MAX_IMAGES_IN_GALLERY,
+  CITIES,
   SortItems,
   RatingStars,
   Pages,

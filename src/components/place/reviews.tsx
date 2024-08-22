@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { useEffect } from 'react';
 import { offerSelectors } from '../../store/offer-slice';
 import Loading from '../loader/loading';
-import { getRatingInPercents } from '../../utils';
+import { getRatingInPercents } from '../../utils/utils';
 
 type ReviewProps = {
   item: Review;

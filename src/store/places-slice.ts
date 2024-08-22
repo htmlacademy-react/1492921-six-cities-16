@@ -6,8 +6,8 @@ import {
   PlacesCity,
   SortId,
 } from '../types/types';
-import { CITIES } from '../data/cities';
 import {
+  CITIES,
   EMPTY_PLACES,
   EMPTY_PLACES_CITIES,
   NameSpace,
@@ -16,7 +16,6 @@ import {
 } from '../const';
 import { loadOffers, uploadFavorite, userLogin } from './api-actions';
 import { createSelector } from 'reselect';
-import { updateFavorites } from '../data/favorites';
 
 type PlacesState = {
   cityName: CityName;
@@ -107,11 +106,5 @@ const placesSelectors = {
   ),
 };
 
-export {
-  placesSelectors,
-  updateFavorites,
-  setCurrentCity,
-  setActivePlaceId,
-  setSorting,
-};
+export { placesSelectors, setCurrentCity, setActivePlaceId, setSorting };
 export default placesSlice.reducer;

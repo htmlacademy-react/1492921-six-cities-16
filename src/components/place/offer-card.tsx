@@ -4,7 +4,7 @@ import {
   numberItemsText,
   capitalLetterText,
   getRatingInPercents,
-} from '../../utils';
+} from '../../utils/utils';
 import Premium from './premium';
 import Bookmark from './bookmark';
 import Rating from './rating';

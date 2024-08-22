@@ -1,12 +1,12 @@
 import { Navigate } from 'react-router-dom';
 import { CityName, RouteProps } from '../../types/types';
 import { useParams } from 'react-router-dom';
-import { isValidCity } from '../../data/cities';
 import { Pages } from '../../const';
 import ErrorPage from '../../pages/error-page/error-page';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { placesSelectors, setCurrentCity } from '../../store/places-slice';
 import { useEffect } from 'react';
+import { isValidCity } from '../../utils/utils';
 
 function NavigateToActiveCity(): JSX.Element {
   const cityName = useAppSelector(placesSelectors.cityName);

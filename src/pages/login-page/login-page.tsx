@@ -1,8 +1,7 @@
-import { Pages } from '../../const';
+import { CITIES, Pages } from '../../const';
 import { CityName, Login } from '../../types/types';
-import { CITIES } from '../../data/cities';
 import Header from '../../components/header/header';
-import { getRandomArrayElement } from '../../utils';
+import { getRandomArrayElement } from '../../utils/utils';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { FormEvent, ChangeEvent } from 'react';

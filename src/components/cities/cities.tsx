@@ -1,4 +1,4 @@
-import { CITIES } from '../../data/cities';
+import { CITIES } from '../../const';
 import { CityName } from '../../types/types';
 import City from './city';
 

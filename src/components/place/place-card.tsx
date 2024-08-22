@@ -6,7 +6,7 @@ import {
   PriceType,
   Pages,
 } from '../../const';
-import { capitalLetterText, getRatingInPercents } from '../../utils';
+import { capitalLetterText, getRatingInPercents } from '../../utils/utils';
 import Premium from './premium';
 import Bookmark from './bookmark';
 import Rating from './rating';
