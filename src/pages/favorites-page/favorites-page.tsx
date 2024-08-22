@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet-async';
 import { useAppSelector } from '../../hooks/store';
 import { favoritesSelectors } from '../../store/favorites-slice';
 import Loading from '../../components/loader/loading';
+import { Link } from 'react-router-dom';
 
 export default function FavoritesPage(): JSX.Element {
   const isLoading = useAppSelector(favoritesSelectors.isLoading);
@@ -48,9 +49,9 @@ export default function FavoritesPage(): JSX.Element {
                   <li key={city} className="favorites__locations-items">
                     <div className="favorites__locations locations locations--current">
                       <div className="locations__item">
-                        <a className="locations__item-link" href="#">
+                        <Link className="locations__item-link" to="#">
                           <span>{city}</span>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                     <div className="favorites__places">
