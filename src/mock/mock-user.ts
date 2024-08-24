@@ -30,6 +30,16 @@ const mockUserAuthState: UserState = {
   status: AuthorizationStatus.Auth,
 };
 
+const mockUserNoAuthState: UserState = {
+  email: '',
+  status: AuthorizationStatus.NoAuth,
+};
+
+const mockUserUnknownState: UserState = {
+  email: faker.internet.email(),
+  status: AuthorizationStatus.Unknown,
+};
+
 const mockCheckLoginError = {
   errorCode: 401,
   response: {
@@ -53,12 +63,20 @@ const mockUserLoginError = {
   },
 };
 
+const getUserAuthState = (emailUser: string): UserState => ({
+  email: emailUser,
+  status: AuthorizationStatus.Auth,
+});
+
 export {
   mockHost,
   mockLogin,
   mockLoginNotValid,
   mockUser,
   mockUserAuthState,
+  mockUserNoAuthState,
+  mockUserUnknownState,
   mockCheckLoginError,
   mockUserLoginError,
+  getUserAuthState,
 };
