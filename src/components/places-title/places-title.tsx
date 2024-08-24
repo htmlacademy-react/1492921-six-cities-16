@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { numberItemsText } from '../../utils/utils';
+import { numberItemsText } from '@src/utils/utils';
 
 type PlacesTitleProps = {
   placeCount: number;

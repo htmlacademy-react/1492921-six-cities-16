@@ -1,7 +1,7 @@
 import faker from 'faker';
-import { Host, Login, User } from '../types/types';
-import { UserState } from '../store/user-slice/user-slice';
-import { AuthorizationStatus } from '../const';
+import { Host, Login, User } from '@src/types/types';
+import { UserState } from '@store/user-slice/user-slice';
+import { AuthorizationStatus } from '@src/const';
 
 const mockHost: Host = {
   name: faker.name.firstName(),

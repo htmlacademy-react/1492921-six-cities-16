@@ -1,9 +1,8 @@
-import { PlaceCardType } from '../../const';
-import { offerSelectors } from '../../store/offer-slice/offer-slice';
-import PlaceCard from './place-card';
-import Loading from '../loader/loading';
-import { Place } from '../../types/types';
-import { useAppSelector } from '../../hooks/store';
+import { PlaceCardType } from '@src/const';
+import { offerSelectors } from '@store/offer-slice/offer-slice';
+import { PlaceCard, Loading } from '@components';
+import { Place } from '@src/types/types';
+import { useAppSelector } from '@src/hooks/store';
 
 type NearPlacesProps = {
   places: Place[];

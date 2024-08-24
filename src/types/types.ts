@@ -1,4 +1,4 @@
-import { CITIES, SortItems } from '../const';
+import { CITIES, SortItems } from '@src/const';
 
 type CityName = (typeof CITIES)[number];
 

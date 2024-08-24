@@ -1,6 +1,6 @@
-import { Place } from '../../types/types';
-import { PlaceCardType } from '../../const';
-import PlaceCard from '../place/place-card';
+import { Place } from '@src/types/types';
+import { PlaceCardType } from '@src/const';
+import { PlaceCard } from '@components';
 
 type PlaceListProps = {
   places: Place[];

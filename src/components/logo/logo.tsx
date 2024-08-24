@@ -1,5 +1,5 @@
-import { ComponentOptions } from '../../types/types';
-import { Pages } from '../../const';
+import { ComponentOptions } from '@src/types/types';
+import { Pages } from '@src/const';
 import { Link, useLocation } from 'react-router-dom';
 import { memo } from 'react';
 

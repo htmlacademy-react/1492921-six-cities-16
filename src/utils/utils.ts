@@ -1,4 +1,4 @@
-import { CITIES, RatingSetup } from '../const';
+import { CITIES, RatingSetup } from '@src/const';
 
 const numberItemsText = (count: number, text: string): string =>
   `${count} ${text}${count > 1 ? 's' : ''}`;

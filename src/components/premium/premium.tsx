@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { ComponentOptions } from '../../types/types';
+import { ComponentOptions } from '@src/types/types';
 
 type PremiumProps = {
   viewType: ComponentOptions;

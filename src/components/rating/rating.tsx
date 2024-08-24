@@ -1,6 +1,6 @@
 import { memo } from 'react';
-import { RatingType } from '../../const';
-import { ComponentOptions } from '../../types/types';
+import { RatingType } from '@src/const';
+import { ComponentOptions } from '@src/types/types';
 
 type RatingProps = {
   valuePercent: number;

@@ -1,7 +1,7 @@
-import { CityName } from '../../types/types';
+import { CityName } from '@src/types/types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { Pages } from '../../const';
+import { Pages } from '@src/const';
 import { memo } from 'react';
 
 type CityProps = {

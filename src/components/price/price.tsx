@@ -1,5 +1,5 @@
-import { PriceType } from '../../const';
-import { ComponentOptions } from '../../types/types';
+import { PriceType } from '@src/const';
+import { ComponentOptions } from '@src/types/types';
 
 type PriceProps = {
   value: number;

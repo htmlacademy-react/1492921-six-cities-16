@@ -6,7 +6,7 @@ import {
   PlacePoint,
   Review,
   PlacesCity,
-} from './types/types';
+} from '@src/types/types';
 
 const MAX_NEAR_PLACES = 3;
 const MAX_IMAGES_IN_GALLERY = 6;

@@ -20,6 +20,15 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
+
+    /* Aliases */
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@components": ["src/components/index.ts"],
+      "@pages/*": ["src/pages/*"],
+      "@store/*": ["src/store/*"]
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

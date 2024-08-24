@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Place } from '../../types/types';
-import { EMPTY_PLACES, NameSpace } from '../../const';
-import { loadFavorite, uploadFavorite } from '../api-actions';
+import { Place } from '@src/types/types';
+import { EMPTY_PLACES, NameSpace } from '@src/const';
+import { loadFavorite, uploadFavorite } from '@store/api-actions';
 import { createSelector } from 'reselect';
 
 type FavoritesState = {

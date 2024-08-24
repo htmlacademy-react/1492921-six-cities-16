@@ -5,11 +5,11 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { RatingStars, ProcessStatus, ReviewSetup } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { uploadComment } from '../../store/api-actions';
-import { Comment } from '../../types/types';
-import { offerSelectors } from '../../store/offer-slice/offer-slice';
+import { RatingStars, ProcessStatus, ReviewSetup } from '@src/const';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store';
+import { uploadComment } from '@store/api-actions';
+import { Comment } from '@src/types/types';
+import { offerSelectors } from '@store/offer-slice/offer-slice';
 
 type RatingStarProps = {
   value: number;

@@ -1,6 +1,5 @@
-import { LogoType, Pages } from '../../const';
-import Logo from './logo';
-import SignUser from './sign-user';
+import { LogoType, Pages } from '@src/const';
+import { Logo, SignUser } from '@components';
 import { useLocation } from 'react-router-dom';
 
 export default function Header(): JSX.Element {

@@ -1,9 +1,9 @@
 import { Location, Navigate, useLocation } from 'react-router-dom';
-import { RouteProps } from '../../types/types';
-import { useAppSelector } from '../../hooks/store';
-import { userSelectors } from '../../store/user-slice/user-slice';
-import { AuthorizationStatus, Pages } from '../../const';
-import LoadingPage from '../../pages/loading-page.tsx/loading-page';
+import { RouteProps } from '@src/types/types';
+import { useAppSelector } from '@src/hooks/store';
+import { userSelectors } from '@store/user-slice/user-slice';
+import { AuthorizationStatus, Pages } from '@src/const';
+import LoadingPage from '@pages/loading-page.tsx/loading-page';
 
 type FormState = {
   from?: string;

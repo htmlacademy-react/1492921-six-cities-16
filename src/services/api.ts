@@ -6,7 +6,7 @@ import axios, {
 } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { toast } from 'react-toastify';
-import { getToken } from './token';
+import { getToken } from '@src/services/token';
 
 type DetailMessageType = {
   type: string;

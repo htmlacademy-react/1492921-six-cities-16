@@ -1,9 +1,9 @@
-import { Pages } from '../../const';
+import { Pages } from '@src/const';
 import { Link, useLocation } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { userSelectors } from '../../store/user-slice/user-slice';
-import { userLogout } from '../../store/api-actions';
-import FavoritesCount from './favorites-count';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store';
+import { userSelectors } from '@store/user-slice/user-slice';
+import { userLogout } from '@store/api-actions';
+import { FavoritesCount } from '@components';
 
 type SignInProps = {
   isLogged: boolean;

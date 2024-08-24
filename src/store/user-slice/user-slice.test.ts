@@ -1,14 +1,13 @@
-import reducer, { initialState, UserState } from './user-slice';
+import reducer, { initialState, UserState } from '@store/user-slice/user-slice';
 import {
   getUserAuthState,
   mockLogin,
   mockUser,
   mockUserAuthState,
   mockUserNoAuthState,
-  mockUserUnknownState,
-} from '../../mock/mock-user';
-import { checkLogin, userLogin, userLogout } from '../api-actions';
-import { AuthorizationStatus } from '../../const';
+} from '@src/mock/mock-user';
+import { checkLogin, userLogin, userLogout } from '@store/api-actions';
+import { AuthorizationStatus } from '@src/const';
 
 describe('userSlice reducer', () => {
   it('Should return initial state', () => {

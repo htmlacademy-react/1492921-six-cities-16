@@ -1,15 +1,15 @@
 import { Navigate } from 'react-router-dom';
-import { CityName, RouteProps } from '../../types/types';
+import { CityName, RouteProps } from '@src/types/types';
 import { useParams } from 'react-router-dom';
-import { Pages } from '../../const';
-import ErrorPage from '../../pages/error-page/error-page';
-import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { Pages } from '@src/const';
+import ErrorPage from '@src/pages/error-page/error-page';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store';
 import {
   placesSelectors,
   setCurrentCity,
-} from '../../store/places-slice/places-slice';
+} from '@store/places-slice/places-slice';
 import { useEffect } from 'react';
-import { isValidCity } from '../../utils/utils';
+import { isValidCity } from '@src/utils/utils';
 
 function NavigateToActiveCity(): JSX.Element {
   const cityName = useAppSelector(placesSelectors.cityName);

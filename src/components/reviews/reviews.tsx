@@ -1,12 +1,11 @@
-import { Review } from '../../types/types';
-import { RatingType } from '../../const';
-import Rating from './rating';
-import { loadComments } from '../../store/api-actions';
-import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { Review } from '@src/types/types';
+import { RatingType } from '@src/const';
+import { Rating, Loading } from '@components';
+import { loadComments } from '@store/api-actions';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store';
 import { useEffect } from 'react';
-import { offerSelectors } from '../../store/offer-slice/offer-slice';
-import Loading from '../loader/loading';
-import { getRatingInPercents } from '../../utils/utils';
+import { offerSelectors } from '@store/offer-slice/offer-slice';
+import { getRatingInPercents } from '@src/utils/utils';
 
 type ReviewProps = {
   item: Review;

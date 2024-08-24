@@ -1,19 +1,16 @@
-import { Place, ComponentOptions } from '../../types/types';
+import { Place, ComponentOptions } from '@src/types/types';
 import {
   PremiumType,
   BookmarkType,
   RatingType,
   PriceType,
   Pages,
-} from '../../const';
-import { capitalLetterText, getRatingInPercents } from '../../utils/utils';
-import Premium from './premium';
-import Bookmark from './bookmark';
-import Rating from './rating';
-import Price from './price';
+} from '@src/const';
+import { capitalLetterText, getRatingInPercents } from '@src/utils/utils';
+import { Premium, Bookmark, Rating, Price } from '@components';
 import { Link } from 'react-router-dom';
-import { setActivePlaceId } from '../../store/places-slice/places-slice';
-import { useAppDispatch } from '../../hooks/store';
+import { setActivePlaceId } from '@store/places-slice/places-slice';
+import { useAppDispatch } from '@src/hooks/store';
 
 type PlaceProps = {
   place: Place;

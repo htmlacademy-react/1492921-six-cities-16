@@ -1,4 +1,8 @@
-import { getRatingInPercents, isValidCity, numberItemsText } from './utils';
+import {
+  getRatingInPercents,
+  isValidCity,
+  numberItemsText,
+} from '@src/utils/utils';
 
 describe('UTILS', () => {
   describe('Function: numberItemsText', () => {

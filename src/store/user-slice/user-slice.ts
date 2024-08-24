@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from '../../types/types';
-import { checkLogin, userLogin, userLogout } from '../api-actions';
-import { AuthorizationStatus } from '../../const';
+import { User } from '@src/types/types';
+import { checkLogin, userLogin, userLogout } from '@store/api-actions';
+import { AuthorizationStatus } from '@src/const';
 
 type UserState = {
   email: string;

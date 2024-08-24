@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Pages } from '../../const';
-import { ComponentOptions } from '../../types/types';
+import { Pages } from '@src/const';
+import { ComponentOptions } from '@src/types/types';
 import classNames from 'classnames';
 import { memo, useMemo, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { userSelectors } from '../../store/user-slice/user-slice';
-import { uploadFavorite } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store';
+import { userSelectors } from '@store/user-slice/user-slice';
+import { uploadFavorite } from '@store/api-actions';
 
 type BookmarkProps = {
   placeId: string;

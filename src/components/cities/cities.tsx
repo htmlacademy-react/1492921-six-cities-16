@@ -1,6 +1,6 @@
-import { CITIES } from '../../const';
-import { CityName } from '../../types/types';
-import City from './city';
+import { CITIES } from '@src/const';
+import { CityName } from '@src/types/types';
+import { City } from '@components';
 
 type CitiesProps = {
   cityActive: CityName;

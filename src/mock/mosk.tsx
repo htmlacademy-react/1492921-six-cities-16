@@ -1,8 +1,8 @@
 import MockAdapter from 'axios-mock-adapter';
-import { createAPI } from '../services/api';
+import { createAPI } from '@src/services/api';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import { AppStore, RootState, setupStore } from '../store/store';
+import { AppStore, RootState, setupStore } from '@store/store';
 
 export type AppThunkDispatch = ThunkDispatch<
   RootState,

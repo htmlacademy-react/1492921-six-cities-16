@@ -1,15 +1,11 @@
-import { CityName } from '../../types/types';
-import { MapType, ProcessStatus } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { placesSelectors } from '../../store/places-slice/places-slice';
+import { CityName } from '@src/types/types';
+import { MapType, ProcessStatus } from '@src/const';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store';
+import { placesSelectors } from '@store/places-slice/places-slice';
 import { useEffect } from 'react';
-import { loadOffers } from '../../store/api-actions';
+import { loadOffers } from '@store/api-actions';
 import classNames from 'classnames';
-import Loading from '../loader/loading';
-import PlacesTitle from './places-title';
-import Sort from '../sort/sort';
-import PlaceList from './place-list';
-import Map from '../../components/map/map';
+import { Loading, PlacesTitle, Sort, PlaceList, Map } from '@components';
 
 type NoPlacesProps = {
   cityName: CityName;

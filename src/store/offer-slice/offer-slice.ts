@@ -4,8 +4,8 @@ import {
   loadNearPlaces,
   loadOffer,
   uploadComment,
-} from '../api-actions';
-import { Offer, Place, Review } from '../../types/types';
+} from '@store/api-actions';
+import { Offer, Place, Review } from '@src/types/types';
 import {
   EMPTY_COMMENTS,
   EMPTY_OFFER,
@@ -14,7 +14,7 @@ import {
   NameSpace,
   ProcessStatus,
   ReviewSetup,
-} from '../../const';
+} from '@src/const';
 
 type OfferState = {
   offer: Offer | null;

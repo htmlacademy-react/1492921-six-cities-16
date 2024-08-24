@@ -1,9 +1,9 @@
 import MockAdapter from 'axios-mock-adapter';
-import { APIRoute, AuthorizationStatus, NameSpace } from '../const';
-import { createAPI } from '../services/api';
-import { setupStore } from './store';
-import { checkLogin, userLogin, userLogout } from './api-actions';
-import { initialState as initialStateUser } from './user-slice/user-slice';
+import { APIRoute, AuthorizationStatus, NameSpace } from '@src/const';
+import { createAPI } from '@src/services/api';
+import { setupStore } from '@store/store';
+import { checkLogin, userLogin, userLogout } from '@store/api-actions';
+import { initialState as initialStateUser } from '@store/user-slice/user-slice';
 import {
   mockCheckLoginError,
   mockLogin,
@@ -11,7 +11,7 @@ import {
   mockUser,
   mockUserAuthState,
   mockUserLoginError,
-} from '../mock/mock-user';
+} from '@src/mock/mock-user';
 
 describe('ASYNC ACTIONS', () => {
   const axios = createAPI();

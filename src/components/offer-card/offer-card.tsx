@@ -1,19 +1,21 @@
-import { Offer } from '../../types/types';
-import { BookmarkType, PremiumType, RatingType, PriceType } from '../../const';
+import { Offer } from '@src/types/types';
+import { BookmarkType, PremiumType, RatingType, PriceType } from '@src/const';
 import {
   numberItemsText,
   capitalLetterText,
   getRatingInPercents,
-} from '../../utils/utils';
-import Premium from './premium';
-import Bookmark from './bookmark';
-import Rating from './rating';
-import Price from './price';
-import Reviews from './reviews';
-import ReviewForm from './review-form';
+} from '@src/utils/utils';
+import {
+  Premium,
+  Bookmark,
+  Rating,
+  Price,
+  Reviews,
+  ReviewForm,
+} from '@components';
 import classNames from 'classnames';
-import { useAppSelector } from '../../hooks/store';
-import { userSelectors } from '../../store/user-slice/user-slice';
+import { useAppSelector } from '@src/hooks/store';
+import { userSelectors } from '@store/user-slice/user-slice';
 
 type OfferProps = {
   offer: Offer;
@@ -81,12 +83,6 @@ export default function OfferCard({ offer }: OfferProps): JSX.Element {
         </div>
         <div className="offer__description">
           <p className="offer__text">{offer.description}</p>
-          {/* <p className="offer__text">{offer.description.split('.')[0]}</p>
-          <p className="offer__text">
-            {offer.description.substring(
-              offer.description.split('.')[0].length + 2
-            )}
-          </p> */}
         </div>
       </div>
       <section className="offer__reviews reviews">
