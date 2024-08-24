@@ -7,7 +7,7 @@ type PremiumProps = {
 
 function PremiumComponent({ viewType }: PremiumProps): JSX.Element {
   return (
-    <div className={`${viewType.classPrefix}__mark`}>
+    <div className={`${viewType.classPrefix}__mark`} data-testid="test-premium">
       <span>Premium</span>
     </div>
   );
