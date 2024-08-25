@@ -3,22 +3,24 @@ import {
   MapType,
   MAX_IMAGES_IN_GALLERY,
   ProcessStatus,
-} from '../../const';
-import Header from '../../components/header/header';
-import OfferGallery from '../../components/place/offer-gallery';
-import OfferCard from '../../components/place/offer-card';
+} from '@src/const';
+import {
+  Header,
+  OfferGallery,
+  OfferCard,
+  Map,
+  NearPlaces,
+  Loading,
+} from '@components';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import ErrorPage from '../../pages/error-page/error-page';
-import Map from '../../components/map/map';
-import NearPlaces from '../../components/place/near-places';
-import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { offerSelectors } from '../../store/offer-slice';
+import ErrorPage from '@pages/error-page/error-page';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store';
+import { offerSelectors } from '@store/offer-slice/offer-slice';
 import { useEffect } from 'react';
-import Loading from '../../components/loader/loading';
-import { loadNearPlaces, loadOffer } from '../../store/api-actions';
-import { setActivePlaceId } from '../../store/places-slice';
-import { PlacePoint } from '../../types/types';
+import { loadNearPlaces, loadOffer } from '@store/api-actions';
+import { setActivePlaceId } from '@store/places-slice/places-slice';
+import { PlacePoint } from '@src/types/types';
 
 export default function OfferPage(): JSX.Element {
   const { offerId = '' } = useParams();

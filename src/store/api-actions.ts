@@ -8,10 +8,10 @@ import {
   User,
   PlaceFavorite,
   Comment,
-} from '../types/types';
-import { AppDispatch, RootState } from './store';
-import { APIRoute, NameSpace } from '../const';
-import { dropToken, setToken } from '../services/token';
+} from '@src/types/types';
+import { AppDispatch, RootState } from '@store/store';
+import { APIRoute, NameSpace } from '@src/const';
+import { dropToken, setToken } from '@src/services/token';
 
 export type AsyncThunkOptions = {
   state: RootState;

@@ -1,5 +1,4 @@
-import Loading from '../../components/loader/loading';
-import '../../components/loader/loading.css';
+import { Loading } from '@components';
 
 export default function LoadingPage(): JSX.Element {
   return (

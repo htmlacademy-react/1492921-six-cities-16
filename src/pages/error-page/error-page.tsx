@@ -1,5 +1,5 @@
-import { Pages } from '../../const';
-import Header from '../../components/header/header';
+import { Pages } from '@src/const';
+import { Header } from '@components';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
