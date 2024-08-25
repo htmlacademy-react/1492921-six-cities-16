@@ -4,16 +4,20 @@ import classNames from 'classnames';
 import { CityName } from '@src/types/types';
 import { Helmet } from 'react-helmet-async';
 import { useAppSelector } from '@src/hooks/store';
-import { favoritesSelectors } from '@store/favorite-slice/favorites-slice';
+import { favoritesSelectors } from '@src/store/favorites-slice/favorites-slice';
 import { Link } from 'react-router-dom';
 
 export default function FavoritesPage(): JSX.Element {
   const isLoading = useAppSelector(favoritesSelectors.isLoading);
   const favorites = useAppSelector(favoritesSelectors.placesCity);
   const favoritesCount = useAppSelector(favoritesSelectors.count);
+  console.log(`favoritesCount = ${favoritesCount}`);
   const isEmpty = favoritesCount === 0;
   return (
-    <div className={classNames('page', { 'page--favorites-empty': isEmpty })}>
+    <div
+      className={classNames('page', { 'page--favorites-empty': isEmpty })}
+      data-testid="test-favorites-page"
+    >
       <Helmet>
         <title>6 городов. Избранное.</title>
       </Helmet>

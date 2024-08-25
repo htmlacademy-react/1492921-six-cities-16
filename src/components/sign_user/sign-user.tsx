@@ -15,7 +15,7 @@ function SignIn({ isLogged }: SignInProps): JSX.Element {
     <li className="header__nav-item user">
       <Link
         className="header__nav-link header__nav-link--profile"
-        to={isLogged ? Pages.Favorites.route : Pages.Login.route}
+        to={Pages.Favorites.route}
         state={{ from: location }}
       >
         <div className="header__avatar-wrapper user__avatar-wrapper"></div>

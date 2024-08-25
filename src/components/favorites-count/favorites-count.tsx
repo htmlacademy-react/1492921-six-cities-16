@@ -1,5 +1,5 @@
 import { useAppSelector } from '@src/hooks/store';
-import { favoritesSelectors } from '@store/favorite-slice/favorites-slice';
+import { favoritesSelectors } from '@src/store/favorites-slice/favorites-slice';
 
 export default function FavoritesCount(): JSX.Element {
   const favoritesCount = useAppSelector(favoritesSelectors.count);

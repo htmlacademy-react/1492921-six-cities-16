@@ -5,9 +5,9 @@ import {
   mockUser,
   mockUserAuthState,
   mockUserNoAuthState,
+  mockUserUnknownState,
 } from '@src/mock/mock-user';
 import { checkLogin, userLogin, userLogout } from '@store/api-actions';
-import { AuthorizationStatus } from '@src/const';
 
 describe('userSlice reducer', () => {
   it('Should return initial state', () => {
@@ -15,17 +15,14 @@ describe('userSlice reducer', () => {
   });
 
   it('checkLogin.fulfilled', () => {
-    const initState: UserState = {
-      email: mockUser.email,
-      status: AuthorizationStatus.Unknown,
-    };
+    const initState: UserState = mockUserUnknownState;
 
     const resultState = reducer(
       initState,
       checkLogin.fulfilled(mockUser, '', undefined)
     );
 
-    expect(resultState).toEqual(getUserAuthState(initState.email));
+    expect(resultState).toEqual(getUserAuthState(mockUser.email));
   });
 
   it('checkLogin.rejected', () => {
