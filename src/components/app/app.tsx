@@ -1,16 +1,16 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
-import { Pages } from '../../const';
-import LoginPage from '../../pages/login-page/login-page';
-import MainPage from '../../pages/main-page/main-page';
-import FavoritesPage from '../../pages/favorites-page/favorites-page';
-import OfferPage from '../../pages/offer-page/offer-page';
-import ErrorPage from '../../pages/error-page/error-page';
-import PrivateRoute from '../route/private-route';
+import { Pages } from '@src/const';
+import LoginPage from '@pages/login-page/login-page';
+import MainPage from '@pages/main-page/main-page';
+import FavoritesPage from '@pages/favorites-page/favorites-page';
+import OfferPage from '@pages/offer-page/offer-page';
+import ErrorPage from '@pages/error-page/error-page';
+import { PrivateRoute } from '@components';
 import { HelmetProvider } from 'react-helmet-async';
-import MainRoute from '../route/main-route';
-import { userSelectors } from '../../store/user-slice';
-import { loadFavorite } from '../../store/api-actions';
-import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { MainRoute } from '@components';
+import { userSelectors } from '@store/user-slice/user-slice';
+import { loadFavorite } from '@store/api-actions';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store';
 import { useEffect } from 'react';
 
 export default function App(): JSX.Element {

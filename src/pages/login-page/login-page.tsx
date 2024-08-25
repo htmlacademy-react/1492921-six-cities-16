@@ -1,13 +1,12 @@
-import { Pages } from '../../const';
-import { CityName, Login } from '../../types/types';
-import { CITIES } from '../../data/cities';
-import Header from '../../components/header/header';
-import { getRandomArrayElement } from '../../utils';
+import { CITIES, Pages } from '@src/const';
+import { CityName, Login } from '@src/types/types';
+import { Header } from '@components';
+import { getRandomArrayElement } from '@src/utils/utils';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { FormEvent, ChangeEvent } from 'react';
-import { useAppDispatch } from '../../hooks/store';
-import { userLogin } from '../../store/api-actions';
+import { useAppDispatch } from '@src/hooks/store';
+import { userLogin } from '@store/api-actions';
 
 export default function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();

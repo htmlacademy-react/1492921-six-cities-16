@@ -1,13 +1,11 @@
-import { PlaceCardType, LogoType } from '../../const';
-import Header from '../../components/header/header';
-import Place from '../../components/place/place-card';
+import { PlaceCardType, LogoType } from '@src/const';
+import { Header, PlaceCard, Logo, Loading } from '@components';
 import classNames from 'classnames';
-import Logo from '../../components/header/logo';
-import { CityName } from '../../types/types';
+import { CityName } from '@src/types/types';
 import { Helmet } from 'react-helmet-async';
-import { useAppSelector } from '../../hooks/store';
-import { favoritesSelectors } from '../../store/favorites-slice';
-import Loading from '../../components/loader/loading';
+import { useAppSelector } from '@src/hooks/store';
+import { favoritesSelectors } from '@store/favorite-slice/favorites-slice';
+import { Link } from 'react-router-dom';
 
 export default function FavoritesPage(): JSX.Element {
   const isLoading = useAppSelector(favoritesSelectors.isLoading);
@@ -48,14 +46,14 @@ export default function FavoritesPage(): JSX.Element {
                   <li key={city} className="favorites__locations-items">
                     <div className="favorites__locations locations locations--current">
                       <div className="locations__item">
-                        <a className="locations__item-link" href="#">
+                        <Link className="locations__item-link" to="#">
                           <span>{city}</span>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                     <div className="favorites__places">
                       {(favorites[city as CityName] ?? []).map((place) => (
-                        <Place
+                        <PlaceCard
                           key={place.id}
                           place={place}
                           viewType={PlaceCardType.Favorite}

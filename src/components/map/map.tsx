@@ -1,11 +1,11 @@
-import { City, ComponentOptions, PlacePoint } from '../../types/types';
-import { MapMarkerCurrent, MapMarkerDefault, MapType } from '../../const';
+import { City, ComponentOptions, PlacePoint } from '@src/types/types';
+import { MapMarkerCurrent, MapMarkerDefault, MapType } from '@src/const';
 import { useRef, useEffect } from 'react';
-import useMap from '../../hooks/use-map';
+import useMap from '@src/hooks/use-map';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useAppSelector } from '../../hooks/store';
-import { placesSelectors } from '../../store/places-slice';
+import { useAppSelector } from '@src/hooks/store';
+import { placesSelectors } from '@store/places-slice/places-slice';
 
 type MapProps = {
   city: City;

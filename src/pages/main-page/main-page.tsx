@@ -1,12 +1,10 @@
-import Header from '../../components/header/header';
-import Cities from '../../components/cities/cities';
+import { Header, Cities, Places } from '@components';
 import classNames from 'classnames';
-import { CityName } from '../../types/types';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { placesSelectors } from '../../store/places-slice';
-import { useAppSelector } from '../../hooks/store';
-import Places from '../../components/places/places';
+import { placesSelectors } from '@store/places-slice/places-slice';
+import { useAppSelector } from '@src/hooks/store';
+import { CityName } from '@src/types/types';
 
 export default function MainPage(): JSX.Element {
   const cityName = useParams().cityName as CityName;
