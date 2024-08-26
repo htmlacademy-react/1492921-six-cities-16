@@ -18,7 +18,10 @@ export default function ErrorPage({
   description = Error404.description,
 }: ErrorProps) {
   return (
-    <div className="page page--gray page--main page__main--index-empty">
+    <div
+      className="page page--gray page--main page__main--index-empty"
+      data-testid="test-error-page"
+    >
       <Helmet>
         <title>6 городов. Ошибка.</title>
       </Helmet>

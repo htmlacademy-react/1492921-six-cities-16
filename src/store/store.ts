@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import placesSlice from '@store/places-slice/places-slice';
 import userSlice from '@store/user-slice/user-slice';
 import offerSlice from '@store/offer-slice/offer-slice';
-import favoritesSlice from '@store/favorite-slice/favorites-slice';
+import favoritesSlice from '@store/favorites-slice/favorites-slice';
 import { createAPI } from '@src/services/api';
 import { NameSpace } from '@src/const';
 import { AxiosInstance } from 'axios';

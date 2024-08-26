@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Place } from '@src/types/types';
-import { EMPTY_PLACES, NameSpace } from '@src/const';
+import { EMPTY_PLACES, EMPTY_PLACES_CITIES, NameSpace } from '@src/const';
 import { loadFavorite, uploadFavorite } from '@store/api-actions';
 import { createSelector } from 'reselect';
 
@@ -61,9 +61,11 @@ const favoritesSlice = createSlice({
 const favoritesSelectors = {
   ...favoritesSlice.selectors,
   placesCity: createSelector(favoritesSlice.selectors.places, (places) =>
-    Object.groupBy(places, (place) => place.city.name)
+    places.length === 0
+      ? EMPTY_PLACES_CITIES
+      : Object.groupBy(places, (place) => place.city.name)
   ),
 };
 
-export { favoritesSelectors };
+export { initialState, favoritesSelectors };
 export default favoritesSlice.reducer;

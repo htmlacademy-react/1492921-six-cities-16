@@ -3,14 +3,19 @@ import { createAPI } from '@src/services/api';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { AppStore, RootState, setupStore } from '@store/store';
+import { NameSpace } from '@src/const';
+import { initialState as initialStateUser } from '@store/user-slice/user-slice';
+import { initialState as initialStatePlaces } from '@store/places-slice/places-slice';
+import { initialState as initialStateFavorites } from '@store/favorites-slice/favorites-slice';
+import { initialState as initialStateOffer } from '@store/offer-slice/offer-slice';
+import { MemoryRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 
 export type AppThunkDispatch = ThunkDispatch<
   RootState,
   ReturnType<typeof createAPI>,
   Action
 >;
-// export const extractActionsTypes = (actions: Action<string>[]) =>
-//   actions.map(({ type }) => type);
 
 type ComponentWithMockStore = {
   withStoreComponent: JSX.Element;
@@ -18,9 +23,15 @@ type ComponentWithMockStore = {
   mockAxiosAdapter: MockAdapter;
 };
 
-export const withStore = (
+const withRoutes = (component: JSX.Element, pathname: string = '/') => (
+  <MemoryRouter initialEntries={[{ pathname: pathname }]}>
+    <HelmetProvider>{component}</HelmetProvider>
+  </MemoryRouter>
+);
+
+const withStore = (
   component: JSX.Element,
-  initialState?: RootState
+  initialState?: Partial<RootState>
 ): ComponentWithMockStore => {
   const axios = createAPI();
   const mockAxiosAdapter = new MockAdapter(axios);
@@ -32,3 +43,12 @@ export const withStore = (
     mockAxiosAdapter,
   };
 };
+
+const mockInitialState: RootState = {
+  [NameSpace.Places]: initialStatePlaces,
+  [NameSpace.User]: initialStateUser,
+  [NameSpace.Offer]: initialStateOffer,
+  [NameSpace.Favorites]: initialStateFavorites,
+};
+
+export { withStore, mockInitialState, withRoutes };
