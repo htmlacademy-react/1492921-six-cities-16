@@ -1,4 +1,8 @@
-import { PlaceCardType, LogoType } from '@src/const';
+import {
+  PlaceCardType,
+  LogoType,
+  NO_PLACES_FAVORITES_MESSAGE,
+} from '@src/const';
 import { Header, PlaceCard, Logo, Loading } from '@components';
 import classNames from 'classnames';
 import { CityName } from '@src/types/types';
@@ -31,8 +35,7 @@ export default function FavoritesPage(): JSX.Element {
                 <div className="favorites__status-wrapper">
                   <b className="favorites__status">Nothing yet saved.</b>
                   <p className="favorites__status-description">
-                    Save properties to narrow down search or plan your future
-                    trips.
+                    {NO_PLACES_FAVORITES_MESSAGE}
                   </p>
                 </div>
               )}

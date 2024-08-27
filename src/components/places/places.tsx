@@ -1,5 +1,5 @@
 import { CityName } from '@src/types/types';
-import { MapType, ProcessStatus } from '@src/const';
+import { MapType, NO_PLACES_CITY_MESSAGE, ProcessStatus } from '@src/const';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store';
 import { placesSelectors } from '@store/places-slice/places-slice';
 import { useEffect } from 'react';
@@ -16,7 +16,7 @@ function NoPlaces({ cityName }: NoPlacesProps): JSX.Element {
       <div className="cities__status-wrapper tabs__content">
         <b className="cities__status">No places to stay available</b>
         <p className="cities__status-description">
-          We could not find any property available at the moment in {cityName}
+          {NO_PLACES_CITY_MESSAGE} {cityName}
         </p>
       </div>
     </section>
