@@ -3,27 +3,27 @@ import { Host, Login, User } from '@src/types/types';
 import { UserState } from '@store/user-slice/user-slice';
 import { AuthorizationStatus } from '@src/const';
 
-const mockHost: Host = {
+const mockHost = (): Host => ({
   name: faker.name.firstName(),
   avatarUrl: faker.internet.avatar(),
   isPro: faker.datatype.boolean(),
-};
+});
 
-const mockLogin: Login = {
+const mockLogin = (): Login => ({
   email: faker.internet.email(),
   password: `${faker.internet.password()}p1`,
-};
+});
 
-const mockLoginNotValid: Login = {
+const mockLoginNotValid = (): Login => ({
   email: faker.internet.email(),
   password: 'p',
-};
+});
 
-const mockUser: User = {
-  ...mockHost,
-  ...mockLogin,
+const mockUser = (login: Login = mockLogin()): User => ({
+  ...mockHost(),
+  ...login,
   token: faker.internet.password(),
-};
+});
 
 const mockUserAuthState: UserState = {
   email: faker.internet.email(),

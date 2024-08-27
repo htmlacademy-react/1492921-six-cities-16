@@ -63,7 +63,7 @@ type Offer = Omit<Place, 'previewImage'> & {
   description: string;
   bedrooms: number;
   goods: string[];
-  host: User;
+  host: Host;
   images: string[];
   maxAdults: number;
 };
@@ -71,7 +71,7 @@ type Offer = Omit<Place, 'previewImage'> & {
 type Review = {
   id: string;
   date: string;
-  user: User;
+  user: Host;
   comment: string;
   rating: number;
 };
