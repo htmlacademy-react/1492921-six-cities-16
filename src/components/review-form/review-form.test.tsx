@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import ReviewForm from './review-form';
 import { mockInitialState, withStore } from '@src/mock/mock';
 
-describe('Component: OfferReviewForm', () => {
+describe('ReviewForm component', () => {
   const ratingValue = '2';
   const incorrectReviewValue = '12345';
   const correctReviewValue = Array.from({ length: 60 }).join('1');
