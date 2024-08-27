@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import { setupStore } from '@store/store.ts';
 import { checkLogin } from '@store/api-actions.ts';
 import 'react-toastify/dist/ReactToastify.css';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,8 +19,10 @@ store.dispatch(checkLogin());
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
-      <App />
+      <BrowserRouter>
+        <ToastContainer />
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

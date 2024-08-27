@@ -1,10 +1,14 @@
-import { PlaceCardType, LogoType } from '@src/const';
+import {
+  PlaceCardType,
+  LogoType,
+  NO_PLACES_FAVORITES_MESSAGE,
+} from '@src/const';
 import { Header, PlaceCard, Logo, Loading } from '@components';
 import classNames from 'classnames';
 import { CityName } from '@src/types/types';
 import { Helmet } from 'react-helmet-async';
 import { useAppSelector } from '@src/hooks/store';
-import { favoritesSelectors } from '@store/favorite-slice/favorites-slice';
+import { favoritesSelectors } from '@store/favorites-slice/favorites-slice';
 import { Link } from 'react-router-dom';
 
 export default function FavoritesPage(): JSX.Element {
@@ -13,7 +17,10 @@ export default function FavoritesPage(): JSX.Element {
   const favoritesCount = useAppSelector(favoritesSelectors.count);
   const isEmpty = favoritesCount === 0;
   return (
-    <div className={classNames('page', { 'page--favorites-empty': isEmpty })}>
+    <div
+      className={classNames('page', { 'page--favorites-empty': isEmpty })}
+      data-testid="test-favorites-page"
+    >
       <Helmet>
         <title>6 городов. Избранное.</title>
       </Helmet>
@@ -28,8 +35,7 @@ export default function FavoritesPage(): JSX.Element {
                 <div className="favorites__status-wrapper">
                   <b className="favorites__status">Nothing yet saved.</b>
                   <p className="favorites__status-description">
-                    Save properties to narrow down search or plan your future
-                    trips.
+                    {NO_PLACES_FAVORITES_MESSAGE}
                   </p>
                 </div>
               )}

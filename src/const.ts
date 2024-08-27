@@ -10,6 +10,10 @@ import {
 
 const MAX_NEAR_PLACES = 3;
 const MAX_IMAGES_IN_GALLERY = 6;
+const LOADING_MESSAGE = 'Loading ...';
+const NO_PLACES_FAVORITES_MESSAGE = 'No places to stay available';
+const NO_PLACES_CITY_MESSAGE =
+  'We could not find any property available at the moment in';
 
 const CITIES = [
   'Paris',
@@ -165,18 +169,18 @@ const EMPTY_COMMENTS: Review[] = [];
 export {
   MAX_NEAR_PLACES,
   MAX_IMAGES_IN_GALLERY,
+  LOADING_MESSAGE,
+  NO_PLACES_FAVORITES_MESSAGE,
+  NO_PLACES_CITY_MESSAGE,
   CITIES,
-  SortItems,
-  RatingStars,
-  Pages,
-  APIRoute,
-  NameSpace,
   EMPTY_PLACES,
   EMPTY_PLACES_CITIES,
   EMPTY_PLACE_POINTS,
   EMPTY_OFFER,
   EMPTY_COMMENTS,
 };
+
+export { SortItems, RatingStars, Pages, APIRoute, NameSpace, ProcessStatus };
 export {
   RatingSetup,
   ReviewSetup,
@@ -189,5 +193,4 @@ export {
   MapType,
   MapMarkerDefault,
   MapMarkerCurrent,
-  ProcessStatus,
 };

@@ -5,9 +5,9 @@ import {
   mockUser,
   mockUserAuthState,
   mockUserNoAuthState,
+  mockUserUnknownState,
 } from '@src/mock/mock-user';
 import { checkLogin, userLogin, userLogout } from '@store/api-actions';
-import { AuthorizationStatus } from '@src/const';
 
 describe('userSlice reducer', () => {
   it('Should return initial state', () => {
@@ -15,17 +15,15 @@ describe('userSlice reducer', () => {
   });
 
   it('checkLogin.fulfilled', () => {
-    const initState: UserState = {
-      email: mockUser.email,
-      status: AuthorizationStatus.Unknown,
-    };
+    const initState: UserState = mockUserUnknownState;
+    const user = mockUser();
 
     const resultState = reducer(
       initState,
-      checkLogin.fulfilled(mockUser, '', undefined)
+      checkLogin.fulfilled(user, '', undefined)
     );
 
-    expect(resultState).toEqual(getUserAuthState(initState.email));
+    expect(resultState).toEqual(getUserAuthState(user.email));
   });
 
   it('checkLogin.rejected', () => {
@@ -38,17 +36,19 @@ describe('userSlice reducer', () => {
   });
 
   it('userLogin.fulfilled', () => {
+    const login = mockLogin();
+    const user = mockUser(login);
     const resultState = reducer(
       initialState,
-      userLogin.fulfilled(mockUser, '', mockLogin)
+      userLogin.fulfilled(user, '', login)
     );
-    expect(resultState).toEqual(getUserAuthState(mockLogin.email));
+    expect(resultState).toEqual(getUserAuthState(user.email));
   });
 
   it('userLogin.rejected', () => {
     const resultState = reducer(
       initialState,
-      userLogin.rejected(null, '', mockLogin)
+      userLogin.rejected(null, '', mockLogin())
     );
     expect(resultState).toEqual(mockUserNoAuthState);
   });

@@ -24,13 +24,13 @@ describe('ASYNC ACTIONS', () => {
           { [NameSpace.User]: initialStateUser },
           axios
         );
-        const mockResponse = mockUser;
+        const mockResponse = mockUser();
 
         mockAxiosAdapter.onGet(APIRoute.Login).reply(200, mockResponse);
         await mockStore.dispatch(checkLogin());
         const stateMockStore = mockStore.getState()[NameSpace.User];
 
-        expect(stateMockStore.email).toBe(mockUser.email);
+        expect(stateMockStore.email).toBe(mockResponse.email);
         expect(stateMockStore.status).toBe(AuthorizationStatus.Auth);
       });
       it('should return status "NO_AUTH"', async () => {
@@ -57,14 +57,14 @@ describe('ASYNC ACTIONS', () => {
           { [NameSpace.User]: initialStateUser },
           axios
         );
-        const mockRequestData = mockLogin;
-        const mockResponse = Object.assign(mockLogin, mockUser);
+        const mockRequestData = mockLogin();
+        const mockResponse = mockUser(mockRequestData);
 
         mockAxiosAdapter.onPost(APIRoute.Login).reply(200, mockResponse);
         await mockStore.dispatch(userLogin(mockRequestData));
         const stateMockStore = mockStore.getState()[NameSpace.User];
 
-        expect(stateMockStore.email).toBe(mockLogin.email);
+        expect(stateMockStore.email).toBe(mockRequestData.email);
         expect(stateMockStore.status).toBe(AuthorizationStatus.Auth);
       });
       it('should return status "NO_AUTH"', async () => {
@@ -72,7 +72,7 @@ describe('ASYNC ACTIONS', () => {
           { [NameSpace.User]: initialStateUser },
           axios
         );
-        const mockRequestData = mockLoginNotValid;
+        const mockRequestData = mockLoginNotValid();
         const mockResponse = mockUserLoginError;
 
         mockAxiosAdapter

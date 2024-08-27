@@ -15,6 +15,7 @@ export default function MainPage(): JSX.Element {
       className={classNames('page', 'page--gray', 'page--main', {
         'page__main--index-empty': isEmpty,
       })}
+      data-testid="test-main-page"
     >
       <Helmet>
         <title>6 городов. Главная страница.?</title>

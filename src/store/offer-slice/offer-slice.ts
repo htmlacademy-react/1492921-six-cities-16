@@ -133,5 +133,5 @@ const offerSelectors = {
   ),
 };
 
-export { offerSelectors };
+export { initialState, offerSelectors };
 export default offerSlice.reducer;

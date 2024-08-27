@@ -106,5 +106,11 @@ const placesSelectors = {
   ),
 };
 
-export { placesSelectors, setCurrentCity, setActivePlaceId, setSorting };
+export {
+  initialState,
+  placesSelectors,
+  setCurrentCity,
+  setActivePlaceId,
+  setSorting,
+};
 export default placesSlice.reducer;
