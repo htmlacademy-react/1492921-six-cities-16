@@ -4,6 +4,7 @@ import { MAX_NEAR_PLACES, NameSpace, ReviewSetup } from '@src/const';
 import { initialState, offerSelectors } from './offer-slice';
 
 describe('offerSlice reducer', () => {
+  
   describe('commentsView selector', () => {
     it(`should selected ${ReviewSetup.MaxComments} comments`, () => {
       const mockStore = setupStore({
